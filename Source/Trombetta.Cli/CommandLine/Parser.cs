@@ -4,6 +4,7 @@
 //
 
 using System;
+using System.Collections.Generic;
 
 namespace Trombetta.Cli.CommandLine
 {
@@ -21,6 +22,13 @@ namespace Trombetta.Cli.CommandLine
       public Parser(ParserConfiguration configuration)
       {
          configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+      }
+
+      public ParserResult Parse(String[] args)
+      {
+         var tokenizer = new Tokenizer(configuration);
+
+         return null;
       }
    }
 }

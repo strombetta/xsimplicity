@@ -17,17 +17,30 @@ namespace Trombetta.Cli.CommandLine
       /// <summary>
       /// Initializes a new instance of the <see cref="ParserConfiguration"/> class withe the defined options.
       /// </summary>
-      /// <param name="options"></param>
-      /// <param name="argumentDelimiters"></param>
-      public ParserConfiguration(IReadOnlyCollection<Option> options, IReadOnlyCollection<Char> argumentDelimiters)
+      /// <param name="options">The defined options.</param>
+      public ParserConfiguration(IReadOnlyCollection<Option> options)
+         : this(options, new[] { ':', '=' }, new[] { "-", "--" })
       {
-         if(options == null) throw new ArgumentNullException(nameof(options));
-
-         ArgumentDelimiters = argumentDelimiters ?? new[] { ':', '=' };
+         if (options == null) throw new ArgumentNullException(nameof(options));
          Options = options;
       }
 
-      public IReadOnlyCollection<Char> ArgumentDelimiters { get; }
-      public IReadOnlyCollection<Option> Options { get; }
+      /// <summary>
+      /// Initializes a new instance of the <see cref="ParserConfiguration"/> class withe the defined options.
+      /// </summary>
+      /// <param name="options"></param>
+      /// <param name="argumentDelimiters"></param>
+      public ParserConfiguration(IEnumerable<Option> options, IEnumerable<Char> argumentDelimiters, ICollection<String> optionPrefixes)
+      {
+         if (options == null) throw new ArgumentNullException(nameof(options));
+
+         ArgumentDelimiters = argumentDelimiters;
+         OptionPrefixes = optionPrefixes;
+         Options = options;
+      }
+
+      public ICollection<String> OptionPrefixes { get; }
+      public IEnumerable<Char> ArgumentDelimiters { get; }
+      public IEnumerable<Option> Options { get; }
    }
 }
