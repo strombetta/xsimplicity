@@ -5,7 +5,10 @@
 
 namespace Trombetta.Cli.CommandLine
 {
-   internal enum TokenType
+   /// <summary>
+   /// 
+   /// </summary>
+   public enum TokenType
    {
       Argument,
       Command,

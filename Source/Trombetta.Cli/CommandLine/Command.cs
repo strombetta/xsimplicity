@@ -7,9 +7,15 @@ using System;
 
 namespace Trombetta.Cli.CommandLine
 {
+   /// <summary>
+   /// Represents an application command.
+   /// </summary>
    public class Command : Option
    {
-      public Command(String[] aliases, String helpText) : base(aliases, helpText)
-      {}
+      public Command(String name, String helpText)
+         : base(new[] { name }, helpText, null)
+      { }
+
+      internal override Boolean IsCommand => true;
    }
 }

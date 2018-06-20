@@ -10,20 +10,25 @@ using System.Linq;
 namespace Trombetta.Cli.CommandLine
 {
    /// <summary>
-   /// Represents the configuration used to parse command line arguments.
+   /// Represents the configuration used when parsing command line arguments.
    /// </summary>
    public class ParserConfiguration
    {
       /// <summary>
+      /// Initializes a new instance of the <see cref="ParserConfiguration"/> class with the specified collection of options.
+      /// </summary>
+      /// <param name="options">The collection of options.</param>
+      public ParserConfiguration(params Option[] options)
+         : this(options, new[] { ':', '=' }, new[] { "-", "--" })
+      { }
+
+      /// <summary>
       /// Initializes a new instance of the <see cref="ParserConfiguration"/> class withe the defined options.
       /// </summary>
       /// <param name="options">The defined options.</param>
-      public ParserConfiguration(IReadOnlyCollection<Option> options)
+      public ParserConfiguration(IEnumerable<Option> options)
          : this(options, new[] { ':', '=' }, new[] { "-", "--" })
-      {
-         if (options == null) throw new ArgumentNullException(nameof(options));
-         Options = options;
-      }
+      { }
 
       /// <summary>
       /// Initializes a new instance of the <see cref="ParserConfiguration"/> class withe the defined options.
@@ -39,8 +44,22 @@ namespace Trombetta.Cli.CommandLine
          Options = options;
       }
 
+      /// <summary>
+      /// Gets the collection of option prefixes.
+      /// </summary>
+      /// <returns>The collection of option prefixes.</returns>
       public ICollection<String> OptionPrefixes { get; }
+
+      /// <summary>
+      /// Gets the collection of argument delimiters.
+      /// </summary>
+      /// <returns>The collection of argument delimiters.</returns>
       public IEnumerable<Char> ArgumentDelimiters { get; }
+
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <returns></returns>
       public IEnumerable<Option> Options { get; }
    }
 }
