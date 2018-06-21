@@ -13,14 +13,31 @@ namespace Trombetta.Cli.CommandLine
    /// </summary>
    public class Argument
    {
-      public Argument(String name, String description)
+      private readonly Func<Option, String> _validate;
+
+      public Argument(Func<Option, String> validate)
+      {
+         _validate = validate ?? throw new ArgumentNullException(nameof(validate));
+      }
+
+      public Argument(String name, String description, Func<Option, String> validate)
       {
          Description = description;
          Name = name;
+         _validate = validate ?? throw new ArgumentNullException(nameof(validate));
+      }
+
+      public static Argument NoArgument()
+      {
+         return null;
       }
 
       public IEnumerable<String> AllowedValue { get; }
 
+      /// <summary>
+      /// Gets the default value of the argument.
+      /// </summary>
+      /// <returns>The default value of the argument.</returns>
       public String DefaultValue { get; }
 
       /// <summary>
@@ -30,12 +47,15 @@ namespace Trombetta.Cli.CommandLine
       public String Description { get; }
 
       /// <summary>
+      /// Gets a value indicating whether the argument is required.
+      /// </summary>
+      /// <returns><c>true</c> if argument is required; otherwise <c>false</c>.</returns>
+      public Boolean IsRequired { get; }
+
+      /// <summary>
       /// Gets the name of the argument.
       /// </summary>
       /// <returns>The name of the argument.</returns>
       public String Name { get; }
-
-
-      public Boolean IsRequired { get; }
    }
 }

@@ -3,17 +3,24 @@ using System.Linq;
 using Trombetta.Cli.CommandLine;
 using Xunit;
 using Xunit.Abstractions;
+using Xunit.Sdk;
 
 namespace Trombetta.Cli.Test.CommandLine
 {
    public class OptionTest
    {
-
       [Fact]
-      public void SuccessfullyCreateOptionWithSingleAlias()
+      public void OptionHasAName()
       {
          var option = new Option(new[] { "option" }, "");
          Assert.True(option.Name == "option");
+      }
+
+      [Fact]
+      public void OptionIsNotACommand()
+      {
+         var option = new Option(new[] { "option" }, "");
+         Assert.False(option.IsCommand);
       }
 
       [Fact]
@@ -26,11 +33,11 @@ namespace Trombetta.Cli.Test.CommandLine
       [Fact]
       public void OptionHasMultipleAliases()
       {
-         var option = new Option(new[] { "option", "opt", "o" }, "");
+         var option = new Option(new[] { "help", "h", "?" }, "");
          Assert.True(option.Aliases.Count() == 3);
-         Assert.True(option.Name == "option");
-         Assert.True(option.Aliases.Contains("opt"));
-         Assert.True(option.Aliases.Contains("o"));
+         Assert.True(option.Name == "help");
+         Assert.Contains("h", option.Aliases);
+         Assert.Contains("?", option.Aliases);
       }
 
       [Fact]
@@ -39,7 +46,8 @@ namespace Trombetta.Cli.Test.CommandLine
          var option = new Option(new[] { "option", "o" }, "");
          Assert.True(option.Aliases.Count() == 2);
          Assert.True(option.Name == "option");
-         Assert.True(option.Aliases.Contains("O") == false);
+         Action action = () => Assert.Contains("O", option.Aliases);
+         Assert.Throws<ContainsException>(action);
       }
    }
 }

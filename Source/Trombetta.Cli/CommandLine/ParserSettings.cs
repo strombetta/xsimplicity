@@ -10,32 +10,32 @@ using System.Linq;
 namespace Trombetta.Cli.CommandLine
 {
    /// <summary>
-   /// Represents the configuration used when parsing command line arguments.
+   /// Represents the settings used to parsing command line arguments.
    /// </summary>
-   public class ParserConfiguration
+   public class ParserSettings
    {
       /// <summary>
-      /// Initializes a new instance of the <see cref="ParserConfiguration"/> class with the specified collection of options.
+      /// Initializes a new instance of the <see cref="ParserSettings"/> class with the specified collection of options.
       /// </summary>
       /// <param name="options">The collection of options.</param>
-      public ParserConfiguration(params Option[] options)
+      public ParserSettings(params Option[] options)
          : this(options, new[] { ':', '=' }, new[] { "-", "--" })
       { }
 
       /// <summary>
-      /// Initializes a new instance of the <see cref="ParserConfiguration"/> class withe the defined options.
+      /// Initializes a new instance of the <see cref="ParserSettings"/> class withe the defined options.
       /// </summary>
       /// <param name="options">The defined options.</param>
-      public ParserConfiguration(IEnumerable<Option> options)
+      public ParserSettings(IEnumerable<Option> options)
          : this(options, new[] { ':', '=' }, new[] { "-", "--" })
       { }
 
       /// <summary>
-      /// Initializes a new instance of the <see cref="ParserConfiguration"/> class withe the defined options.
+      /// Initializes a new instance of the <see cref="ParserSettings"/> class withe the defined options.
       /// </summary>
       /// <param name="options"></param>
       /// <param name="argumentDelimiters"></param>
-      public ParserConfiguration(IEnumerable<Option> options, IEnumerable<Char> argumentDelimiters, ICollection<String> optionPrefixes)
+      public ParserSettings(IEnumerable<Option> options, IEnumerable<Char> argumentDelimiters, ICollection<String> optionPrefixes)
       {
          if (options == null) throw new ArgumentNullException(nameof(options));
 

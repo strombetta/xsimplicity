@@ -9,10 +9,12 @@ namespace Trombetta.Cli.Test.CommandLine
    public class ParserTest
    {
       [Fact]
-      public void SimpleOption()
+      public void OptionCanBeCheckedUsingName()
       {
-         var result = new Parser(new Option(new String[] { "option" }, "")).Parse(new String[] { "--option" });
-         Assert.True(result.Tokens.Count() == 1);
+         var result = new Parser(
+            new Option(new String[] { "option" }, ""))
+            .Parse(new String[] { "--option" });
+         
       }
 
       [Fact]
