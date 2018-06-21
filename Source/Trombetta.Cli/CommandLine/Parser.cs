@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace Trombetta.Cli.CommandLine
 {
    /// <summary>
-   /// Represents a command line argument parser.
+   /// Represents a command line arguments parser.
    /// </summary>
    public class Parser
    {
@@ -19,17 +19,29 @@ namespace Trombetta.Cli.CommandLine
       private readonly ParserSettings _settings;
 
       /// <summary>
+      /// 
+      /// </summary>
+      /// <typeparam name="Parser"></typeparam>
+      /// <returns></returns>
+      private static readonly Lazy<Parser> _default = new Lazy<Parser>(() => new Parser());
+
+      /// <summary>
+      /// Initializes a new instance of the <see cref="Parser"/> class.
+      /// </summary>
+      public Parser() : this(new ParserSettings())
+      { }
+
+      /// <summary>
       /// Initializes a new instance of the <see cref="Parser"/> class with the spefied collection of <see cref="Option"/> objects.
       /// </summary>
       /// <param name="options"></param>
-      public Parser(params Option[] options)
-         : this(new ParserSettings(options))
+      public Parser(params Option[] options) : this(new ParserSettings(options))
       { }
 
       /// <summary>
       /// Initializes a new instance of the <see cref="Parser"/> class with the specified settings.
       /// </summary>
-      /// <param name="settings">The settings used to parse command line arguments.</param>
+      /// <param name="settings">The settings used to parse the command line arguments.</param>
       public Parser(ParserSettings settings)
       {
          _settings = settings ?? throw new ArgumentNullException(nameof(settings));
@@ -41,6 +53,21 @@ namespace Trombetta.Cli.CommandLine
          var tokens = tokenizer.Tokenize(args);
 
          return new ParserResult(tokens);
+      }
+
+      public ParserResult Parse(IEnumerable<Option> options, String[] args)
+      {
+         var tokens = new Tokenizer().Tokenize(args);
+         return new ParserResult(tokens);
+      }
+
+      /// <summary>
+      /// Gets the default parser.
+      /// </summary>
+      /// <returns>The default parser.</returns>
+      public static Parser Default
+      {
+         get { return _default.Value; }
       }
 
       /// <summary>
