@@ -19,14 +19,14 @@ namespace Trombetta.Cli.CommandLine
       /// </summary>
       /// <param name="options">The collection of options.</param>
       public ParserSettings(params Option[] options)
-         : this(options, new[] { ':', '=' }, new[] { "-", "--" })
+         : this(new OptionCollection(options), new[] { ':', '=' }, new[] { "-", "--" })
       { }
 
       /// <summary>
       /// Initializes a new instance of the <see cref="ParserSettings"/> class withe the defined options.
       /// </summary>
       /// <param name="options">The defined options.</param>
-      public ParserSettings(IEnumerable<Option> options)
+      public ParserSettings(OptionCollection options)
          : this(options, new[] { ':', '=' }, new[] { "-", "--" })
       { }
 
@@ -35,7 +35,7 @@ namespace Trombetta.Cli.CommandLine
       /// </summary>
       /// <param name="options"></param>
       /// <param name="argumentDelimiters"></param>
-      public ParserSettings(IEnumerable<Option> options, IEnumerable<Char> argumentDelimiters, ICollection<String> optionPrefixes)
+      public ParserSettings(OptionCollection options, IEnumerable<Char> argumentDelimiters, ICollection<String> optionPrefixes)
       {
          if (options == null) throw new ArgumentNullException(nameof(options));
 
@@ -57,9 +57,9 @@ namespace Trombetta.Cli.CommandLine
       public IEnumerable<Char> ArgumentDelimiters { get; }
 
       /// <summary>
-      /// 
+      /// Gets the collection of defined options.
       /// </summary>
-      /// <returns></returns>
-      public IEnumerable<Option> Options { get; }
+      /// <returns>The collection of defined options.</returns>
+      public OptionCollection Options { get; }
    }
 }

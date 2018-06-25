@@ -18,24 +18,25 @@ namespace Trombetta.Cli.CommandLine
    internal class Tokenizer
    {
       /// <summary>
-      /// The settings.
+      /// The settings used to tokenize the command line arguments.
       /// </summary>
-      private readonly TokenizerSettings _settings;
+      private readonly ParserSettings _settings;
+
+      private HashSet<Token> _validTokens;
 
       /// <summary>
       /// Initializes a new instance of the <see cref="Tokenizer"/> class.
       /// </summary>
-      public Tokenizer() : this(new TokenizerSettings())
+      public Tokenizer() : this(new ParserSettings())
       { }
 
       /// <summary>
       /// Initializes a new instance of the <see cref="Tokenizer"/> class with the specified <see cref="ParseConfiguration"/> object.
       /// </summary>
       /// <param name="settings">The configuration used to tokenize.</param>
-      public Tokenizer(TokenizerSettings settings)
+      public Tokenizer(ParserSettings settings)
       {
-         if (settings == null) throw new ArgumentNullException(nameof(settings));
-         _settings = settings;
+         _settings = settings ?? throw new ArgumentNullException(nameof(settings));
       }
 
       /// <summary>
@@ -52,8 +53,14 @@ namespace Trombetta.Cli.CommandLine
             if (HasDelimiter(argument))
             {
                var parts = argument.Split(_settings.ArgumentDelimiters.ToArray(), 2);
-               yield return new Token(RemovePrefix(parts[0]), TokenType.Option);
-               yield return new Token(parts[1], TokenType.Argument);
+               if (ValidTokens.Any(t => t.Value == parts.First()))
+               {
+                  yield return new Token(RemovePrefix(parts[0]), TokenType.Option);
+                  if (parts.Length > 1) yield return new Token(parts[1], TokenType.Argument);
+               }
+               else {
+                  yield return new Token(argument, TokenType.Argument);
+               }
             }
             else yield return new Token(RemovePrefix(argument), TokenType.Option);
          }
@@ -89,7 +96,8 @@ namespace Trombetta.Cli.CommandLine
       {
          foreach (var delimiter in _settings.OptionPrefixes.OrderByDescending(p => p.Length).ToArray())
          {
-            if (argument.StartsWith(delimiter.ToString())){
+            if (argument.StartsWith(delimiter.ToString()))
+            {
                return argument.Substring(delimiter.Length);
             }
          }
@@ -104,7 +112,20 @@ namespace Trombetta.Cli.CommandLine
       public TokenCollection Tokenize(IEnumerable<String> arguments)
       {
          if (arguments == null) throw new ArgumentNullException(nameof(arguments));
-         return new TokenCollection((from argument in arguments from token in CreateToken(argument) select token).ToList());
+         var tokens = (from argument in arguments from token in CreateToken(argument) select token).ToList();
+         return new TokenCollection(tokens);
+      }
+
+      private HashSet<Token> ValidTokens
+      {
+         get
+         {
+            if (_validTokens == null)
+            {
+               _validTokens = new HashSet<Token>(_settings.Options.SelectMany(o => o.ValidTokens));
+            }
+            return _validTokens;
+         }
       }
    }
 }

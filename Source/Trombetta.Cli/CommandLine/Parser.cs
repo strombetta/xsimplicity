@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Trombetta.Cli.CommandLine
 {
@@ -55,9 +56,24 @@ namespace Trombetta.Cli.CommandLine
          return new ParserResult(tokens);
       }
 
+      /// <summary>
+      /// Parses the command line arguments.
+      /// </summary>
+      /// <param name="options">A collection of command line arguments.</param>
+      /// <param name="args"></param>
+      /// <returns></returns>
       public ParserResult Parse(IEnumerable<Option> options, String[] args)
       {
-         var tokens = new Tokenizer().Tokenize(args);
+         if (options == null) throw new ArgumentNullException(nameof(options));
+         if (!options.Any()) throw new ArgumentException(nameof(options));
+         _settings.Options.AddRange(options);
+
+         var tokens = new Tokenizer(_settings).Tokenize(args);
+         var t = new Queue<Token>(tokens);
+         while(tokens.Any())
+         {
+            var token = t.Dequeue();
+         }
          return new ParserResult(tokens);
       }
 

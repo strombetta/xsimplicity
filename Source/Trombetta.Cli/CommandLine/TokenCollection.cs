@@ -14,17 +14,18 @@ namespace Trombetta.Cli.CommandLine
    /// Represents a collection of tokens.
    /// </summary>
    /// <typeparam name="Toekn">The type of elements in the collection.</typeparam>
-   public class TokenCollection : IReadOnlyCollection<Token>
+   public class TokenCollection : ICollection<Token>
    {
       private readonly ICollection<Token> _tokens = new List<Token>();
 
-      public TokenCollection()
-      { }
+      
+
+      public bool IsReadOnly => throw new NotImplementedException();
 
       public TokenCollection(IEnumerable<Token> tokens)
       {
          foreach (var token in tokens)
-            _tokens.Add(token);
+            Add(token);
       }
 
       public void Add(Token token)
@@ -33,24 +34,44 @@ namespace Trombetta.Cli.CommandLine
          _tokens.Add(token);
       }
 
+      public void Clear()
+      {
+         _tokens.Clear();
+      }
+
+      public bool Contains(Token item)
+      {
+         return _tokens.Contains(item);
+      }
+
+      public void CopyTo(Token[] array, int arrayIndex)
+      {
+         _tokens.CopyTo(array, arrayIndex);
+      }
+
+      public bool Remove(Token item)
+      {
+         return _tokens.Remove(item);
+      }
+
+      public IEnumerator<Token> GetEnumerator()
+      {
+         return _tokens.GetEnumerator();
+      }
+
+      IEnumerator IEnumerable.GetEnumerator()
+      {
+         return _tokens.GetEnumerator();
+      }
+
+      public int Count => _tokens.Count;
+
       public Token this[String token]
       {
          get
          {
             return _tokens.SingleOrDefault(t => t.Value == token);
          }
-      }
-
-      public Int32 Count => _tokens.Count;
-
-      public IEnumerator<Token> GetEnumerator()
-      {
-         return ((IReadOnlyCollection<Token>)_tokens).GetEnumerator();
-      }
-
-      IEnumerator IEnumerable.GetEnumerator()
-      {
-         return ((IReadOnlyCollection<Token>)_tokens).GetEnumerator();
       }
    }
 }

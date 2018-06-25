@@ -6,6 +6,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Trombetta.Cli.CommandLine
 {
@@ -15,7 +16,7 @@ namespace Trombetta.Cli.CommandLine
    /// <typeparam name="Option">The type of elements in the collection.</typeparam>
    public class OptionCollection : IReadOnlyCollection<Option>
    {
-      private readonly HashSet<Option> options = new HashSet<Option>();
+      private readonly HashSet<Option> _options = new HashSet<Option>();
 
       /// <summary>
       /// Initializes a new instance of the <see cref="OptionCollection"/> class.
@@ -35,9 +36,16 @@ namespace Trombetta.Cli.CommandLine
             Add(option);
       }
 
+      public OptionCollection(params Option[] options)
+      {
+         if (options == null) throw new ArgumentNullException(nameof(options));
+         foreach (var option in options)
+            Add(option);
+      }
+
       public void Add(Option option)
       {
-         options.Add(option);
+         _options.Add(option);
       }
 
       public void AddRange(IEnumerable<Option> options)
@@ -49,19 +57,45 @@ namespace Trombetta.Cli.CommandLine
       }
 
       /// <summary>
+      /// Gets a value indicating whether the collection contains the specified option.
+      /// </summary>
+      /// <param name="option"></param>
+      /// <returns></returns>
+      public Boolean Contains(String option)
+      {
+         return _options.SelectMany(e => e.Aliases).Any(o => o == option);
+      }
+
+      /// <summary>
       /// Gets the number of options contained in the collection.
       /// </summary
       /// <returns>The number of options in the collection.</returns>
-      public Int32 Count => options.Count;
+      public Int32 Count => _options.Count;
 
       public IEnumerator<Option> GetEnumerator()
       {
-         return ((IReadOnlyCollection<Option>)options).GetEnumerator();
+         return ((IReadOnlyCollection<Option>)_options).GetEnumerator();
       }
 
       IEnumerator IEnumerable.GetEnumerator()
       {
-         return ((IReadOnlyCollection<Option>)options).GetEnumerator();
+         return ((IReadOnlyCollection<Option>)_options).GetEnumerator();
+      }
+
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <returns></returns>
+      public Option this[String value]
+      {
+         get
+         {
+            var result = from helper in _options
+            .SelectMany(o => o.Aliases, (option, aliases) => new { option, aliases })
+                         where helper.aliases.Contains(value)
+                         select helper.option;
+            return result.SingleOrDefault();
+         }
       }
    }
 }

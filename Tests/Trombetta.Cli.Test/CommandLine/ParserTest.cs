@@ -10,8 +10,13 @@ namespace Trombetta.Cli.Test.CommandLine
       [Fact]
       public void ParseOptions()
       {
-         var arguments = new[] { "--option", "--optionWithArgument:true" };
-         var result = Parser.Default.Parse(arguments);
+         var args = new[] { "--option" };
+         var options = new[] {
+               new Option("single", "A single alias option."),
+               new Option(new[] {"option", "opt", "o"}, "A multi alias option."),
+               new Command("command", "A command"),
+         };
+         var result = Parser.Default.Parse(options, args);
       }
 
       [Fact]
