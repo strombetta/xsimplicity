@@ -10,7 +10,7 @@ namespace Trombetta.Cli.CommandLine
    /// <summary>
    /// Reprensents a token.
    /// </summary>
-   public sealed class Token
+   internal sealed class Token
    {
       /// <summary>
       /// Initializes a new instance of the <see cref="Token"/> class with the specified value, and <see cref="TokenType"/> type.

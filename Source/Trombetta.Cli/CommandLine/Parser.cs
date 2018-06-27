@@ -12,7 +12,7 @@ namespace Trombetta.Cli.CommandLine
    /// <summary>
    /// Represents a command line arguments parser.
    /// </summary>
-   public class Parser
+   public sealed class Parser
    {
       /// <summary>
       /// The settings used to parse the command line arguments.
@@ -20,10 +20,15 @@ namespace Trombetta.Cli.CommandLine
       private readonly ParserSettings _settings;
 
       /// <summary>
-      /// 
+      /// The tokenizer used to tokenize the command line arguments.
+      /// </summary>
+      private readonly Tokenizer _tokenizer;
+
+      /// <summary>
+      /// The default <see cref="Parser"/> object.
       /// </summary>
       /// <typeparam name="Parser"></typeparam>
-      /// <returns></returns>
+      /// <returns>The default <see cref="Parser"/> object.</returns>
       private static readonly Lazy<Parser> _default = new Lazy<Parser>(() => new Parser());
 
       /// <summary>
@@ -46,14 +51,19 @@ namespace Trombetta.Cli.CommandLine
       public Parser(ParserSettings settings)
       {
          _settings = settings ?? throw new ArgumentNullException(nameof(settings));
+
+         // Configuring the tokenizer.
+         var tokenizerSettings = new TokenizerSettings(_settings.OptionPrefixes, _settings.ArgumentDelimiters);
+         _tokenizer = new Tokenizer(tokenizerSettings);
       }
+
+
 
       public ParserResult Parse(String[] args)
       {
-         var tokenizer = new Tokenizer();
-         var tokens = tokenizer.Tokenize(args);
+         if (args == null) throw new ArgumentNullException(nameof(args));
 
-         return new ParserResult(tokens);
+         throw new NotImplementedException();
       }
 
       /// <summary>
@@ -68,13 +78,26 @@ namespace Trombetta.Cli.CommandLine
          if (!options.Any()) throw new ArgumentException(nameof(options));
          _settings.Options.AddRange(options);
 
-         var tokens = new Tokenizer(_settings).Tokenize(args);
-         var t = new Queue<Token>(tokens);
-         while(tokens.Any())
+         var parsedOptions = new List<ParsedOption>();
+
+         var tokens = new Queue<Token>(_tokenizer.Tokenize(args, options));
+         while (tokens.Any())
          {
-            var token = t.Dequeue();
+            var token = tokens.Dequeue();
+            if (token.Type != TokenType.Argument)
+            {
+               var option = _settings.Options.SingleOrDefault(o => o.HasAlias(token.Value));
+               if (option != null)
+               {
+                  var parsedOption = parsedOptions.LastOrDefault(e => e.Option.HasAlias(token.Value));
+                  if (parsedOption == null)
+                     parsedOptions.Add(new ParsedOption(option, token));
+                  continue;
+               }
+            }
+
          }
-         return new ParserResult(tokens);
+         return new ParserResult(parsedOptions);
       }
 
       /// <summary>
@@ -93,6 +116,11 @@ namespace Trombetta.Cli.CommandLine
       public ParserSettings Settings
       {
          get { return _settings; }
+      }
+
+      internal Tokenizer Tokenizer
+      {
+         get { return _tokenizer; }
       }
    }
 }

@@ -12,7 +12,7 @@ namespace Trombetta.Cli.CommandLine
    /// <summary>
    /// Represents the settings used to parsing command line arguments.
    /// </summary>
-   public class ParserSettings
+   public sealed class ParserSettings
    {
       /// <summary>
       /// Initializes a new instance of the <see cref="ParserSettings"/> class with the specified collection of options.

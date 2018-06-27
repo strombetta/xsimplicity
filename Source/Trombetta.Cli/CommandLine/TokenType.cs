@@ -8,7 +8,7 @@ namespace Trombetta.Cli.CommandLine
    /// <summary>
    /// 
    /// </summary>
-   public enum TokenType
+   internal enum TokenType
    {
       Argument,
       Command,

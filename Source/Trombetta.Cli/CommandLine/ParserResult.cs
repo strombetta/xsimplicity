@@ -8,16 +8,16 @@ using System.Collections.Generic;
 
 namespace Trombetta.Cli.CommandLine
 {
+   /// <summary>
+   /// Represents a 
+   /// </summary>
    public class ParserResult
    {
-      private readonly IEnumerable<Token> _tokens;
-      
-      public ParserResult(IEnumerable<Token> tokens)
-      {
-         if(tokens == null) throw new ArgumentNullException(nameof(tokens));
-         _tokens = tokens;
-      }
+      private readonly IEnumerable<ParsedOption> _parsedOptions;
 
-      public IEnumerable<Token> Tokens => _tokens;
+      internal ParserResult(IEnumerable<ParsedOption> parsedOptions)
+      {
+         _parsedOptions = parsedOptions ?? throw new ArgumentNullException(nameof(parsedOptions));
+      }
    }
 }

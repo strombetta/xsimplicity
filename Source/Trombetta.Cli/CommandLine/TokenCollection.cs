@@ -14,7 +14,7 @@ namespace Trombetta.Cli.CommandLine
    /// Represents a collection of tokens.
    /// </summary>
    /// <typeparam name="Toekn">The type of elements in the collection.</typeparam>
-   public class TokenCollection : ICollection<Token>
+   internal class TokenCollection : ICollection<Token>
    {
       private readonly ICollection<Token> _tokens = new List<Token>();
 
