@@ -117,6 +117,11 @@ namespace Trombetta.Cli.CommandLine
          return false;
       }
 
+      private IEnumerable<Token> CreateTokens(Option option)
+      {
+          return option.Aliases.Select(a => new Token(a, option.IsCommand ? TokenType.Command : TokenType.Option));
+      }
+
       /// <summary>
       /// Tokenizes the command line arguments.
       /// </summary>
@@ -128,7 +133,7 @@ namespace Trombetta.Cli.CommandLine
 
          return new TokenCollection(
             (from argument in arguments
-             from token in CreateToken(argument, options.SelectMany(o => o.ValidTokens))
+             from token in CreateToken(argument, options.SelectMany(o => CreateTokens(o)))
              select token).ToList()
          );
       }

@@ -4,7 +4,9 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Trombetta.Cli.CommandLine
 {
@@ -18,6 +20,16 @@ namespace Trombetta.Cli.CommandLine
       internal ParserResult(IEnumerable<ParsedOption> parsedOptions)
       {
          _parsedOptions = parsedOptions ?? throw new ArgumentNullException(nameof(parsedOptions));
+      }
+
+      public Dictionary<String, Option> Options
+      {
+         get
+         {
+            return _parsedOptions.Where(e => !e.Option.IsCommand)
+                  .Select(e => new KeyValuePair<String, Option>(e.Option.Name, e.Option))
+                  .ToDictionary(e => e.Key, e => e.Value);
+         }
       }
    }
 }

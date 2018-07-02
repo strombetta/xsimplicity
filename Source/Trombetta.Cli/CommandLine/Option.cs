@@ -10,7 +10,7 @@ using System.Linq;
 namespace Trombetta.Cli.CommandLine
 {
    /// <summary>
-   /// Represents an application option.
+   /// Represents an application option definition.
    /// </summary>
    public class Option
    {
@@ -49,14 +49,6 @@ namespace Trombetta.Cli.CommandLine
       }
 
       /// <summary>
-      /// Gets the collection of aliases of the option.
-      /// </summary>
-      /// <returns>The collection of aliases of the option.</returns>
-      public IEnumerable<String> Aliases => _aliases.ToArray();
-
-      public Argument Argument { get; }
-
-      /// <summary>
       /// Gets a value indicating whether the option contains the specified alias.
       /// </summary>
       /// <param name="alias">The alias to search.</param>
@@ -65,6 +57,23 @@ namespace Trombetta.Cli.CommandLine
       {
          return _aliases.Any(e => e == alias);
       }
+
+      /// <summary>
+      /// Gets the collection of aliases of the option.
+      /// </summary>
+      /// <returns>The collection of aliases of the option.</returns>
+      public IEnumerable<String> Aliases => _aliases.ToArray();
+
+      /// <summary>
+      /// Gets a value indicating whether the option accepts arguments.
+      /// </summary>
+      /// <returns><c>true</c> if the option accepts arguments; otherwise <c>false</c>.</returns>
+      public Boolean AcceptArgument
+      {
+         get { return Argument == null ? false : true; }
+      }
+
+      public Argument Argument { get; }
 
       /// <summary>
       /// Gets the help message of the option.
@@ -79,18 +88,15 @@ namespace Trombetta.Cli.CommandLine
       internal virtual Boolean IsCommand => false;
 
       /// <summary>
+      /// Gets a value indicating whether the option is required.
+      /// </summary>
+      /// <returns><c>true</c> if the option is required; otherwise, <c>false</c>.</returns>
+      public Boolean IsRequired { get; }
+
+      /// <summary>
       /// Gets the name of the option.
       /// </summary>
       /// <returns>The name of the option.</returns>
       public String Name { get; }
-
-
-      internal HashSet<Token> ValidTokens
-      {
-         get
-         {
-            return new HashSet<Token>(_aliases.Select(a => new Token(a, IsCommand ? TokenType.Command : TokenType.Option)));
-         }
-      }
    }
 }
