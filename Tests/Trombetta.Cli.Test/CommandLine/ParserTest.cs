@@ -12,9 +12,9 @@ namespace Trombetta.Cli.Test.CommandLine
     {
       var args = new[] { "--option", "-option=argument", "command" };
       var options = new[] {
-               new Option("single", "A single alias option."),
-               new Option(new[] {"option", "opt", "o"}, "A multi alias option."),
-               new Command("command", "A command"),
+               new OptionDefinition("single", "A single alias option."),
+               new OptionDefinition(new[] {"option", "opt", "o"}, "A multi alias option."),
+               new CommandDefinition("command", "A command"),
          };
       var result = Parser.Default.Parse(options, args);
     }
@@ -23,7 +23,7 @@ namespace Trombetta.Cli.Test.CommandLine
     public void OptionCanBeCheckedUsingName()
     {
       //[Option('r', "read", Required = true, HelpText = "Input files to be processed.")]
-      var options = new[] { new Option(new[] { "help", "h" }, "Display this help message.") };
+      var options = new[] { new OptionDefinition(new[] { "help", "h" }, "Display this help message.") };
       var parserResults = Parser.Default.Parse(options, new[] { "--help" });
       foreach(var option in parserResults.Options)
       {

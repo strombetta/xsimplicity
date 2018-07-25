@@ -6,11 +6,13 @@ using Xunit.Abstractions;
 
 namespace Trombetta.Cli.Test.CommandLine
 {
-   // public class TokenizerTest
-   // {
-   //    [Fact]
-   //    public void TokenizerCanRecognizeArguments()
-   //    {
+   public class TokenizerTest
+   {
+      [Fact]
+      public void TokenizerCanRecognizeArguments()
+      {
+         // var value = new Tokenizer().Tokenize(new[] {""});
+         // var expected = 
    //       var tokens = new Tokenizer().Tokenize(new[] { "a", "b", "c" });
    //       Assert.Equal(3, tokens.Count());
    //       Assert.NotNull(tokens["a"]);
@@ -19,7 +21,7 @@ namespace Trombetta.Cli.Test.CommandLine
    //       Assert.Equal(TokenType.Argument, tokens["a"].Type);
    //       Assert.Equal(TokenType.Argument, tokens["b"].Type);
    //       Assert.Equal(TokenType.Argument, tokens["c"].Type);
-   //    }
+      }
 
    //    [Fact]
    //    public void TokenizerHasDefaultSettings()
@@ -78,5 +80,5 @@ namespace Trombetta.Cli.Test.CommandLine
    //       Assert.Null(tokens["Option"]);
    //       Assert.Equal(tokens["option"].Type, TokenType.Option);
    //    }
-   // }
+   }
 }

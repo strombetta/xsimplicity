@@ -12,28 +12,28 @@ namespace Trombetta.Cli.Test.CommandLine
       [Fact]
       public void OptionHasAName()
       {
-         var option = new Option(new[] { "option" }, "");
+         var option = new OptionDefinition(new[] { "option" }, "");
          Assert.True(option.Name == "option");
       }
 
       [Fact]
       public void OptionIsNotACommand()
       {
-         var option = new Option(new[] { "option" }, "");
+         var option = new OptionDefinition(new[] { "option" }, "");
          Assert.False(option.IsCommand);
       }
 
       [Fact]
       public void OptionCannotHaveEmptyAlias()
       {
-         Action action = () => new Option(new[] { "" }, "");
+         Action action = () => new OptionDefinition(new[] { "" }, "");
          Assert.Throws<ArgumentException>(action);
       }
 
       [Fact]
       public void OptionHasMultipleAliases()
       {
-         var option = new Option(new[] { "help", "h", "?" }, "");
+         var option = new OptionDefinition(new[] { "help", "h", "?" }, "");
          Assert.True(option.Aliases.Count() == 3);
          Assert.True(option.Name == "help");
          Assert.Contains("h", option.Aliases);
@@ -43,7 +43,7 @@ namespace Trombetta.Cli.Test.CommandLine
       [Fact]
       public void OptionAliasesAreCaseSensitive()
       {
-         var option = new Option(new[] { "option", "o" }, "");
+         var option = new OptionDefinition(new[] { "option", "o" }, "");
          Assert.True(option.Aliases.Count() == 2);
          Assert.True(option.Name == "option");
          Action action = () => Assert.Contains("O", option.Aliases);

@@ -10,15 +10,15 @@ namespace Trombetta.Cli.CommandLine
    /// <summary>
    /// Represents an application command.
    /// </summary>
-   public class Command : Option
+   public class CommandDefinition : OptionDefinition
    {
       /// <summary>
-      /// Initializes a new instance of the <see cref="Command"/> class with the
+      /// Initializes a new instance of the <see cref="CommandDefinition"/> class with the
       /// specified name, and the specified help message.
       /// </summary>
       /// <param name="name">The name of the command.</param>
       /// <param name="helpMessage">The help message of the command.</param>
-      public Command(String name, String helpMessage)
+      public CommandDefinition(String name, String helpMessage)
          : base(name, helpMessage)
       { }
 

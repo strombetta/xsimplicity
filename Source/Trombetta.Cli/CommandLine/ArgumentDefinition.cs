@@ -11,23 +11,23 @@ namespace Trombetta.Cli.CommandLine
   /// <summary>
   /// Represents an option argument definition.
   /// </summary>
-  public class Argument
+  public class ArgumentDefinition
   {
-    private readonly Func<Option, String> _validate;
+    private readonly Func<OptionDefinition, String> _validate;
 
-    public Argument(Func<Option, String> validate)
+    public ArgumentDefinition(Func<OptionDefinition, String> validate)
     {
       _validate = validate ?? throw new ArgumentNullException(nameof(validate));
     }
 
-    public Argument(String name, String description, Func<Option, String> validate)
+    public ArgumentDefinition(String name, String description, Func<OptionDefinition, String> validate)
     {
       Description = description;
       Name = name;
       _validate = validate ?? throw new ArgumentNullException(nameof(validate));
     }
 
-    public static Argument NoArgument()
+    public static ArgumentDefinition NoArgument()
     {
       return null;
     }

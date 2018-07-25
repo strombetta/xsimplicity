@@ -117,7 +117,7 @@ namespace Trombetta.Cli.CommandLine
          return false;
       }
 
-      private IEnumerable<Token> CreateTokens(Option option)
+      private IEnumerable<Token> CreateTokens(OptionDefinition option)
       {
           return option.Aliases.Select(a => new Token(a, option.IsCommand ? TokenType.Command : TokenType.Option));
       }
@@ -127,7 +127,7 @@ namespace Trombetta.Cli.CommandLine
       /// </summary>
       /// <param name="arguments">The command line arguments to tokenize.</param>
       /// <returns></returns>
-      public TokenCollection Tokenize(IEnumerable<String> arguments, IEnumerable<Option> options)
+      public TokenCollection Tokenize(IEnumerable<String> arguments, IEnumerable<OptionDefinition> options)
       {
          if (arguments == null) throw new ArgumentNullException(nameof(arguments));
 

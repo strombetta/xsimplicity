@@ -14,9 +14,9 @@ namespace Trombetta.Cli.CommandLine
    /// Represents a collection of options.
    /// </summary>
    /// <typeparam name="Option">The type of elements in the collection.</typeparam>
-   public class OptionCollection : IReadOnlyCollection<Option>
+   public class OptionCollection : IReadOnlyCollection<OptionDefinition>
    {
-      private readonly HashSet<Option> _options = new HashSet<Option>();
+      private readonly HashSet<OptionDefinition> _options = new HashSet<OptionDefinition>();
 
       /// <summary>
       /// Initializes a new instance of the <see cref="OptionCollection"/> class.
@@ -28,7 +28,7 @@ namespace Trombetta.Cli.CommandLine
       /// Initializes a new instance of the <see cref="OptionCollection"/> class with the specified collection of options.
       /// </summary>
       /// <param name="options"></param>
-      protected OptionCollection(IReadOnlyCollection<Option> options)
+      protected OptionCollection(IReadOnlyCollection<OptionDefinition> options)
       {
          if (options == null) throw new ArgumentNullException(nameof(options));
 
@@ -36,19 +36,19 @@ namespace Trombetta.Cli.CommandLine
             Add(option);
       }
 
-      public OptionCollection(params Option[] options)
+      public OptionCollection(params OptionDefinition[] options)
       {
          if (options == null) throw new ArgumentNullException(nameof(options));
          foreach (var option in options)
             Add(option);
       }
 
-      public void Add(Option option)
+      public void Add(OptionDefinition option)
       {
          _options.Add(option);
       }
 
-      public void AddRange(IEnumerable<Option> options)
+      public void AddRange(IEnumerable<OptionDefinition> options)
       {
          if (options == null) throw new ArgumentNullException(nameof(options));
 
@@ -72,21 +72,21 @@ namespace Trombetta.Cli.CommandLine
       /// <returns>The number of options in the collection.</returns>
       public Int32 Count => _options.Count;
 
-      public IEnumerator<Option> GetEnumerator()
+      public IEnumerator<OptionDefinition> GetEnumerator()
       {
-         return ((IReadOnlyCollection<Option>)_options).GetEnumerator();
+         return ((IReadOnlyCollection<OptionDefinition>)_options).GetEnumerator();
       }
 
       IEnumerator IEnumerable.GetEnumerator()
       {
-         return ((IReadOnlyCollection<Option>)_options).GetEnumerator();
+         return ((IReadOnlyCollection<OptionDefinition>)_options).GetEnumerator();
       }
 
       /// <summary>
       /// 
       /// </summary>
       /// <returns></returns>
-      public Option this[String value]
+      public OptionDefinition this[String value]
       {
          get
          {

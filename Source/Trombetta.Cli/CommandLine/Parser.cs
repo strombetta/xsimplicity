@@ -38,10 +38,10 @@ namespace Trombetta.Cli.CommandLine
     { }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Parser"/> class with the spefied collection of <see cref="Option"/> objects.
+    /// Initializes a new instance of the <see cref="Parser"/> class with the spefied collection of <see cref="OptionDefinition"/> objects.
     /// </summary>
     /// <param name="options"></param>
-    public Parser(params Option[] options) : this(new ParserSettings(options))
+    public Parser(params OptionDefinition[] options) : this(new ParserSettings(options))
     { }
 
     /// <summary>
@@ -69,34 +69,34 @@ namespace Trombetta.Cli.CommandLine
     /// <summary>
     /// Parses the command line arguments.
     /// </summary>
-    /// <param name="options">A collection of command line arguments.</param>
+    /// <param name="definitions">A collection of command line arguments.</param>
     /// <param name="args"></param>
     /// <returns></returns>
-    public ParserResult Parse(IEnumerable<Option> options, String[] args)
+    public ParserResult Parse(IEnumerable<OptionDefinition> definitions, String[] args)
     {
-      if (options == null) throw new ArgumentNullException(nameof(options));
-      if (!options.Any()) throw new ArgumentException(nameof(options));
-      _settings.Options.AddRange(options);
+      if (definitions == null) throw new ArgumentNullException(nameof(definitions));
+      if (!definitions.Any()) throw new ArgumentException(nameof(definitions));
+      _settings.Definitions.AddRange(definitions);
 
-      var parsedOptions = new List<ParsedOption>();
+      var options = new List<Option>();
 
-      var tokens = new Queue<Token>(_tokenizer.Tokenize(args, options));
+      var tokens = new Queue<Token>(_tokenizer.Tokenize(args, definitions));
       while (tokens.Any())
       {
         var token = tokens.Dequeue();
         if (token.Type != TokenType.Argument)
         {
-          var option = _settings.Options.SingleOrDefault(o => o.HasAlias(token.Value));
-          if (option != null)
+          var definition = _settings.Definitions.SingleOrDefault(o => o.HasAlias(token.Value));
+          if (definition != null)
           {
-            var parsedOption = parsedOptions.LastOrDefault(e => e.Option.HasAlias(token.Value));
-            if (parsedOption == null)
-              parsedOptions.Add(new ParsedOption(option, token));
+            var option = options.LastOrDefault(e => e.OptionDefinition.HasAlias(token.Value));
+            if (option == null)
+              options.Add(new Option(definition, token));
             continue;
           }
         }
       }
-      return new ParserResult(parsedOptions);
+      return new ParserResult(options);
     }
 
     /// <summary>

@@ -13,8 +13,8 @@ namespace Trombetta.Cli.Test.CommandLine
       public void ConfigurationCannotHaveDuplicatedOption()
       {
          Action action = () => new ParserSettings(
-            new Option(new[] { "option" }, ""),
-            new Option(new[] { "option" }, "")
+            new OptionDefinition(new[] { "option" }, ""),
+            new OptionDefinition(new[] { "option" }, "")
          );
          Assert.Throws<ArgumentException>(action);
       }
