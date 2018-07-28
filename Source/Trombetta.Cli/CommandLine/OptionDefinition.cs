@@ -12,7 +12,7 @@ namespace Trombetta.Cli.CommandLine
    /// <summary>
    /// Represents an application option definition.
    /// </summary>
-   public class OptionDefinition
+   public class OptionDefinition : IDefinition
    {
       /// <summary>
       /// The collection of aliases.
@@ -98,5 +98,7 @@ namespace Trombetta.Cli.CommandLine
       /// </summary>
       /// <returns>The name of the option.</returns>
       public String Name { get; }
+
+      public DefinitionType Type => DefinitionType.Option;
    }
 }

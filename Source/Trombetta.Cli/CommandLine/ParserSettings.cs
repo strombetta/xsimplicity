@@ -18,30 +18,30 @@ namespace Trombetta.Cli.CommandLine
         /// Initializes a new instance of the <see cref="ParserSettings"/> class with the specified collection of options.
         /// </summary>
         /// <param name="definitions">The collection of options.</param>
-        public ParserSettings(params OptionDefinition[] definitions)
-           : this(new OptionCollection(definitions), new[] { ':', '=' }, new[] { "-", "--" })
+        public ParserSettings(params IDefinition[] definitions)
+           : this(new DefinitionCollection(definitions), new[] { ':', '=' }, new[] { "-", "--" })
         { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParserSettings"/> class withe the defined options.
         /// </summary>
         /// <param name="definitions">The defined options.</param>
-        public ParserSettings(OptionCollection definitions)
+        public ParserSettings(IEnumerable<IDefinition> definitions)
            : this(definitions, new[] { ':', '=' }, new[] { "-", "--" })
         { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ParserSettings"/> class withe the defined options.
         /// </summary>
-        /// <param name="options"></param>
+        /// <param name="definitions"></param>
         /// <param name="argumentDelimiters"></param>
-        public ParserSettings(OptionCollection options, IEnumerable<Char> argumentDelimiters, ICollection<String> optionPrefixes)
+        public ParserSettings(IEnumerable<IDefinition> definitions, IEnumerable<Char> argumentDelimiters, ICollection<String> optionPrefixes)
         {
-            if (options == null) throw new ArgumentNullException(nameof(options));
+            if (definitions == null) throw new ArgumentNullException(nameof(definitions));
 
             ArgumentDelimiters = argumentDelimiters;
             OptionPrefixes = optionPrefixes;
-            Definitions = options;
+            Definitions = new DefinitionCollection(definitions);
         }
 
         /// <summary>
@@ -60,6 +60,6 @@ namespace Trombetta.Cli.CommandLine
         /// Gets the collection of defined options.
         /// </summary>
         /// <returns>The collection of defined options.</returns>
-        public OptionCollection Definitions { get; }
+        public DefinitionCollection Definitions { get; }
     }
 }

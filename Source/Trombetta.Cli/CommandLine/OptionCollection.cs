@@ -11,86 +11,90 @@ using System.Linq;
 namespace Trombetta.Cli.CommandLine
 {
    /// <summary>
-   /// Represents a collection of options.
+   /// Represents a collection of definition.
    /// </summary>
    /// <typeparam name="Option">The type of elements in the collection.</typeparam>
-   public class OptionCollection : IReadOnlyCollection<OptionDefinition>
+   public class DefinitionCollection : IReadOnlyCollection<IDefinition>
    {
-      private readonly HashSet<OptionDefinition> _options = new HashSet<OptionDefinition>();
+      private readonly HashSet<IDefinition> _definitions = new HashSet<IDefinition>();
 
       /// <summary>
-      /// Initializes a new instance of the <see cref="OptionCollection"/> class.
+      /// Initializes a new instance of the <see cref="DefinitionCollection"/> class.
       /// </summary>
-      protected OptionCollection()
+      protected DefinitionCollection()
       { }
 
       /// <summary>
-      /// Initializes a new instance of the <see cref="OptionCollection"/> class with the specified collection of options.
+      /// Initializes a new instance of the <see cref="DefinitionCollection"/> class with the specified collection of options.
       /// </summary>
-      /// <param name="options"></param>
-      protected OptionCollection(IReadOnlyCollection<OptionDefinition> options)
+      /// <param name="definitions"></param>
+      public DefinitionCollection(IEnumerable<IDefinition> definitions)
       {
-         if (options == null) throw new ArgumentNullException(nameof(options));
+         if (definitions == null) throw new ArgumentNullException(nameof(definitions));
 
-         foreach (var option in options)
+         foreach (var definition in definitions)
+            Add(definition);
+      }
+
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <param name="definitions"></param>
+      public DefinitionCollection(params IDefinition[] definitions)
+      {
+         if (definitions == null) throw new ArgumentNullException(nameof(definitions));
+         foreach (var option in definitions)
             Add(option);
       }
 
-      public OptionCollection(params OptionDefinition[] options)
+      public void Add(IDefinition option)
       {
-         if (options == null) throw new ArgumentNullException(nameof(options));
-         foreach (var option in options)
-            Add(option);
+         _definitions.Add(option);
       }
 
-      public void Add(OptionDefinition option)
+      public void AddRange(IEnumerable<IDefinition> definitions)
       {
-         _options.Add(option);
-      }
+         if (definitions == null) throw new ArgumentNullException(nameof(definitions));
 
-      public void AddRange(IEnumerable<OptionDefinition> options)
-      {
-         if (options == null) throw new ArgumentNullException(nameof(options));
-
-         foreach (var option in options)
+         foreach (var option in definitions)
             Add(option);
       }
 
       /// <summary>
       /// Gets a value indicating whether the collection contains the specified option.
       /// </summary>
-      /// <param name="option"></param>
+      /// <param name="name"></param>
       /// <returns></returns>
-      public Boolean Contains(String option)
+      public Boolean Contains(String name)
       {
-         return _options.SelectMany(e => e.Aliases).Any(o => o == option);
+         return _definitions.SelectMany(e => e.Aliases).Any(o => o == name);
       }
 
       /// <summary>
       /// Gets the number of options contained in the collection.
       /// </summary
       /// <returns>The number of options in the collection.</returns>
-      public Int32 Count => _options.Count;
+      public Int32 Count => _definitions.Count;
 
-      public IEnumerator<OptionDefinition> GetEnumerator()
+      public IEnumerator<IDefinition> GetEnumerator()
       {
-         return ((IReadOnlyCollection<OptionDefinition>)_options).GetEnumerator();
+         return ((IReadOnlyCollection<IDefinition>)_definitions).GetEnumerator();
       }
 
       IEnumerator IEnumerable.GetEnumerator()
       {
-         return ((IReadOnlyCollection<OptionDefinition>)_options).GetEnumerator();
+         return ((IReadOnlyCollection<IDefinition>)_definitions).GetEnumerator();
       }
 
       /// <summary>
       /// 
       /// </summary>
       /// <returns></returns>
-      public OptionDefinition this[String value]
+      public IDefinition this[String value]
       {
          get
          {
-            var result = from helper in _options
+            var result = from helper in _definitions
             .SelectMany(o => o.Aliases, (option, aliases) => new { option, aliases })
                          where helper.aliases.Contains(value)
                          select helper.option;

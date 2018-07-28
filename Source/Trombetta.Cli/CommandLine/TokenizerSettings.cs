@@ -23,10 +23,10 @@ namespace Trombetta.Cli.CommandLine
       /// <param name="argumentDelimiters">The collectino of argument delimiters.</param>
       public TokenizerSettings(IEnumerable<String> optionPrefixes, IEnumerable<Char> argumentDelimiters)
       {
-         if(optionPrefixes == null) throw new ArgumentNullException(nameof(optionPrefixes));
-         if(!optionPrefixes.Any()) throw new ArgumentException(nameof(optionPrefixes));
-         if(argumentDelimiters == null) throw new ArgumentNullException(nameof(argumentDelimiters));
-         if(!argumentDelimiters.Any()) throw new ArgumentException(nameof(argumentDelimiters));
+         if (optionPrefixes == null) throw new ArgumentNullException(nameof(optionPrefixes));
+         if (!optionPrefixes.Any()) throw new ArgumentException(nameof(optionPrefixes));
+         if (argumentDelimiters == null) throw new ArgumentNullException(nameof(argumentDelimiters));
+         if (!argumentDelimiters.Any()) throw new ArgumentException(nameof(argumentDelimiters));
 
          ArgumentDelimiters = argumentDelimiters;
          OptionPrefixes = optionPrefixes;

@@ -16,20 +16,22 @@ namespace Trombetta.Cli.CommandLine
    public class ParserResult
    {
       private readonly IEnumerable<Option> _options;
+      private readonly IEnumerable<Argument> _arguments;
 
-      internal ParserResult(IEnumerable<Option> parsedOptions)
+      internal ParserResult(IEnumerable<Argument> arguments, IEnumerable<Option> options)
       {
-         _options = parsedOptions ?? throw new ArgumentNullException(nameof(parsedOptions));
+         _arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
+         _options = options ?? throw new ArgumentNullException(nameof(options));
       }
 
-      public Dictionary<String, OptionDefinition> Options
+      public IEnumerable<Argument> Arguments
       {
-         get
-         {
-            return _options.Where(e => !e.OptionDefinition.IsCommand)
-                  .Select(e => new KeyValuePair<String, OptionDefinition>(e.OptionDefinition.Name, e.OptionDefinition))
-                  .ToDictionary(e => e.Key, e => e.Value);
-         }
+         get { return _arguments; }
+      }
+
+      public IEnumerable<Option> Options
+      {
+         get { return _options; }
       }
    }
 }

@@ -11,51 +11,33 @@ namespace Trombetta.Cli.CommandLine
    /// <summary>
    /// 
    /// </summary>
-   internal class Option
+   public class Option
    {
       /// <summary>
       /// The collection of parsed arguments.
       /// </summary>
-      private readonly ICollection<String> _arguments;
+      private IEnumerable<String> _arguments;
+      private OptionDefinition _definition;
 
-      /// <summary>
-      /// The option associated to the parsed option.
-      /// </summary>
-      private readonly OptionDefinition _option;
-
-      /// <summary>
-      /// The token associated to the parsed option.
-      /// </summary>
-      private readonly Token _token;
-
-      public Option()
-      {}
-      
-      public Option(OptionDefinition option, Token token)
+      internal Option(OptionDefinition definition)
       {
-         _arguments = new List<String>();
-         _option = option ?? throw new ArgumentNullException(nameof(option));
-         _token = token ?? throw new ArgumentNullException(nameof(token));
+         _definition = definition ?? throw new ArgumentNullException(nameof(definition));
       }
 
-      public ICollection<String> Arguments
+      public IEnumerable<String> Arguments
       {
-         get { return _arguments; }
+         get { return _arguments;}
+         internal set { _arguments = value;}
       }
 
-      public Object Validate()
+      public String Name
       {
-         return null;
+         get { return _definition.Name; }
       }
 
-      public OptionDefinition OptionDefinition
+      internal Boolean NeedArgument
       {
-         get { return _option; }
-      }
-
-      public Token Token
-      {
-         get { return _token; }
+         get {return _definition.AcceptArgument; }
       }
    }
 }

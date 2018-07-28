@@ -117,9 +117,13 @@ namespace Trombetta.Cli.CommandLine
          return false;
       }
 
-      private IEnumerable<Token> CreateTokens(OptionDefinition option)
+      private IEnumerable<Token> CreateTokens(IDefinition definition)
       {
-          return option.Aliases.Select(a => new Token(a, option.IsCommand ? TokenType.Command : TokenType.Option));
+         if (definition.Type == DefinitionType.Option)
+            return ((OptionDefinition)definition).Aliases.Select(a => new Token(a, TokenType.Option));
+         else if (definition.Type == DefinitionType.Command)
+            return new List<Token>() { new Token(definition.Name, TokenType.Command) };
+         else return new List<Token>() { new Token(definition.Name, TokenType.Argument) };
       }
 
       /// <summary>
@@ -127,13 +131,14 @@ namespace Trombetta.Cli.CommandLine
       /// </summary>
       /// <param name="arguments">The command line arguments to tokenize.</param>
       /// <returns></returns>
-      public TokenCollection Tokenize(IEnumerable<String> arguments, IEnumerable<OptionDefinition> options)
+      public TokenCollection Tokenize(IEnumerable<String> arguments, IEnumerable<IDefinition> definitions)
       {
          if (arguments == null) throw new ArgumentNullException(nameof(arguments));
+         if (definitions == null) throw new ArgumentNullException(nameof(definitions));
 
          return new TokenCollection(
             (from argument in arguments
-             from token in CreateToken(argument, options.SelectMany(o => CreateTokens(o)))
+             from token in CreateToken(argument, definitions.SelectMany(e => CreateTokens(e)))
              select token).ToList()
          );
       }
