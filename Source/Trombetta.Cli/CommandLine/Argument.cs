@@ -5,19 +5,26 @@
 
 using System;
 using System.Collections.Generic;
+using Trombetta.Cli.CommandLine.Definitions;
 
 namespace Trombetta.Cli.CommandLine
 {
    /// <summary>
    /// 
    /// </summary>
-   public class Argument
+   public class Argument<T> : IArgument
    {
-      internal Argument(String value)
+      internal Argument(T value)
       {
          Value = value;
       }
 
-      public String Value { get; }
+      public IDefinition Definition => null;
+
+      public Boolean IsCompleted => true;
+
+      public ArgumentType Type => ArgumentType.Argument;
+
+      public T Value { get; }
    }
 }

@@ -5,39 +5,54 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Trombetta.Cli.CommandLine.Definitions;
 
 namespace Trombetta.Cli.CommandLine
 {
    /// <summary>
    /// 
    /// </summary>
-   public class Option
+   public class Option<T> : IArgument, IOption
    {
       /// <summary>
       /// The collection of parsed arguments.
       /// </summary>
-      private IEnumerable<String> _arguments;
-      private OptionDefinition _definition;
+      private T _argument;
+      private OptionDefinition<T> _definition;
 
-      internal Option(OptionDefinition definition)
+      internal Option(OptionDefinition<T> definition)
       {
          _definition = definition ?? throw new ArgumentNullException(nameof(definition));
       }
 
-      public IEnumerable<String> Arguments
+      Object IOption.Argument
       {
-         get { return _arguments;}
-         internal set { _arguments = value;}
+         get { return _argument; }
+         set { _argument = (T)value; }
       }
 
+      public T Argument
+      {
+         get { return _argument; }
+         internal set { _argument = value; }
+      }
+
+      public IOptionDefinition Definition => _definition;
       public String Name
       {
          get { return _definition.Name; }
       }
 
-      internal Boolean NeedArgument
+      public Boolean IsCompleted
       {
-         get {return _definition.AcceptArgument; }
+         get
+         {
+            if (!_definition.IsArgumentRequired || _argument != null) return true;
+            else return false;
+         }
       }
+
+      public ArgumentType Type => ArgumentType.Option;
    }
 }

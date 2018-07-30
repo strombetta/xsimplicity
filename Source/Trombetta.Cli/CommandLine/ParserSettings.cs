@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Trombetta.Cli.CommandLine.Definitions;
 
 namespace Trombetta.Cli.CommandLine
 {
@@ -61,5 +62,12 @@ namespace Trombetta.Cli.CommandLine
         /// </summary>
         /// <returns>The collection of defined options.</returns>
         public DefinitionCollection Definitions { get; }
+
+        public IEnumerable<IOptionDefinition> OptionDefinitions
+        {
+            get {
+                return Definitions.Where(e => e.Type == DefinitionType.Option).Cast<IOptionDefinition>().ToList();
+            }
+        }
     }
 }

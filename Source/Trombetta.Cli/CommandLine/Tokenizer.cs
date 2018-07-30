@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using Trombetta.Cli.CommandLine.Definitions;
+
 [assembly: InternalsVisibleTo("Trombetta.Cli.Test")]
 
 namespace Trombetta.Cli.CommandLine
@@ -120,7 +122,7 @@ namespace Trombetta.Cli.CommandLine
       private IEnumerable<Token> CreateTokens(IDefinition definition)
       {
          if (definition.Type == DefinitionType.Option)
-            return ((OptionDefinition)definition).Aliases.Select(a => new Token(a, TokenType.Option));
+            return definition.Aliases.Select(a => new Token(a, TokenType.Option));
          else if (definition.Type == DefinitionType.Command)
             return new List<Token>() { new Token(definition.Name, TokenType.Command) };
          else return new List<Token>() { new Token(definition.Name, TokenType.Argument) };

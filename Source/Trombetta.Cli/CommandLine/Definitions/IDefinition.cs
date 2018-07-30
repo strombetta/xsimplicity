@@ -6,8 +6,11 @@
 using System;
 using System.Collections.Generic;
 
-namespace Trombetta.Cli.CommandLine
+namespace Trombetta.Cli.CommandLine.Definitions
 {
+   /// <summary>
+   /// Represents an argument definition.
+   /// </summary>
    public interface IDefinition
    {
       /// <summary>

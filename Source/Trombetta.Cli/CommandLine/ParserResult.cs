@@ -15,23 +15,35 @@ namespace Trombetta.Cli.CommandLine
    /// </summary>
    public class ParserResult
    {
-      private readonly IEnumerable<Option> _options;
-      private readonly IEnumerable<Argument> _arguments;
+      private readonly IEnumerable<IArgument> _options;
+      private readonly IEnumerable<IArgument> _arguments;
 
-      internal ParserResult(IEnumerable<Argument> arguments, IEnumerable<Option> options)
+      private readonly ICollection<IArgument> _items = new List<IArgument>();
+
+      internal ParserResult()
+      { }
+
+      internal ParserResult(IEnumerable<IArgument> arguments, IEnumerable<IArgument> options)
       {
          _arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
          _options = options ?? throw new ArgumentNullException(nameof(options));
       }
 
-      public IEnumerable<Argument> Arguments
+      internal ICollection<IArgument> Items => _items;
+
+      public IEnumerable<IArgument> Arguments
       {
          get { return _arguments; }
       }
 
-      public IEnumerable<Option> Options
+      public IEnumerable<IOption> Options
       {
-         get { return _options; }
+         get
+         {
+            return _items.Where(e => e.Type == ArgumentType.Option)
+                        .Cast<IOption>()
+                        .ToList();
+         }
       }
    }
 }

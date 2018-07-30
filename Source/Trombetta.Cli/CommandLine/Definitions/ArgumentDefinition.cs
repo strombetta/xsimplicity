@@ -6,21 +6,26 @@
 using System;
 using System.Collections.Generic;
 
-namespace Trombetta.Cli.CommandLine
+namespace Trombetta.Cli.CommandLine.Definitions
 {
    /// <summary>
    /// Represents an option argument definition.
    /// </summary>
-   public class ArgumentDefinition : IDefinition
+   public class ArgumentDefinition<T> : IDefinition
    {
       public ArgumentDefinition(String name, String description)
          : this(name, description, null)
       { }
 
-      public ArgumentDefinition(String name, String description, Func<OptionDefinition, String> validate)
+      public ArgumentDefinition(String name, String description, Func<FlagDefinition, String> validate)
       {
          Description = description;
          Name = name;
+      }
+
+      public Argument<T> Map(T value)
+      {
+         return new Argument<T>(value);
       }
 
       public IEnumerable<String> AllowedValue { get; }
@@ -31,7 +36,7 @@ namespace Trombetta.Cli.CommandLine
       /// Gets the default value of the argument.
       /// </summary>
       /// <returns>The default value of the argument.</returns>
-      public String DefaultValue { get; }
+      public T DefaultValue { get; }
 
       /// <summary>
       /// Gets the description of the argument.
@@ -51,6 +56,10 @@ namespace Trombetta.Cli.CommandLine
       /// <returns>The name of the argument.</returns>
       public String Name { get; }
 
+      /// <summary>
+      /// Gets the type of definition.
+      /// </summary>
+      /// <returns><The type of definition./returns>
       public DefinitionType Type => DefinitionType.Argument;
    }
 }

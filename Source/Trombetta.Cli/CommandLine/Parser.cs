@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Trombetta.Cli.CommandLine.Definitions;
 
 namespace Trombetta.Cli.CommandLine
 {
@@ -39,7 +40,7 @@ namespace Trombetta.Cli.CommandLine
       { }
 
       /// <summary>
-      /// Initializes a new instance of the <see cref="Parser"/> class with the spefied collection of <see cref="OptionDefinition"/> objects.
+      /// Initializes a new instance of the <see cref="Parser"/> class with the spefied collection of <see cref="FlagDefinition"/> objects.
       /// </summary>
       /// <param name="definitions"></param>
       public Parser(params IDefinition[] definitions)
@@ -78,10 +79,8 @@ namespace Trombetta.Cli.CommandLine
          if (!definitions.Any()) throw new ArgumentException(nameof(definitions));
 
          _settings.Definitions.AddRange(definitions);
-
-         var options = new List<Option>();
-         var arguments = new List<Argument>();
-
+         
+         var result = new ParserResult();
          var tokens = new Queue<Token>(_tokenizer.Tokenize(args, definitions));
          while (tokens.Any())
          {
@@ -89,29 +88,37 @@ namespace Trombetta.Cli.CommandLine
             switch (token.Type)
             {
                case TokenType.Argument:
-                  if (options.Any() && options.Last().NeedArgument)
+                  if (result.Options.Any() && !result.Options.Last().IsCompleted)
                   {
-                     var option = options.Last();
-                     option.Arguments = new[] { token.Value };
+                     var option = result.Options.Last();
+                     option.Argument = token.Value;
+                     //result.Items.Add(option.Definition.MapToArgument(token.Value));
                   }
                   else {
-                    arguments.Add(new Argument(token.Value));
+                    // var definition = _settings.a
+                    // result.Arguments.Add()
+                    // arguments.Add(new Argument<String>(token.Value));
                   }
                   break;
                case TokenType.Option:
-                  var definition = _settings.Definitions.SingleOrDefault(e => e.Type == DefinitionType.Option && e.Aliases.Any(a => String.Compare(a, token.Value, true) == 0));
+                  var definition = _settings.OptionDefinitions.Single(e => e.Aliases.Any(a => String.Compare(a, token.Value, true) == 0));
                   if (definition != null)
                   {
-                     var option = options.LastOrDefault(e => e.Name == token.Value);
-                     if (option == null)
-                        options.Add(new Option((OptionDefinition)definition));
-                     continue;
+                     if (!result.Options.Any() || result.Options.Count(e => e.Name == token.Value) == 0)
+                        result.Items.Add(definition.Map());
+                     else continue;
                   }
                   break;
 
             }
          }
-         return new ParserResult(arguments, options);
+         return result;
+      }
+
+      private void Initializes(ParserResult result, IEnumerable<IDefinition> definition)
+      {
+         var def = 0;
+
       }
 
       /// <summary>
@@ -132,6 +139,10 @@ namespace Trombetta.Cli.CommandLine
          get { return _settings; }
       }
 
+      /// <summary>
+      /// Gets the tokenizer used to tokenize the command line arguments.
+      /// </summary>
+      /// <returns>The tokenizer used to tokenize the command line arguments.</returns>
       internal Tokenizer Tokenizer
       {
          get { return _tokenizer; }

@@ -5,12 +5,12 @@
 
 using System;
 
-namespace Trombetta.Cli.CommandLine
+namespace Trombetta.Cli.CommandLine.Definitions
 {
    /// <summary>
    /// Represents an application command.
    /// </summary>
-   public class CommandDefinition : OptionDefinition
+   public class CommandDefinition : FlagDefinition
    {
       /// <summary>
       /// Initializes a new instance of the <see cref="CommandDefinition"/> class with the
@@ -21,11 +21,5 @@ namespace Trombetta.Cli.CommandLine
       public CommandDefinition(String name, String helpMessage)
          : base(name, helpMessage)
       { }
-
-      /// <summary>
-      /// Gets a value indicating whether the option is a command.
-      /// </summary>
-      /// <returns><c>true</c> if the option is a command; otherwise, <c>false</c>.</returns>
-      internal override Boolean IsCommand => true;
    }
 }
