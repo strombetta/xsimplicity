@@ -10,7 +10,7 @@ using System.Linq;
 namespace Trombetta.Cli.CommandLine.Definitions
 {
    /// <summary>
-   /// 
+   /// Represents an option definition.
    /// </summary>
    /// <typeparam name="T"></typeparam>
    public class OptionDefinition<T> : IDefinition, IOptionDefinition
@@ -27,15 +27,20 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// <param name="name">The name of the option.</param>
       /// <param name="helpMessage">The help message of the option.</param>
       public OptionDefinition(String name, String helpMessage)
-         : this(new[] { name }, helpMessage, null)
+         : this(new[] { name }, helpMessage, true)
       { }
 
       /// <summary>
-      /// Initializes a new instance of the <see cref="FlagDefinition"/> class with the specified collection of aliases, the text used as help
+      /// Initializes a new instance of the <see cref="OptionDefinition"/> class with 
+      /// the specified collection of aliases, the text used as help message.
       /// </summary>
       /// <param name="aliases">A collection of aliases.</param>
       /// <param name="helpMessage">The help message of the option.</param>
-      public OptionDefinition(String[] aliases, String helpMessage, ArgumentDefinition<T> argument = null)
+      public OptionDefinition(String[] aliases, String helpMessage)
+         : this(aliases, helpMessage, true)
+      { }
+
+      protected OptionDefinition(String[] aliases, String helpMessage, Boolean isArgumentRequired)
       {
          if (aliases == null) throw new ArgumentNullException(nameof(aliases));
          if (!aliases.Any()) throw new ArgumentNullException(nameof(aliases));
@@ -44,24 +49,15 @@ namespace Trombetta.Cli.CommandLine.Definitions
          foreach (var alias in aliases)
             _aliases.Add(alias);
 
-         Argument = argument;
+         Argument = new ArgumentDefinition<T>("name", "description");
+         IsArgumentRequired = isArgumentRequired;
          Name = _aliases.OrderBy(a => a.Length).Last();
          HelpMessage = helpMessage;
       }
 
-      public IArgument Map()
+      public IOption MapToOption()
       {
          return new Option<T>(this);
-      }
-
-      IArgument IOptionDefinition.MapToArgument(Object value)
-      {
-         return MapToArgument((T)value);
-      }
-
-      public IArgument MapToArgument(T value)
-      {
-         return new Argument<T>(value);
       }
 
       /// <summary>
@@ -69,6 +65,11 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// </summary>
       /// <returns>The collection of aliases of the option.</returns>
       public IEnumerable<String> Aliases => _aliases.ToArray();
+
+      IArgumentDefinition IOptionDefinition.Argument
+      {
+         get { return (ArgumentDefinition<T>)Argument; }
+      }
 
       /// <summary>
       /// 
@@ -82,7 +83,11 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// <returns>The help message of the option.</returns>
       public String HelpMessage { get; }
 
-      public Boolean IsArgumentRequired => true;
+      /// <summary>
+      /// Gets a value indicating whether the argument is required.
+      /// </summary>
+      /// <returns><c>true</c> if the argument is required; otherwise, <c>false</c>.</returns>
+      public Boolean IsArgumentRequired { get; }
 
       /// <summary>
       /// Gets a value indicating whether the option is required.

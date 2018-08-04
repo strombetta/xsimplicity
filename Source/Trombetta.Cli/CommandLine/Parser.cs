@@ -40,7 +40,7 @@ namespace Trombetta.Cli.CommandLine
       { }
 
       /// <summary>
-      /// Initializes a new instance of the <see cref="Parser"/> class with the spefied collection of <see cref="FlagDefinition"/> objects.
+      /// Initializes a new instance of the <see cref="Parser"/> class with the spefied collection of <see cref="ToggleDefinition"/> objects.
       /// </summary>
       /// <param name="definitions"></param>
       public Parser(params IDefinition[] definitions)
@@ -56,7 +56,7 @@ namespace Trombetta.Cli.CommandLine
          _settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
          // Configuring the tokenizer.
-         var tokenizerSettings = new TokenizerSettings(_settings.OptionPrefixes, _settings.ArgumentDelimiters);
+         var tokenizerSettings = new TokenizerSettings(_settings.OptionPrefixes, _settings.ArgumentDelimiters, _settings.ArgumentSeparator);
          _tokenizer = new Tokenizer(tokenizerSettings);
       }
 
@@ -79,8 +79,10 @@ namespace Trombetta.Cli.CommandLine
          if (!definitions.Any()) throw new ArgumentException(nameof(definitions));
 
          _settings.Definitions.AddRange(definitions);
-         
+
          var result = new ParserResult();
+         IOption lastOption = null;
+
          var tokens = new Queue<Token>(_tokenizer.Tokenize(args, definitions));
          while (tokens.Any())
          {
@@ -88,28 +90,28 @@ namespace Trombetta.Cli.CommandLine
             switch (token.Type)
             {
                case TokenType.Argument:
-                  if (result.Options.Any() && !result.Options.Last().IsCompleted)
+                  if (lastOption != null && !lastOption.IsCompleted)
                   {
-                     var option = result.Options.Last();
-                     option.Argument = token.Value;
+                     lastOption.Argument = lastOption.Definition.Argument.MapToArgument(token.Value);
                      //result.Items.Add(option.Definition.MapToArgument(token.Value));
                   }
-                  else {
-                    // var definition = _settings.a
-                    // result.Arguments.Add()
-                    // arguments.Add(new Argument<String>(token.Value));
-                  }
+                  else result.Items.Add(new Argument<String>(token.Value));
+                  break;
+               case TokenType.EndArgument:
+                  lastOption = null;
                   break;
                case TokenType.Option:
                   var definition = _settings.OptionDefinitions.Single(e => e.Aliases.Any(a => String.Compare(a, token.Value, true) == 0));
                   if (definition != null)
                   {
                      if (!result.Options.Any() || result.Options.Count(e => e.Name == token.Value) == 0)
-                        result.Items.Add(definition.Map());
+                     {
+                        lastOption = definition.MapToOption();
+                        result.Items.Add(lastOption);
+                     }
                      else continue;
                   }
                   break;
-
             }
          }
          return result;
@@ -117,8 +119,6 @@ namespace Trombetta.Cli.CommandLine
 
       private void Initializes(ParserResult result, IEnumerable<IDefinition> definition)
       {
-         var def = 0;
-
       }
 
       /// <summary>

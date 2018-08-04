@@ -9,13 +9,10 @@ using System.Collections.Generic;
 namespace Trombetta.Cli.CommandLine.Definitions
 {
    /// <summary>
-   /// Represents an option definition.
+   /// Represents an argument definition.
    /// </summary>
-   public interface IOptionDefinition
+   public interface IArgumentDefinition
    {
-      IArgumentDefinition Argument {get;}
-      IOption MapToOption();      
-      IEnumerable<String> Aliases { get; }
-      Boolean IsArgumentRequired { get; }
+      IArgument MapToArgument(Object value);
    }
 }

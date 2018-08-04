@@ -14,8 +14,8 @@ namespace Trombetta.Cli.Test.CommandLine
       public void ConfigurationCannotHaveDuplicatedOption()
       {
          Action action = () => new ParserSettings(
-            new FlagDefinition(new[] { "option" }, ""),
-            new FlagDefinition(new[] { "option" }, "")
+            new ToggleDefinition(new[] { "option" }, ""),
+            new ToggleDefinition(new[] { "option" }, "")
          );
          Assert.Throws<ArgumentException>(action);
       }

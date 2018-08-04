@@ -33,7 +33,10 @@ namespace Trombetta.Cli.CommandLine
 
       public IEnumerable<IArgument> Arguments
       {
-         get { return _arguments; }
+         get
+         {
+            return _items.Where(e => e.Type == ArgumentType.Argument).Cast<IArgument>().ToList();
+         }
       }
 
       public IEnumerable<IOption> Options

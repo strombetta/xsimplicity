@@ -9,21 +9,26 @@ using System.Collections.Generic;
 namespace Trombetta.Cli.CommandLine.Definitions
 {
    /// <summary>
-   /// Represents an option argument definition.
+   /// Represents an argument definition.
    /// </summary>
-   public class ArgumentDefinition<T> : IDefinition
+   public class ArgumentDefinition<T> : IDefinition, IArgumentDefinition
    {
       public ArgumentDefinition(String name, String description)
          : this(name, description, null)
       { }
 
-      public ArgumentDefinition(String name, String description, Func<FlagDefinition, String> validate)
+      public ArgumentDefinition(String name, String description, Func<ToggleDefinition, String> validate)
       {
          Description = description;
          Name = name;
       }
 
-      public Argument<T> Map(T value)
+      IArgument IArgumentDefinition.MapToArgument(Object value)
+      {
+         return MapToArgument((T)value);
+      }
+
+      public IArgument MapToArgument(T value)
       {
          return new Argument<T>(value);
       }

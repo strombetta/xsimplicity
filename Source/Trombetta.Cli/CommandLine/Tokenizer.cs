@@ -53,18 +53,23 @@ namespace Trombetta.Cli.CommandLine
                if (definedTokens.Any(t => t.Value == parts.First()))
                {
                   yield return new Token(parts[0], TokenType.Option);
-                  if (parts.Length > 1) yield return new Token(parts[1], TokenType.Argument);
+                  if (parts.Length > 1)
+                  {
+                     var arguments = parts[1].Split(_settings.ArgumentSeparator);
+                     foreach (var arg in arguments)
+                        yield return new Token(arg, TokenType.Argument);
+                     yield return new Token("", TokenType.EndArgument);
+                  }
                }
-               else
-               {
-                  yield return new Token(normalizedArgument, TokenType.Argument);
-               }
+               else yield return new Token(normalizedArgument, TokenType.Argument);
             }
             else yield return new Token(normalizedArgument, TokenType.Option);
          }
          else
          {
-            yield return new Token(argument, TokenType.Command);
+            if (definedTokens.Any(t => t.Value == argument && t.Type == TokenType.Command))
+               yield return new Token(argument, TokenType.Command);
+            else yield return new Token(argument, TokenType.Argument);
          }
       }
 

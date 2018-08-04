@@ -4,13 +4,14 @@
 //
 
 using System;
+using System.Collections.Generic;
 
 namespace Trombetta.Cli.CommandLine.Definitions
 {
    /// <summary>
    /// Represents an application command.
    /// </summary>
-   public class CommandDefinition : FlagDefinition
+   public class CommandDefinition : IDefinition
    {
       /// <summary>
       /// Initializes a new instance of the <see cref="CommandDefinition"/> class with the
@@ -19,7 +20,14 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// <param name="name">The name of the command.</param>
       /// <param name="helpMessage">The help message of the command.</param>
       public CommandDefinition(String name, String helpMessage)
-         : base(name, helpMessage)
       { }
+
+      public IEnumerable<string> Aliases => throw new NotImplementedException();
+
+      public bool IsRequired => throw new NotImplementedException();
+
+      public string Name => throw new NotImplementedException();
+
+      public DefinitionType Type => throw new NotImplementedException();
    }
 }

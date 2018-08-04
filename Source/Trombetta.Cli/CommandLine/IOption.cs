@@ -9,9 +9,9 @@ using Trombetta.Cli.CommandLine.Definitions;
 
 namespace Trombetta.Cli.CommandLine
 {
-   public interface IOption
+   public interface IOption : IArgument
    {
-      Object Argument { get; set; }
+      IArgument Argument { get; set; }
       IOptionDefinition Definition { get; }
       Boolean IsCompleted { get; }
       String Name { get; }

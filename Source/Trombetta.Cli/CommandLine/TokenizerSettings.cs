@@ -20,8 +20,8 @@ namespace Trombetta.Cli.CommandLine
       /// argument delimiters.
       /// </summary>
       /// <param name="optionPrefixes">The collection of option prefixes.</param>
-      /// <param name="argumentDelimiters">The collectino of argument delimiters.</param>
-      public TokenizerSettings(IEnumerable<String> optionPrefixes, IEnumerable<Char> argumentDelimiters)
+      /// <param name="argumentDelimiters">The collection of argument delimiters.</param>
+      public TokenizerSettings(IEnumerable<String> optionPrefixes, IEnumerable<Char> argumentDelimiters, Char argumentSeparator)
       {
          if (optionPrefixes == null) throw new ArgumentNullException(nameof(optionPrefixes));
          if (!optionPrefixes.Any()) throw new ArgumentException(nameof(optionPrefixes));
@@ -29,19 +29,26 @@ namespace Trombetta.Cli.CommandLine
          if (!argumentDelimiters.Any()) throw new ArgumentException(nameof(argumentDelimiters));
 
          ArgumentDelimiters = argumentDelimiters;
+         ArgumentSeparator = argumentSeparator;
          OptionPrefixes = optionPrefixes;
-      }
-
-      /// <summary>
-      /// Gets the collection of option prefixes.
-      /// </summary>
-      /// <returns>The collection of option prefixes.</returns>
-      public IEnumerable<String> OptionPrefixes { get; }
+      }      
 
       /// <summary>
       /// Gets the collection of argument delimiters.
       /// </summary>
       /// <returns>The collection of argument delimiters.</returns>
       public IEnumerable<Char> ArgumentDelimiters { get; }
+
+      /// <summary>
+      /// Gets the character used as argument separator.
+      /// </summary>
+      /// <value>The character used as argument separator.</value>
+      public Char ArgumentSeparator { get; }
+
+      /// <summary>
+      /// Gets the collection of option prefixes.
+      /// </summary>
+      /// <returns>The collection of option prefixes.</returns>
+      public IEnumerable<String> OptionPrefixes { get; }
    }
 }

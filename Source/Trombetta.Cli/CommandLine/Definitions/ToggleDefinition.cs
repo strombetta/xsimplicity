@@ -11,29 +11,27 @@ using Trombetta.Cli.CommandLine.Definitions;
 namespace Trombetta.Cli.CommandLine.Definitions
 {
    /// <summary>
-   /// Represents an application option definition.
+   /// Represents an application option definition that can be only true or false.
    /// </summary>
-   public class FlagDefinition : OptionDefinition<Boolean>
+   public sealed class ToggleDefinition : OptionDefinition<Boolean>
    {
       /// <summary>
-      /// Initializes a new instance of the <see creft="Option"/> class with the
+      /// Initializes a new instance of the <see creft="ToggleDefinition"/> class with the
       /// specified name, and the specified help message.
       /// </summary>
       /// <param name="name">The name of the option.</param>
       /// <param name="helpMessage">The help message of the option.</param>
-      public FlagDefinition(String name, String helpMessage)
-         : base(name, helpMessage)
+      public ToggleDefinition(String name, String helpMessage)
+         : base(new[] { name }, helpMessage, false)
       { }
 
       /// <summary>
-      /// Initializes a new instance of the <see cref="FlagDefinition"/> class with the specified collection of aliases, the text used as help
+      /// Initializes a new instance of the <see cref="ToggleDefinition"/> class with the specified collection of aliases, the text used as help
       /// </summary>
       /// <param name="aliases">A collection of aliases.</param>
       /// <param name="helpMessage">The help message of the option.</param>
-      public FlagDefinition(String[] aliases, String helpMessage)
-         : base(aliases, helpMessage)
+      public ToggleDefinition(String[] aliases, String helpMessage)
+         : base(aliases, helpMessage, false)
       { }
-
-      public Boolean IsArgumentRequired => false;
    }
 }
