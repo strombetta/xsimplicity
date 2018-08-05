@@ -83,7 +83,6 @@ namespace Trombetta.Cli.CommandLine.Definitions
    /// </summary>
    /// <typeparam name="T"></typeparam>
    public class OptionDefinition<T> : OptionDefinition
-      where T : IConvertible
    {  
       /// <summary>
       /// Initializes a new instance of the <see creft="Option"/> class with the

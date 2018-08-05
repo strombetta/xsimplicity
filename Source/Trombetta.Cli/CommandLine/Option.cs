@@ -14,7 +14,6 @@ namespace Trombetta.Cli.CommandLine
    /// 
    /// </summary>
    public class Option<T> : IArgument, IOption
-      where T : IConvertible
    {
       /// <summary>
       /// The argument of the option.
