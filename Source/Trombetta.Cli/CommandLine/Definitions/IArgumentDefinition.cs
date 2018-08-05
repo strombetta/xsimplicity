@@ -11,7 +11,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
    /// <summary>
    /// Represents an argument definition.
    /// </summary>
-   public interface IArgumentDefinition
+   public interface IArgumentDefinition : IDefinition
    {
       IArgument MapToArgument(Object value);
    }

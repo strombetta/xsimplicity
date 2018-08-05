@@ -14,12 +14,6 @@ namespace Trombetta.Cli.CommandLine.Definitions
    public interface IDefinition
    {
       /// <summary>
-      /// Gets the collection of aliases of the option.
-      /// </summary>
-      /// <returns>The collection of aliases of the option.</returns>
-      IEnumerable<String> Aliases { get; }
-
-      /// <summary>
       /// Gets a value indicating whether the argument is required.
       /// </summary>
       /// <returns><c>true</c> if the argument is required; otherwise, <c>false</c>.</returns>

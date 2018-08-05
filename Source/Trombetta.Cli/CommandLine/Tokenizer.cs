@@ -52,13 +52,24 @@ namespace Trombetta.Cli.CommandLine
                var parts = normalizedArgument.Split(_settings.ArgumentDelimiters.ToArray(), 2);
                if (definedTokens.Any(t => t.Value == parts.First()))
                {
+                  /// Returns an <see cref="TokenType.Option"/> token.
                   yield return new Token(parts[0], TokenType.Option);
                   if (parts.Length > 1)
                   {
                      var arguments = parts[1].Split(_settings.ArgumentSeparator);
-                     foreach (var arg in arguments)
-                        yield return new Token(arg, TokenType.Argument);
-                     yield return new Token("", TokenType.EndArgument);
+                     /// Returns a list of <see cref="TokenType.OptionArgument"/> tokens.
+                     if (arguments.Length > 1)
+                     {
+                        yield return new Token("", TokenType.StartListOfOptionArguments);
+                        foreach (var arg in arguments)
+                           yield return new Token(arg, TokenType.OptionArgument);
+                        yield return new Token("", TokenType.EndListOfOptionArguments);
+                     }
+                     else
+                     {
+                        /// Returns an <see cref="TokenType.OptionArgument"/> token.
+                        yield return new Token(arguments[0], TokenType.OptionArgument);
+                     }
                   }
                }
                else yield return new Token(normalizedArgument, TokenType.Argument);
@@ -68,8 +79,13 @@ namespace Trombetta.Cli.CommandLine
          else
          {
             if (definedTokens.Any(t => t.Value == argument && t.Type == TokenType.Command))
+            {
                yield return new Token(argument, TokenType.Command);
-            else yield return new Token(argument, TokenType.Argument);
+            }
+            else
+            {
+               yield return new Token(argument, TokenType.Argument);
+            }
          }
       }
 
@@ -127,7 +143,7 @@ namespace Trombetta.Cli.CommandLine
       private IEnumerable<Token> CreateTokens(IDefinition definition)
       {
          if (definition.Type == DefinitionType.Option)
-            return definition.Aliases.Select(a => new Token(a, TokenType.Option));
+            return ((IOptionDefinition)definition).Aliases.Select(a => new Token(a, TokenType.Option));
          else if (definition.Type == DefinitionType.Command)
             return new List<Token>() { new Token(definition.Name, TokenType.Command) };
          else return new List<Token>() { new Token(definition.Name, TokenType.Argument) };

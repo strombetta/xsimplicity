@@ -14,6 +14,7 @@ namespace Trombetta.Cli.CommandLine
    /// 
    /// </summary>
    public class Option<T> : IArgument, IOption
+      where T : IConvertible
    {
       /// <summary>
       /// The argument of the option.
@@ -23,11 +24,22 @@ namespace Trombetta.Cli.CommandLine
       /// <summary>
       /// The definition.
       /// </summary>
-      private OptionDefinition<T> _definition;
+      private IOptionDefinition _definition;
 
-      internal Option(OptionDefinition<T> definition)
+      /// <summary>
+      /// Initializes a new instance of the <see cref="Option"/> class with the specified
+      /// <see cref="OptionDefintion"/> object.
+      /// </summary>
+      /// <param name="definition"></param>
+      internal Option(IOptionDefinition definition)
       {
          _definition = definition ?? throw new ArgumentNullException(nameof(definition));
+      }
+
+      internal Option(IOptionDefinition definition, T value)
+      {
+         _definition = definition ?? throw new ArgumentNullException(nameof(definition));
+         _argument = new Argument<T>(value);
       }
 
       IArgument IOption.Argument

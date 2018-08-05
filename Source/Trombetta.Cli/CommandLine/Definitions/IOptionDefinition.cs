@@ -11,11 +11,22 @@ namespace Trombetta.Cli.CommandLine.Definitions
    /// <summary>
    /// Represents an option definition.
    /// </summary>
-   public interface IOptionDefinition
+   public interface IOptionDefinition : IDefinition
    {
-      IArgumentDefinition Argument {get;}
-      IOption MapToOption();      
+      /// <summary>
+      /// Gets the collection of aliases of the option.
+      /// </summary>
+      /// <returns>The collection of aliases of the option.</returns>
       IEnumerable<String> Aliases { get; }
+
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <value></value>
+      IArgumentDefinition Argument {get;}
+
+      IOption MapToOption();
+      
       Boolean IsArgumentRequired { get; }
    }
 }

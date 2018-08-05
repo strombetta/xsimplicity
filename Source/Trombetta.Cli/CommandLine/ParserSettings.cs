@@ -20,7 +20,7 @@ namespace Trombetta.Cli.CommandLine
       /// </summary>
       /// <param name="definitions">The collection of options.</param>
       public ParserSettings(params IDefinition[] definitions)
-         : this(new DefinitionCollection(definitions), new[] { ':', '=' }, ',',new[] { "-", "--" })
+         : this(definitions, new[] { ':', '=' }, ',',new[] { "-", "--" })
       { }
 
       /// <summary>
@@ -43,7 +43,7 @@ namespace Trombetta.Cli.CommandLine
          ArgumentDelimiters = argumentDelimiters;
          ArgumentSeparator = argumentSeparator;
          OptionPrefixes = optionPrefixes;
-         Definitions = new DefinitionCollection(definitions);
+         Definitions = new List<IDefinition>(definitions);
       }
 
       /// <summary>
@@ -68,7 +68,7 @@ namespace Trombetta.Cli.CommandLine
       /// Gets the collection of defined options.
       /// </summary>
       /// <returns>The collection of defined options.</returns>
-      public DefinitionCollection Definitions { get; }
+      public ICollection<IDefinition> Definitions { get; }
 
       public IEnumerable<IOptionDefinition> OptionDefinitions
       {

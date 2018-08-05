@@ -12,7 +12,9 @@ namespace Trombetta.Cli.CommandLine
    {
       Argument,
       Command,
-      EndArgument,
+      StartListOfOptionArguments,
+      EndListOfOptionArguments,
       Option,
+      OptionArgument,
    }
 }

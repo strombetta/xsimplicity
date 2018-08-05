@@ -13,7 +13,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
    /// <summary>
    /// Represents an application option definition that can be only true or false.
    /// </summary>
-   public sealed class ToggleDefinition : OptionDefinition<Boolean>
+   public sealed class ToggleDefinition : OptionDefinition
    {
       /// <summary>
       /// Initializes a new instance of the <see creft="ToggleDefinition"/> class with the
@@ -23,7 +23,9 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// <param name="helpMessage">The help message of the option.</param>
       public ToggleDefinition(String name, String helpMessage)
          : base(new[] { name }, helpMessage, false)
-      { }
+      {
+         Argument = new ArgumentDefinition<Boolean>("", "", true);
+      }
 
       /// <summary>
       /// Initializes a new instance of the <see cref="ToggleDefinition"/> class with the specified collection of aliases, the text used as help
@@ -32,6 +34,17 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// <param name="helpMessage">The help message of the option.</param>
       public ToggleDefinition(String[] aliases, String helpMessage)
          : base(aliases, helpMessage, false)
-      { }
+      {
+         Argument = new ArgumentDefinition<Boolean>("", "", true);
+      }
+
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <returns></returns>
+      public override IOption MapToOption()
+      {
+         return new Option<Boolean>(this, true);
+      }
    }
 }

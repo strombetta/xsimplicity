@@ -11,15 +11,22 @@ namespace Trombetta.Cli.CommandLine.Definitions
    /// <summary>
    /// Represents an argument definition.
    /// </summary>
-   public class ArgumentDefinition<T> : IDefinition, IArgumentDefinition
+   public class ArgumentDefinition<T> : IArgumentDefinition
    {
       public ArgumentDefinition(String name, String description)
-         : this(name, description, null)
+         : this(name, description, false)
       { }
 
-      public ArgumentDefinition(String name, String description, Func<ToggleDefinition, String> validate)
+      public ArgumentDefinition(String name, String description, T defaultValue)
+         : this(name, description, false)
+      {
+         DefaultValue = defaultValue;
+      }
+
+      public ArgumentDefinition(String name, String description, Boolean isRequired)
       {
          Description = description;
+         IsRequired = isRequired;
          Name = name;
       }
 
@@ -33,9 +40,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
          return new Argument<T>(value);
       }
 
-      public IEnumerable<String> AllowedValue { get; }
-
-      public IEnumerable<String> Aliases => new List<String>() { Name };
+      public IEnumerable<T> AllowedValue { get; }
 
       /// <summary>
       /// Gets the default value of the argument.

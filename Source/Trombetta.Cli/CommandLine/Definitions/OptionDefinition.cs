@@ -10,35 +10,14 @@ using System.Linq;
 namespace Trombetta.Cli.CommandLine.Definitions
 {
    /// <summary>
-   /// Represents an option definition.
+   /// 
    /// </summary>
-   /// <typeparam name="T"></typeparam>
-   public class OptionDefinition<T> : IDefinition, IOptionDefinition
+   public abstract class OptionDefinition : IOptionDefinition
    {
       /// <summary>
       /// The collection of aliases.
       /// </summary>
       private readonly HashSet<String> _aliases = new HashSet<String>();
-
-      /// <summary>
-      /// Initializes a new instance of the <see creft="Option"/> class with the
-      /// specified name, and the specified help message.
-      /// </summary>
-      /// <param name="name">The name of the option.</param>
-      /// <param name="helpMessage">The help message of the option.</param>
-      public OptionDefinition(String name, String helpMessage)
-         : this(new[] { name }, helpMessage, true)
-      { }
-
-      /// <summary>
-      /// Initializes a new instance of the <see cref="OptionDefinition"/> class with 
-      /// the specified collection of aliases, the text used as help message.
-      /// </summary>
-      /// <param name="aliases">A collection of aliases.</param>
-      /// <param name="helpMessage">The help message of the option.</param>
-      public OptionDefinition(String[] aliases, String helpMessage)
-         : this(aliases, helpMessage, true)
-      { }
 
       protected OptionDefinition(String[] aliases, String helpMessage, Boolean isArgumentRequired)
       {
@@ -49,16 +28,12 @@ namespace Trombetta.Cli.CommandLine.Definitions
          foreach (var alias in aliases)
             _aliases.Add(alias);
 
-         Argument = new ArgumentDefinition<T>("name", "description");
+         HelpMessage = helpMessage;
          IsArgumentRequired = isArgumentRequired;
          Name = _aliases.OrderBy(a => a.Length).Last();
-         HelpMessage = helpMessage;
       }
 
-      public IOption MapToOption()
-      {
-         return new Option<T>(this);
-      }
+      public abstract IOption MapToOption();
 
       /// <summary>
       /// Gets the collection of aliases of the option.
@@ -66,16 +41,11 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// <returns>The collection of aliases of the option.</returns>
       public IEnumerable<String> Aliases => _aliases.ToArray();
 
-      IArgumentDefinition IOptionDefinition.Argument
-      {
-         get { return (ArgumentDefinition<T>)Argument; }
-      }
-
       /// <summary>
       /// 
       /// </summary>
       /// <value></value>
-      public ArgumentDefinition<T> Argument { get; }
+      public IArgumentDefinition Argument { get; protected set;}
 
       /// <summary>
       /// Gets the help message of the option.
@@ -106,5 +76,46 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// </summary>
       /// <returns><The type of definition./returns>
       public DefinitionType Type => DefinitionType.Option;
+   }
+
+   /// <summary>
+   /// Represents an option definition.
+   /// </summary>
+   /// <typeparam name="T"></typeparam>
+   public class OptionDefinition<T> : OptionDefinition
+      where T : IConvertible
+   {  
+      /// <summary>
+      /// Initializes a new instance of the <see creft="Option"/> class with the
+      /// specified name, and the specified help message.
+      /// </summary>
+      /// <param name="name">The name of the option.</param>
+      /// <param name="helpMessage">The help message of the option.</param>
+      public OptionDefinition(String name, String helpMessage)
+         : base(new[] { name }, helpMessage, true)
+      { 
+         Argument = new ArgumentDefinition<T>("","");
+      }
+
+      /// <summary>
+      /// Initializes a new instance of the <see cref="OptionDefinition"/> class with 
+      /// the specified collection of aliases, the text used as help message.
+      /// </summary>
+      /// <param name="aliases">A collection of aliases.</param>
+      /// <param name="helpMessage">The help message of the option.</param>
+      public OptionDefinition(String[] aliases, String helpMessage)
+         : base(aliases, helpMessage, true)
+      { 
+         Argument = new ArgumentDefinition<T>("","", true);
+      }
+
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <returns></returns>
+      public override IOption MapToOption()
+      {
+         return new Option<T>(this);
+      }
    }
 }
