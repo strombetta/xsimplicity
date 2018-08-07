@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\Trombetta.Cli\Trombetta.Cli.csproj" />
+    <ProjectReference Include="..\..\src\Trombetta.Cli\Trombetta.Cli.csproj" />
   </ItemGroup>
 
 </Project>

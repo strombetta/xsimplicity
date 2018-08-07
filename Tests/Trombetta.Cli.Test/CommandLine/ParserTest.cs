@@ -14,7 +14,7 @@ namespace Trombetta.Cli.Test.CommandLine
       {
          var args = new[] { "argument" };
          var options = new[] {
-               new ArgumentDefinition<String>("argument", "A multi alias option.")
+               new ArgumentDefinition<String>("argument", "A string argument.")
          };
 
          var current = Parser.Default.Parse(options, args).Arguments.Single();
@@ -41,7 +41,7 @@ namespace Trombetta.Cli.Test.CommandLine
       {
          var args = new[] { "--optionWithArgument=argument" };
          var options = new[] {
-               new OptionDefinition<String>(new[] {"optionWithArgument"}, "An option that accepts an argument.")
+               new OptionDefinition<String>(new[] {"optionWithArgument"}, "An option that accepts a single string argument.")
          };
          var current = Parser.Default.Parse(options, args).Options.Single();
          Assert.IsType<Option<String>>(current);
@@ -56,7 +56,7 @@ namespace Trombetta.Cli.Test.CommandLine
       {
          var args = new[] { "--optionWithListOfArguments=argument1,argument2" };
          var options = new[] {
-               new OptionDefinition<IEnumerable<String>>(new[] {"optionWithListOfArguments"}, "An option that accepts a list of arguments.")
+               new OptionDefinition<IEnumerable<String>>(new[] {"optionWithListOfArguments"}, "An option that accepts a list of string arguments.")
          };
          var current = Parser.Default.Parse(options, args).Options.Single();
          Assert.IsType<Option<IEnumerable<String>>>(current);

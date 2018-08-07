@@ -30,6 +30,12 @@ namespace Trombetta.Cli.CommandLine.Definitions
          Name = name;
       }
 
+      Object IArgumentDefinition.CreateArgument()
+      {
+         return Activator.CreateInstance(typeof(T));
+      }
+
+
       IArgument IArgumentDefinition.MapToArgument(Object value)
       {
          return MapToArgument((T)value);

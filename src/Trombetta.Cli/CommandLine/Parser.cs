@@ -4,6 +4,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Trombetta.Cli.CommandLine.Definitions;
@@ -82,6 +83,7 @@ namespace Trombetta.Cli.CommandLine
 
          var result = new ParserResult();
          IOption lastOption = null;
+         IList optionArgument = null;
 
          var tokens = new Queue<Token>(_tokenizer.Tokenize(args, definitions));
          while (tokens.Any())
@@ -93,8 +95,24 @@ namespace Trombetta.Cli.CommandLine
                   result.Items.Add(new Argument<String>(token.Value));
                   break;
                case TokenType.StartListOfOptionArguments:
+                  if (lastOption != null)
+                  {
+                    //  var argumentInnerType = lastOption.Definition.Argument.GetType();
+                    //  var argumentType = typeof(List<>).MakeGenericType(argumentInnerType);
+                    //  optionArgument = (IList)Activator.CreateInstance(argumentType);
+                    //optionArgument = lastOption.Definition.Argument.CreateArgument();
+                  }
                   break;
                case TokenType.EndListOfOptionArguments:
+                  if (!lastOption.IsCompleted)
+                  {
+                     var argumentType = typeof(Argument<>).MakeGenericType(optionArgument.GetType());
+                     var argumentInstance = Activator.CreateInstance(argumentType);
+                     var argumentValue = argumentInstance.GetType().GetProperty("Value");
+                     argumentValue.SetValue(argumentInstance, optionArgument);
+                     lastOption.Argument = (IArgument)argumentInstance;
+                  }
+                  optionArgument = null;
                   lastOption = null;
                   break;
                case TokenType.Option:
@@ -111,9 +129,9 @@ namespace Trombetta.Cli.CommandLine
                   }
                   break;
                case TokenType.OptionArgument:
-                  if (!lastOption.IsCompleted)
+                  if (optionArgument != null)
                   {
-                     lastOption.Argument = lastOption.Definition.Argument.MapToArgument(token.Value);
+                     optionArgument.Add(lastOption.Definition.Argument.MapToArgument(token.Value));
                   }
                   else continue; // Throw an exception.
                   break;

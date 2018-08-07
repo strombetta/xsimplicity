@@ -13,6 +13,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
    /// </summary>
    public interface IArgumentDefinition : IDefinition
    {
+      Object CreateArgument();
       IArgument MapToArgument(Object value);
    }
 }
