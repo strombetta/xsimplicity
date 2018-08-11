@@ -11,7 +11,8 @@ namespace Trombetta.Cli.CommandLine
 {
    public interface IOption : IArgument
    {
-      IArgument Argument { get; set; }
+      Boolean AcceptMoreArguments { get; }
+      Object Argument { get; set; }
       IOptionDefinition Definition { get; }
       Boolean IsCompleted { get; }
       String Name { get; }

@@ -13,8 +13,8 @@ namespace Trombetta.Cli.CommandLine.Definitions
    /// </summary>
    public class ArgumentDefinition<T> : IArgumentDefinition
    {
-      public ArgumentDefinition(String name, String description)
-         : this(name, description, false)
+      public ArgumentDefinition(String name, String helpMessage)
+         : this(name, helpMessage, default(T))
       { }
 
       public ArgumentDefinition(String name, String description, T defaultValue)
@@ -28,22 +28,6 @@ namespace Trombetta.Cli.CommandLine.Definitions
          Description = description;
          IsRequired = isRequired;
          Name = name;
-      }
-
-      Object IArgumentDefinition.CreateArgument()
-      {
-         return Activator.CreateInstance(typeof(T));
-      }
-
-
-      IArgument IArgumentDefinition.MapToArgument(Object value)
-      {
-         return MapToArgument((T)value);
-      }
-
-      public IArgument MapToArgument(T value)
-      {
-         return new Argument<T>(value);
       }
 
       public IEnumerable<T> AllowedValue { get; }

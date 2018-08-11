@@ -13,7 +13,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
    /// <summary>
    /// Represents an application option definition that can be only true or false.
    /// </summary>
-   public sealed class SwitchDefinition<T> : OptionDefinition
+   public sealed class SwitchDefinition<T> : OptionDefinition<T>
    {
       /// <summary>
       /// Initializes a new instance of the <see creft="ToggleDefinition"/> class with the
@@ -33,10 +33,5 @@ namespace Trombetta.Cli.CommandLine.Definitions
       public SwitchDefinition(String[] aliases, String helpMessage)
          : base(aliases, helpMessage, true)
       { }
-
-      public override IOption MapToOption()
-      {
-         return new Option<T>(this);
-      }
    }
 }

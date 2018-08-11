@@ -4,6 +4,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Trombetta.Cli.CommandLine.Definitions;
@@ -18,7 +19,7 @@ namespace Trombetta.Cli.CommandLine
       /// <summary>
       /// The argument of the option.
       /// </summary>
-      private Argument<T> _argument;
+      private T _argument;
 
       /// <summary>
       /// The definition.
@@ -38,16 +39,21 @@ namespace Trombetta.Cli.CommandLine
       internal Option(IOptionDefinition definition, T value)
       {
          _definition = definition ?? throw new ArgumentNullException(nameof(definition));
-         _argument = new Argument<T>(value);
+         _argument = value;
       }
 
-      IArgument IOption.Argument
+      public Boolean AcceptMoreArguments
+      {
+         get { return typeof(IEnumerable).IsAssignableFrom(typeof(T)); }
+      }
+
+      Object IOption.Argument
       {
          get { return _argument; }
-         set { _argument = (Argument<T>)value; }
+         set { _argument = (T)value; }
       }
 
-      public Argument<T> Argument
+      public T Argument
       {
          get { return _argument; }
          internal set { _argument = value; }
@@ -77,6 +83,9 @@ namespace Trombetta.Cli.CommandLine
          }
       }
 
+      /// <summary>
+      /// Gets the type of argument.
+      /// </summary>
       public ArgumentType Type => ArgumentType.Option;
    }
 }

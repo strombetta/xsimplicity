@@ -11,21 +11,21 @@ namespace Trombetta.Cli.Test.CommandLine.Definitions
    public class ToggleDefinitionTest
    {
       [Fact]
-      public void DefinitionHasName()
+      public void ToggleDefinitionHasName()
       {
          var definition = new ToggleDefinition(new[] { "option" }, "");
          Assert.True(definition.Name == "option");
       }
 
       [Fact]
-      public void DefinitionCannotHaveEmptyAlias()
+      public void ToggleDefinitionCannotHaveEmptyAlias()
       {
          Action action = () => new ToggleDefinition(new[] { "" }, "");
          Assert.Throws<ArgumentException>(action);
       }
 
       [Fact]
-      public void DefinitionHasMultipleAliases()
+      public void ToggleDefinitionHasMultipleAliases()
       {
          var definition = new ToggleDefinition(new[] { "help", "h", "?" }, "");
          Assert.True(definition.Aliases.Count() == 3);
@@ -35,7 +35,7 @@ namespace Trombetta.Cli.Test.CommandLine.Definitions
       }
 
       [Fact]
-      public void OptionAliasesAreCaseSensitive()
+      public void ToggleDefinitionAliasesAreCaseSensitive()
       {
          var option = new ToggleDefinition(new[] { "option", "o" }, "");
          Assert.True(option.Aliases.Count() == 2);

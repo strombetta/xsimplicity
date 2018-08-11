@@ -13,6 +13,8 @@ namespace Trombetta.Cli.CommandLine.Definitions
    /// </summary>
    public interface IOptionDefinition : IDefinition
    {
+      IOption CreateOption();
+      
       /// <summary>
       /// Gets the collection of aliases of the option.
       /// </summary>
@@ -23,10 +25,16 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// 
       /// </summary>
       /// <value></value>
-      IArgumentDefinition Argument {get;}
+      Object Argument { get; }
 
-      IOption MapToOption();
-      
-      Boolean IsArgumentRequired { get; }
+      Type ArgumentType {get;}
+
+      String HelpMessage { get; set; }
+
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <value></value>
+      Boolean IsArgumentRequired { get; set; }
    }
 }

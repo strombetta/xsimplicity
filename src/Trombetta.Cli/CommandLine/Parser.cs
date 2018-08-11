@@ -79,11 +79,9 @@ namespace Trombetta.Cli.CommandLine
          if (definitions == null) throw new ArgumentNullException(nameof(definitions));
          if (!definitions.Any()) throw new ArgumentException(nameof(definitions));
 
-         //_settings.Definitions.AddRange(definitions);
-
          var result = new ParserResult();
-         IOption lastOption = null;
-         IList optionArgument = null;
+         IOption option = null;
+         Object arguments = null;
 
          var tokens = new Queue<Token>(_tokenizer.Tokenize(args, definitions));
          while (tokens.Any())
@@ -95,49 +93,58 @@ namespace Trombetta.Cli.CommandLine
                   result.Items.Add(new Argument<String>(token.Value));
                   break;
                case TokenType.StartListOfOptionArguments:
-                  if (lastOption != null)
-                  {
-                    //  var argumentInnerType = lastOption.Definition.Argument.GetType();
-                    //  var argumentType = typeof(List<>).MakeGenericType(argumentInnerType);
-                    //  optionArgument = (IList)Activator.CreateInstance(argumentType);
-                    //optionArgument = lastOption.Definition.Argument.CreateArgument();
-                  }
+                  var type = typeof(List<>).MakeGenericType(option.Definition.ArgumentType);
+                  arguments = Activator.CreateInstance(type);
                   break;
                case TokenType.EndListOfOptionArguments:
-                  if (!lastOption.IsCompleted)
-                  {
-                     var argumentType = typeof(Argument<>).MakeGenericType(optionArgument.GetType());
-                     var argumentInstance = Activator.CreateInstance(argumentType);
-                     var argumentValue = argumentInstance.GetType().GetProperty("Value");
-                     argumentValue.SetValue(argumentInstance, optionArgument);
-                     lastOption.Argument = (IArgument)argumentInstance;
-                  }
-                  optionArgument = null;
-                  lastOption = null;
+                  option.Argument = arguments;
                   break;
                case TokenType.Option:
-                  var definition = definitions.Where(e => e.Type == DefinitionType.Option).Cast<IOptionDefinition>()
-                                    .Single(e => e.Aliases.Any(a => String.Compare(a, token.Value, true) == 0));
-                  if (definition != null)
-                  {
-                     if (!result.Options.Any() || result.Options.Count(e => e.Name == token.Value) == 0)
-                     {
-                        lastOption = definition.MapToOption();
-                        result.Items.Add(lastOption);
-                     }
-                     else continue; // Throw an exception.
-                  }
+                  option = ParseOption(token, definitions);
+                  result.Items.Add(option);
                   break;
                case TokenType.OptionArgument:
-                  if (optionArgument != null)
-                  {
-                     optionArgument.Add(lastOption.Definition.Argument.MapToArgument(token.Value));
-                  }
-                  else continue; // Throw an exception.
+                  ParseOptionArgument(token, option, (IList)arguments);
                   break;
             }
          }
          return result;
+      }
+
+      private IArgument ParseArgument(Token token, IEnumerable<IDefinition> definitions)
+      {
+         if (definitions == null) throw new ArgumentNullException(nameof(definitions));
+         if (!definitions.Any()) throw new ArgumentNullException(nameof(definitions));
+         if (token.Type != TokenType.Argument) throw new ArgumentException(nameof(token));
+
+         if (definitions.Where(e => e.Type == DefinitionType.Command && e.Name == token.Value).Any())
+            throw new InvalidOperationException();
+         else return new Argument<String>(token.Value);
+      }
+
+      private IOption ParseOption(Token token, IEnumerable<IDefinition> definitions)
+      {
+         if (definitions == null) throw new ArgumentNullException(nameof(definitions));
+         if (!definitions.Any()) throw new ArgumentNullException(nameof(definitions));
+         if (token.Type != TokenType.Option) throw new ArgumentException(nameof(token));
+
+         var definition = definitions.Where(e => e.Type == DefinitionType.Option)
+            .Cast<IOptionDefinition>()
+            .Single(e => e.Aliases.Any(a => String.Compare(a, token.Value, true) == 0));
+
+         if (definition != null) return definition.CreateOption();
+         else throw new InvalidOperationException();
+      }
+
+      private void ParseOptionArgument(Token token, IOption option, IList arguments)
+      {
+         if (token.Type != TokenType.OptionArgument) throw new ArgumentException(nameof(token));
+         if (option == null) throw new ArgumentNullException(nameof(option));
+         if (option.IsCompleted) throw new ArgumentException(nameof(option));
+
+         if (!option.AcceptMoreArguments)
+            option.Argument = token.Value;
+         else arguments.Add(token.Value);
       }
 
       private void Initialize(ParserResult result, IEnumerable<IDefinition> definitions)
@@ -160,6 +167,12 @@ namespace Trombetta.Cli.CommandLine
       {
          get { return _default.Value; }
       }
+
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <value></value>
+      private ParserResult Result { get; set; }
 
       /// <summary>
       /// Gets the settings used to parse the command line arguments.
