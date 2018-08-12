@@ -11,12 +11,12 @@ using Trombetta.Cli.CommandLine.Definitions;
 namespace Trombetta.Cli.CommandLine.Definitions
 {
    /// <summary>
-   /// Represents an application option definition that can be only true or false.
+   /// Represents an application option definition accept only a value in a set.
    /// </summary>
    public sealed class SwitchDefinition<T> : OptionDefinition<T>
    {
       /// <summary>
-      /// Initializes a new instance of the <see creft="ToggleDefinition"/> class with the
+      /// Initializes a new instance of the <see creft="SwitchDefinition"/> class with the
       /// specified name, and the specified help message.
       /// </summary>
       /// <param name="name">The name of the option.</param>
@@ -26,7 +26,8 @@ namespace Trombetta.Cli.CommandLine.Definitions
       { }
 
       /// <summary>
-      /// Initializes a new instance of the <see cref="ToggleDefinition"/> class with the specified collection of aliases, the text used as help
+      /// Initializes a new instance of the <see cref="SwitchDefinition"/> class with the 
+      /// specified collection of aliases, the text used as help
       /// </summary>
       /// <param name="aliases">A collection of aliases.</param>
       /// <param name="helpMessage">The help message of the option.</param>

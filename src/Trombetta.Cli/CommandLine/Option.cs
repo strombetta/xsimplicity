@@ -44,7 +44,10 @@ namespace Trombetta.Cli.CommandLine
 
       public Boolean AcceptMoreArguments
       {
-         get { return typeof(IEnumerable).IsAssignableFrom(typeof(T)); }
+         get
+         {
+            return typeof(T) != typeof(String) && typeof(IEnumerable).IsAssignableFrom(typeof(T));
+         }
       }
 
       Object IOption.Argument

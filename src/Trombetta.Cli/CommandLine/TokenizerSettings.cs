@@ -12,7 +12,7 @@ namespace Trombetta.Cli.CommandLine
    /// <summary>
    /// Defines the settings for a Tokenizer.
    /// </summary>
-   internal class TokenizerSettings
+   class TokenizerSettings
    {
       /// <summary>
       /// Initializes a new instance of the <see cref="TokenizerSettings"/> class

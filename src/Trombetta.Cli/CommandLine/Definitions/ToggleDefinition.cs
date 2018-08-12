@@ -26,7 +26,8 @@ namespace Trombetta.Cli.CommandLine.Definitions
       { }
 
       /// <summary>
-      /// Initializes a new instance of the <see cref="ToggleDefinition"/> class with the specified collection of aliases, the text used as help
+      /// Initializes a new instance of the <see cref="ToggleDefinition"/> class with the
+      /// specified collection of aliases, and the specified help message.
       /// </summary>
       /// <param name="aliases">A collection of aliases.</param>
       /// <param name="helpMessage">The help message of the option.</param>
@@ -35,9 +36,9 @@ namespace Trombetta.Cli.CommandLine.Definitions
       { }
 
       /// <summary>
-      /// 
+      /// Creates an <see cref="Option"/> object based on the current definition.
       /// </summary>
-      /// <returns></returns>
+      /// <returns>An <see cref="Option"/> object based on the current definition.</returns>
       public override IOption CreateOption()
       {
          return new Option<Boolean>(this, true);

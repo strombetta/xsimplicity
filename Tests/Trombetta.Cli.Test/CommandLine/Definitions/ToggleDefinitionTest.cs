@@ -13,21 +13,21 @@ namespace Trombetta.Cli.Test.CommandLine.Definitions
       [Fact]
       public void ToggleDefinitionHasName()
       {
-         var definition = new ToggleDefinition(new[] { "option" }, "");
+         var definition = new ToggleDefinition(new[] { "option" }, "A toggle definition.");
          Assert.True(definition.Name == "option");
       }
 
       [Fact]
       public void ToggleDefinitionCannotHaveEmptyAlias()
       {
-         Action action = () => new ToggleDefinition(new[] { "" }, "");
+         Action action = () => new ToggleDefinition(new[] { "" }, "A toggle definition.");
          Assert.Throws<ArgumentException>(action);
       }
 
       [Fact]
       public void ToggleDefinitionHasMultipleAliases()
       {
-         var definition = new ToggleDefinition(new[] { "help", "h", "?" }, "");
+         var definition = new ToggleDefinition(new[] { "help", "h", "?" }, "A toggle definition.");
          Assert.True(definition.Aliases.Count() == 3);
          Assert.True(definition.Name == "help");
          Assert.Contains("h", definition.Aliases);

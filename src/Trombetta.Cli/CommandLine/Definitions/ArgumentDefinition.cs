@@ -45,10 +45,10 @@ namespace Trombetta.Cli.CommandLine.Definitions
       public String Description { get; }
 
       /// <summary>
-      /// Gets a value indicating whether the argument is required.
+      /// Gets or sets a value indicating whether the argument is required.
       /// </summary>
       /// <returns><c>true</c> if argument is required; otherwise <c>false</c>.</returns>
-      public Boolean IsRequired { get; }
+      public Boolean IsRequired { get; set; }
 
       /// <summary>
       /// Gets the name of the argument.

@@ -29,12 +29,16 @@ namespace Trombetta.Cli.CommandLine.Definitions
 
       Type ArgumentType {get;}
 
+      /// <summary>
+      /// Gets or sets the help message of the option.
+      /// </summary>
+      /// <returns>The help message of the option.</returns>
       String HelpMessage { get; set; }
 
       /// <summary>
-      /// 
+      /// Gets or sets a value indicating whether the argument is required.
       /// </summary>
-      /// <value></value>
+      /// <returns><c>true</c> if the argument is required; otherwise, <c>false</c>.</returns>¸
       Boolean IsArgumentRequired { get; set; }
    }
 }

@@ -17,7 +17,7 @@ namespace Trombetta.Cli.CommandLine
    /// <summary>
    /// Represents a command line arguments tokenizer.
    /// </summary>
-   internal class Tokenizer
+   class Tokenizer
    {
       /// <summary>
       /// The settings used to tokenize the command line arguments.

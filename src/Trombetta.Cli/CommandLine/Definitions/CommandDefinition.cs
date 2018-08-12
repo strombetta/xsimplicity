@@ -22,12 +22,22 @@ namespace Trombetta.Cli.CommandLine.Definitions
       public CommandDefinition(String name, String helpMessage)
       { }
 
-      public IEnumerable<string> Aliases => throw new NotImplementedException();
+      /// <summary>
+      /// Gets or sets a value indicating whether the command is required.
+      /// </summary>
+      /// <returns><c>true</c> if the command is required; otherwise, <c>false</c>.</returns>
+      public bool IsRequired { get; set; }
 
-      public bool IsRequired => throw new NotImplementedException();
+      /// <summary>
+      /// Gets the name of the definition.
+      /// </summary>
+      /// <returns>The name of the definition.</returns>
+      public string Name { get; }
 
-      public string Name => throw new NotImplementedException();
-
-      public DefinitionType Type => throw new NotImplementedException();
+      /// <summary>
+      /// Gets the type of definition.
+      /// </summary>
+      /// <returns><The type of definition./returns>
+      public DefinitionType Type => DefinitionType.Command;
    }
 }
