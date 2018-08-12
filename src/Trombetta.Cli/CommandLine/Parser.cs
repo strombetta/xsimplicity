@@ -122,6 +122,19 @@ namespace Trombetta.Cli.CommandLine
          else return new Argument<String>(token.Value);
       }
 
+      private Command ParseCommand(Token token, IEnumerable<IDefinition> definitions)
+      {
+         if (definitions == null) throw new ArgumentNullException(nameof(definitions));
+         if (!definitions.Any()) throw new ArgumentNullException(nameof(definitions));
+         if (token.Type != TokenType.Command) throw new ArgumentException(nameof(token));
+
+         var definition = definitions.Where(e => e.Type == DefinitionType.Command && e.Name == token.Value)
+           .Cast<CommandDefinition>()
+           .Single();
+         if (definition != null) return definition.CreateCommand();
+         else throw new InvalidOperationException();
+      }
+
       private IOption ParseOption(Token token, IEnumerable<IDefinition> definitions)
       {
          if (definitions == null) throw new ArgumentNullException(nameof(definitions));

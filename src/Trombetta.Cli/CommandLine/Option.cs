@@ -28,9 +28,9 @@ namespace Trombetta.Cli.CommandLine
 
       /// <summary>
       /// Initializes a new instance of the <see cref="Option"/> class with the specified
-      /// <see cref="OptionDefintion"/> object.
+      /// <see cref="IOptionDefintion"/> object.
       /// </summary>
-      /// <param name="definition"></param>
+      /// <param name="definition">The definition</param>
       internal Option(IOptionDefinition definition)
       {
          _definition = definition ?? throw new ArgumentNullException(nameof(definition));
