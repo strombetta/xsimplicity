@@ -1,5 +1,5 @@
-# Beth Command Line Parser Library for .NET Framework
-The Beth Command Line Parser Library is an open and extensible command line parser API for manipulating command line arguments by defining application arguments, options, and commands.
+# xSimplicity Command Line Parser Library for .NET Framework
+The xSimplicity Command Line Parser Library is an open and extensible command line parser API for manipulating command line arguments by defining application arguments, options, and commands.
 
 ### License
 Beth Command Line Parser Library is licensed under the [MIT license](LICENSE).
