@@ -92,12 +92,14 @@ namespace Trombetta.Cli.CommandLine
                case TokenType.Argument:
                   result.Items.Add(new Argument<String>(token.Value));
                   break;
-               case TokenType.StartListOfOptionArguments:
-                  var type = typeof(List<>).MakeGenericType(option.Definition.ArgumentType);
-                  arguments = Activator.CreateInstance(type);
+               case TokenType.Command:
                   break;
                case TokenType.EndListOfOptionArguments:
                   option.Argument = arguments;
+                  break;
+               case TokenType.StartListOfOptionArguments:
+                  var type = typeof(List<>).MakeGenericType(option.Definition.ArgumentType);
+                  arguments = Activator.CreateInstance(type);
                   break;
                case TokenType.Option:
                   option = ParseOption(token, definitions);
