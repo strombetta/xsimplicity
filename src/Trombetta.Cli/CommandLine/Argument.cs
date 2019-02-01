@@ -23,8 +23,10 @@ namespace Trombetta.Cli.CommandLine
 
       public Boolean IsCompleted => true;
 
-      public ArgumentType Type => ArgumentType.Argument;
+      // public ParsedObjectType Type => ParsedObjectType.Argument;
 
       public T Value { get; }
+
+      object IArgument.Value => throw new NotImplementedException();
    }
 }

@@ -15,37 +15,46 @@ namespace Trombetta.Cli.CommandLine
    /// </summary>
    public class ParserResult
    {
-      private readonly IEnumerable<IArgument> _options;
-      private readonly IEnumerable<IArgument> _arguments;
+      private readonly ICollection<IParsable> _items = new List<IParsable>();
 
-      private readonly ICollection<IArgument> _items = new List<IArgument>();
-
+      /// <summary>
+      /// Initializes a new instance of the <cref="ParserResult"/> class.
+      /// </summary>
       internal ParserResult()
       { }
 
-      internal ParserResult(IEnumerable<IArgument> arguments, IEnumerable<IArgument> options)
-      {
-         _arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
-         _options = options ?? throw new ArgumentNullException(nameof(options));
-      }
+      internal ICollection<IParsable> Items => _items;
 
-      internal ICollection<IArgument> Items => _items;
-
+      /// <summary>
+      /// Gets the collection of arguments.
+      /// </summary>
+      /// <value></value>
       public IEnumerable<IArgument> Arguments
       {
          get
          {
-            return _items.Where(e => e.Type == ArgumentType.Argument).Cast<IArgument>().ToList();
+            return _items.Where(e => e is IArgument).Cast<IArgument>().ToList();
          }
       }
 
+      /// <summary>
+      /// Gets the collection of commands.
+      /// </summary>
+      /// <value></value>
+      public IEnumerable<ICommand> Commands
+      {
+         get { throw new NotImplementedException(); }
+      }
+
+      /// <summary>
+      /// Gets the collection of options.
+      /// </summary>
+      /// <value></value>
       public IEnumerable<IOption> Options
       {
          get
          {
-            return _items.Where(e => e.Type == ArgumentType.Option)
-                        .Cast<IOption>()
-                        .ToList();
+            return _items.Where(e => e is IOption).Cast<IOption>().ToList();
          }
       }
    }

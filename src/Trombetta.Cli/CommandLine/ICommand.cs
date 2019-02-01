@@ -3,17 +3,11 @@
 // Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
 //
 
-namespace Trombetta.Cli.CommandLine.Definitions
+namespace Trombetta.Cli.CommandLine
 {
    /// <summary>
-   /// 
+   /// Represents a command.
    /// </summary>
-   public enum DefinitionType
-   {
-      Argument,
-      Command,
-      Option,
-      Switch,
-      Toggle,
-   }
+   public interface ICommand : IParsable
+   { }
 }

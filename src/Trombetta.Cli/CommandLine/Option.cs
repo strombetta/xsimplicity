@@ -14,7 +14,7 @@ namespace Trombetta.Cli.CommandLine
    /// <summary>
    /// 
    /// </summary>
-   public class Option<T> : IArgument, IOption
+   public class Option<T> : IOption
    {
       /// <summary>
       /// The argument of the option.
@@ -89,6 +89,6 @@ namespace Trombetta.Cli.CommandLine
       /// <summary>
       /// Gets the type of argument.
       /// </summary>
-      public ArgumentType Type => ArgumentType.Option;
+      // public ParsedObjectType Type => ParsedObjectType.Option;
    }
 }

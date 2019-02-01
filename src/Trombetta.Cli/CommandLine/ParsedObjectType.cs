@@ -8,7 +8,7 @@ namespace Trombetta.Cli.CommandLine
    /// <summary>
    /// 
    /// </summary>
-   public enum ArgumentType
+   internal enum ParsedObjectType
    {
       Argument,
       Command,

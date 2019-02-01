@@ -9,7 +9,7 @@ using Trombetta.Cli.CommandLine.Definitions;
 
 namespace Trombetta.Cli.CommandLine
 {
-   public interface IOption : IArgument
+   public interface IOption : IParsable
    {
       Boolean AcceptMoreArguments { get; }
       Object Argument { get; set; }

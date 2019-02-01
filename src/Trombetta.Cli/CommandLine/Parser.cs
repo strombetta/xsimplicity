@@ -145,7 +145,7 @@ namespace Trombetta.Cli.CommandLine
 
          var definition = definitions.Where(e => e.Type == DefinitionType.Option)
             .Cast<IOptionDefinition>()
-            .Single(e => e.Aliases.Any(a => String.Compare(a, token.Value, true) == 0));
+            .SingleOrDefault(e => e.Aliases.Any(a => String.Compare(a, token.Value, true) == 0));
 
          if (definition != null) return definition.CreateOption();
          else throw new InvalidOperationException();
