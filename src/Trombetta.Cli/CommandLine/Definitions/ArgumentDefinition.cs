@@ -9,23 +9,43 @@ using System.Collections.Generic;
 namespace Trombetta.Cli.CommandLine.Definitions
 {
    /// <summary>
-   /// Represents an argument definition.
+   /// Represents a command line argument definition.
    /// </summary>
    public class ArgumentDefinition<T> : IArgumentDefinition
    {
+      /// <summary>
+      /// Initializes a new instance of the <see creft="ArgumentDefinition{T}"/> class with the
+      /// specified name, and help message.
+      /// </summary>
+      /// <param name="name">The name of the argument.</param>
+      /// <param name="helpMessage">The help message of the argument.</param>
       public ArgumentDefinition(String name, String helpMessage)
          : this(name, helpMessage, default(T))
       { }
 
-      public ArgumentDefinition(String name, String description, T defaultValue)
-         : this(name, description, false)
+      /// <summary>
+      /// Initializes a new instance of the <see cref="ArgumentDefinition{T}"/> class with the
+      /// specified name, help message, and default value.
+      /// </summary>
+      /// <param name="name">The name of the argument.</param>
+      /// <param name="helpMessage">The help message of the argument.</param>
+      /// <param name="defaultValue">The default value of the argument.</param>
+      public ArgumentDefinition(String name, String helpMessage, T defaultValue)
+         : this(name, helpMessage, false)
       {
          DefaultValue = defaultValue;
       }
 
-      public ArgumentDefinition(String name, String description, Boolean isRequired)
+      /// <summary>
+      /// Initializes a new instance of the <see cref="ArgumentDefinition{T}"/> class with the
+      /// specified name, help message, and value indicating whether the argument is required.
+      /// </summary>
+      /// <param name="name">The name of the argument.</param>
+      /// <param name="helpMessage">The help message of the argument.</param>
+      /// <param name="isRequired">A value indicating whether the argument is required.</param>
+      public ArgumentDefinition(String name, String helpMessage, Boolean isRequired)
       {
-         Description = description;
+         HelpMessage = helpMessage;
          IsRequired = isRequired;
          Name = name;
       }
@@ -39,10 +59,10 @@ namespace Trombetta.Cli.CommandLine.Definitions
       public T DefaultValue { get; }
 
       /// <summary>
-      /// Gets the description of the argument.
+      /// Gets the text used as help message of the argument.
       /// </summary>
-      /// <returns>The description of the argument.</returns>
-      public String Description { get; }
+      /// <returns>The text used as help message of the argument.</returns>
+      public String HelpMessage { get; }
 
       /// <summary>
       /// Gets or sets a value indicating whether the argument is required.

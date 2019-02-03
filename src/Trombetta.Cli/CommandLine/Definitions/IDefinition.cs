@@ -4,21 +4,14 @@
 //
 
 using System;
-using System.Collections.Generic;
 
 namespace Trombetta.Cli.CommandLine.Definitions
 {
    /// <summary>
-   /// Represents an argument definition.
+   /// Represents a command line argument definition.
    /// </summary>
    public interface IDefinition
    {
-      /// <summary>
-      /// Gets or sets a value indicating whether the argument is required.
-      /// </summary>
-      /// <returns><c>true</c> if the argument is required; otherwise, <c>false</c>.</returns>
-      Boolean IsRequired { get; set; }
-
       /// <summary>
       /// Gets the name of the argument.
       /// </summary>

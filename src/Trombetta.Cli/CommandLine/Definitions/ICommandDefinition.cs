@@ -11,8 +11,10 @@ namespace Trombetta.Cli.CommandLine.Definitions
    /// <summary>
    /// Represents an argument definition.
    /// </summary>
-   public interface IArgumentDefinition : IDefinition
+   public interface ICommandDefinition : IDefinition
    {
-      Boolean IsRequired { get; set; }
+      ICommand CreateCommand();
+
+      IArgumentDefinition Argument { get; set; }
    }
 }

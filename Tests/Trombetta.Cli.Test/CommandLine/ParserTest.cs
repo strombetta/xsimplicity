@@ -25,6 +25,37 @@ namespace Trombetta.Cli.Test.CommandLine
       }
 
       [Fact]
+      public void ParserCanParseSingleCommand()
+      {
+         var args = new[] { "command" };
+         var options = new[] {
+               new CommandDefinition("command", "A command.")
+         };
+
+         var current = Parser.Default.Parse(options, args).Command;
+         Assert.IsType<Command>(current);
+         Assert.True(current.Name == "command");
+      }
+
+      [Fact]
+      public void ParserCanParseSingleCommandWithArgument()
+      {
+         var args = new[] { "install", "formula" };
+         var options = new[] {
+               new CommandDefinition(
+                  "install",
+                  new ArgumentDefinition<String>("formula", "A string argument"),
+                  "A command."
+               )
+         };
+
+         var current = Parser.Default.Parse(options, args).Command;
+         Assert.IsType<Command>(current);
+         Assert.True(current.Name == "install");
+         Assert.True((String)current.Argument.Value == "formula");
+      }
+
+      [Fact]
       public void ParserCanParseMultipleArguments()
       {
          var args = new[] { "argument1", "arguments2" };

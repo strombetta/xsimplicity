@@ -27,6 +27,9 @@ namespace Trombetta.Cli.CommandLine
 
       public T Value { get; }
 
-      object IArgument.Value => throw new NotImplementedException();
+      object IArgument.Value
+      {
+         get { return (T)Value; }
+      }
    }
 }

@@ -17,7 +17,7 @@ namespace Trombetta.Cli.CommandLine
    /// <summary>
    /// Represents a command line arguments tokenizer.
    /// </summary>
-   class Tokenizer
+   internal class Tokenizer
    {
       /// <summary>
       /// The settings used to tokenize the command line arguments.
@@ -159,9 +159,10 @@ namespace Trombetta.Cli.CommandLine
          if (arguments == null) throw new ArgumentNullException(nameof(arguments));
          if (definitions == null) throw new ArgumentNullException(nameof(definitions));
 
+         var definedTokens = definitions.SelectMany(e => CreateTokens(e));
          return new TokenCollection(
             (from argument in arguments
-             from token in CreateToken(argument, definitions.SelectMany(e => CreateTokens(e)))
+             from token in CreateToken(argument, definedTokens)
              select token).ToList()
          );
       }

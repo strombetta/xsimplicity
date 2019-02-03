@@ -80,6 +80,7 @@ namespace Trombetta.Cli.CommandLine
          if (!definitions.Any()) throw new ArgumentException(nameof(definitions));
 
          var result = new ParserResult();
+         ICommand command = null;
          IOption option = null;
          Object arguments = null;
 
@@ -90,9 +91,13 @@ namespace Trombetta.Cli.CommandLine
             switch (token.Type)
             {
                case TokenType.Argument:
-                  result.Items.Add(new Argument<String>(token.Value));
+                  var argument = new Argument<String>(token.Value);
+                  if (command == null) result.Items.Add(argument);
+                  else command.Argument = argument;
                   break;
                case TokenType.Command:
+                  command = ParseCommand(token, definitions);
+                  result.Items.Add(command);
                   break;
                case TokenType.EndListOfOptionArguments:
                   option.Argument = arguments;
@@ -124,7 +129,7 @@ namespace Trombetta.Cli.CommandLine
          else return new Argument<String>(token.Value);
       }
 
-      private Command ParseCommand(Token token, IEnumerable<IDefinition> definitions)
+      private ICommand ParseCommand(Token token, IEnumerable<IDefinition> definitions)
       {
          if (definitions == null) throw new ArgumentNullException(nameof(definitions));
          if (!definitions.Any()) throw new ArgumentNullException(nameof(definitions));

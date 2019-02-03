@@ -23,7 +23,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
 
       /// <summary>
       /// Initializes a new instance of the <see creft="OptionDefinition{T}"/> class with the
-      /// specified name, and the specified help message.
+      /// specified name, and help message.
       /// </summary>
       /// <param name="name">The name of the option.</param>
       /// <param name="helpMessage">The help message of the option.</param>
@@ -33,7 +33,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
 
       /// <summary>
       /// Initializes a new instance of the <see cref="OptionDefinition{T}"/> class with the
-      /// specified collection of aliases, and the specified help message.
+      /// specified collection of aliases, and help message.
       /// </summary>
       /// <param name="aliases">A collection of aliases.</param>
       /// <param name="helpMessage">The help message of the option.</param>

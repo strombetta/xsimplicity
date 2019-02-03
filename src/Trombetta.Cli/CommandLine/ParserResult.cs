@@ -38,12 +38,12 @@ namespace Trombetta.Cli.CommandLine
       }
 
       /// <summary>
-      /// Gets the collection of commands.
+      /// Gets the command.
       /// </summary>
       /// <value></value>
-      public IEnumerable<ICommand> Commands
+      public ICommand Command
       {
-         get { throw new NotImplementedException(); }
+         get { return _items.Where(e => e is ICommand).Cast<ICommand>().SingleOrDefault(); }
       }
 
       /// <summary>

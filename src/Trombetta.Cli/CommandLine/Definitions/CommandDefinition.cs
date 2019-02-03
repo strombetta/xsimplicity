@@ -9,12 +9,13 @@ using System.Collections.Generic;
 namespace Trombetta.Cli.CommandLine.Definitions
 {
    /// <summary>
-   /// Represents an application command.
+   /// Represents a command line command definition.
    /// </summary>
-   public class CommandDefinition : IDefinition
+   public class CommandDefinition : ICommandDefinition
    {
       /// <summary>
-      /// Initializes a new instance of the <see cref="CommandDefinition" /> class with the specified name.
+      /// Initializes a new instance of the <see cref="CommandDefinition" /> class with the 
+      /// specified name.
       /// </summary>
       /// <param name="name">The name of the command.</param>
       public CommandDefinition(String name)
@@ -24,42 +25,45 @@ namespace Trombetta.Cli.CommandLine.Definitions
 
       /// <summary>
       /// Initializes a new instance of the <see cref="CommandDefinition"/> class with the
-      /// specified name, and the specified help message.
+      /// specified name, and help message.
       /// </summary>
       /// <param name="name">The name of the command.</param>
       /// <param name="helpMessage">The help message of the command.</param>
       public CommandDefinition(String name, String helpMessage)
-      { 
+      {
+         HelpMessage = helpMessage;
+         Name = name;
+      }
+
+      public CommandDefinition(String name, IArgumentDefinition argument, String helpMessage)
+      {
+         Argument = argument;
          HelpMessage = helpMessage;
          Name = name;
       }
 
       /// <summary>
-      /// Creates a <see cref="Command"/> object based on the current definition.
+      /// 
       /// </summary>
-      /// <returns>A <see cref="Command"/> object based on the current definition.</returns>
-      public Command CreateCommand()
+      /// <returns></returns>
+      public ICommand CreateCommand()
       {
          return new Command(this);
       }
+
+      public IArgumentDefinition Argument { get; set; }
 
       /// <summary>
       /// Gets the help message of the command.
       /// </summary>
       /// <returns>The help message of the command.</returns>
-      public String HelpMessage {get;set;}
-
-      /// <summary>
-      /// Gets or sets a value indicating whether the command is required.
-      /// </summary>
-      /// <returns><c>true</c> if the command is required; otherwise, <c>false</c>.</returns>
-      public Boolean IsRequired { get; set; }
+      public String HelpMessage { get; set; }
 
       /// <summary>
       /// Gets the name of the definition.
       /// </summary>
       /// <returns>The name of the definition.</returns>
-      public String Name { get; set;}
+      public String Name { get; set; }
 
       /// <summary>
       /// Gets the type of definition.
