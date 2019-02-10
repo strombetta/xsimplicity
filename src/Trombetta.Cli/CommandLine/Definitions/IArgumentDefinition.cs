@@ -4,7 +4,7 @@
 //
 
 using System;
-using System.Collections.Generic;
+using System.Collections;
 
 namespace Trombetta.Cli.CommandLine.Definitions
 {
@@ -13,6 +13,18 @@ namespace Trombetta.Cli.CommandLine.Definitions
    /// </summary>
    public interface IArgumentDefinition : IDefinition
    {
+      /// <summary>
+      /// Gets the collection of values allowed.
+      /// </summary>
+      /// <value>The collection of values allowed.</value>
+      IEnumerable AllowedValues { get; }
+
+      /// <summary>
+      /// Gets the default value of the argument.
+      /// </summary>
+      /// <returns>The default value of the argument.</returns>
+      Object DefaultValue { get; }
+
       Boolean IsRequired { get; set; }
    }
 }

@@ -3,18 +3,13 @@
 // Licensed under the MIT license. See LICENSE.md file in the project root for full license information.
 //
 
-using System;
-using System.Collections.Generic;
-
 namespace Trombetta.Cli.CommandLine.Definitions
 {
    /// <summary>
    /// Represents an argument definition.
    /// </summary>
-   public interface ICommandDefinition : IDefinition
+   public interface IArgumentDefinition<out T> : IArgumentDefinition
    {
-      ICommand CreateCommand();
-
-      IEnumerable<IArgumentDefinition> ArgumentDefinitions { get; set; }
+      new T DefaultValue { get; }
    }
 }

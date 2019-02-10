@@ -14,32 +14,31 @@ namespace Trombetta.Cli.CommandLine.Definitions
    public class CommandDefinition : ICommandDefinition
    {
       /// <summary>
-      /// Initializes a new instance of the <see cref="CommandDefinition" /> class with the 
-      /// specified name.
-      /// </summary>
-      /// <param name="name">The name of the command.</param>
-      public CommandDefinition(String name)
-      {
-         Name = name;
-      }
-
-      /// <summary>
       /// Initializes a new instance of the <see cref="CommandDefinition"/> class with the
-      /// specified name, and help message.
+      /// specified name, and the help message.
       /// </summary>
       /// <param name="name">The name of the command.</param>
       /// <param name="helpMessage">The help message of the command.</param>
       public CommandDefinition(String name, String helpMessage)
-      {
-         HelpMessage = helpMessage;
-         Name = name;
-      }
+         : this(name, null, null, helpMessage)
+      { }
 
-      public CommandDefinition(String name, IArgumentDefinition argument, String helpMessage)
+      public CommandDefinition(String name, IEnumerable<IArgumentDefinition> argumentDefinitions, String helpMessage)
+         : this(name, argumentDefinitions, null, helpMessage)
+      { }
+
+      public CommandDefinition(String name, IEnumerable<IOptionDefinition> optionDefinitions, String helpMessage)
+         : this(name, null, optionDefinitions, helpMessage)
+      { }
+
+      public CommandDefinition(String name, IEnumerable<IArgumentDefinition> argumentDefinitions, IEnumerable<IOptionDefinition> optionDefinitions, String helpMessage)
       {
-         Argument = argument;
+         if (String.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
+
+         ArgumentDefinitions = argumentDefinitions;
          HelpMessage = helpMessage;
          Name = name;
+         OptionDefinitions = optionDefinitions;
       }
 
       /// <summary>
@@ -51,7 +50,11 @@ namespace Trombetta.Cli.CommandLine.Definitions
          return new Command(this);
       }
 
-      public IArgumentDefinition Argument { get; set; }
+      /// <summary>
+      /// Gets the collection of argument definitions.
+      /// </summary>
+      /// <value>The collection of argument definitions.</value>
+      public IEnumerable<IArgumentDefinition> ArgumentDefinitions { get; set; }
 
       /// <summary>
       /// Gets the help message of the command.
@@ -64,6 +67,12 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// </summary>
       /// <returns>The name of the definition.</returns>
       public String Name { get; set; }
+
+      /// <summary>
+      /// Gets the collection of option definitions.
+      /// </summary>
+      /// <value>The collection of option definitions.</value>
+      public IEnumerable<IOptionDefinition> OptionDefinitions { get; set; }
 
       /// <summary>
       /// Gets the type of definition.

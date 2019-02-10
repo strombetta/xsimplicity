@@ -44,7 +44,7 @@ namespace Trombetta.Cli.Test.CommandLine
          var options = new[] {
                new CommandDefinition(
                   "install",
-                  new ArgumentDefinition<String>("formula", "A string argument"),
+                  new IArgumentDefinition[] { new ArgumentDefinition<String>("formula", "A string argument")},
                   "A command."
                )
          };

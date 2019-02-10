@@ -11,6 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DBEEC3EF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trombetta.Cli.Test", "tests\Trombetta.Cli.Test\Trombetta.Cli.Test.csproj", "{088CB022-425F-4C53-873A-84EA41ADB138}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{A4AF16CA-9B5B-498A-878D-9DBEBCDAC96A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trombetta.Cli.Sample", "samples\Trombetta.Cli.Sample\Trombetta.Cli.Sample.csproj", "{A4DFEE97-60C2-409B-94BB-12B18B16A95F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,9 +52,22 @@ Global
 		{088CB022-425F-4C53-873A-84EA41ADB138}.Release|x64.Build.0 = Release|x64
 		{088CB022-425F-4C53-873A-84EA41ADB138}.Release|x86.ActiveCfg = Release|x86
 		{088CB022-425F-4C53-873A-84EA41ADB138}.Release|x86.Build.0 = Release|x86
+		{A4DFEE97-60C2-409B-94BB-12B18B16A95F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4DFEE97-60C2-409B-94BB-12B18B16A95F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4DFEE97-60C2-409B-94BB-12B18B16A95F}.Debug|x64.ActiveCfg = Debug|x64
+		{A4DFEE97-60C2-409B-94BB-12B18B16A95F}.Debug|x64.Build.0 = Debug|x64
+		{A4DFEE97-60C2-409B-94BB-12B18B16A95F}.Debug|x86.ActiveCfg = Debug|x86
+		{A4DFEE97-60C2-409B-94BB-12B18B16A95F}.Debug|x86.Build.0 = Debug|x86
+		{A4DFEE97-60C2-409B-94BB-12B18B16A95F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4DFEE97-60C2-409B-94BB-12B18B16A95F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4DFEE97-60C2-409B-94BB-12B18B16A95F}.Release|x64.ActiveCfg = Release|x64
+		{A4DFEE97-60C2-409B-94BB-12B18B16A95F}.Release|x64.Build.0 = Release|x64
+		{A4DFEE97-60C2-409B-94BB-12B18B16A95F}.Release|x86.ActiveCfg = Release|x86
+		{A4DFEE97-60C2-409B-94BB-12B18B16A95F}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8D365EB1-FDD4-4B34-BA43-5908C0708119} = {6FFF09E8-C569-4AF8-9FF5-249E2EE9D490}
 		{088CB022-425F-4C53-873A-84EA41ADB138} = {DBEEC3EF-FF2F-4422-BA24-519391F7BC54}
+		{A4DFEE97-60C2-409B-94BB-12B18B16A95F} = {A4AF16CA-9B5B-498A-878D-9DBEBCDAC96A}
 	EndGlobalSection
 EndGlobal

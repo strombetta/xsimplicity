@@ -13,6 +13,12 @@ namespace Trombetta.Cli.CommandLine.Definitions
    public interface IDefinition
    {
       /// <summary>
+      /// Gets the text used as help message of the argument.
+      /// </summary>
+      /// <returns>The text used as help message of the argument.</returns>
+      String HelpMessage { get; }
+
+      /// <summary>
       /// Gets the name of the argument.
       /// </summary>
       /// <returns>The name of the argument.</returns>
