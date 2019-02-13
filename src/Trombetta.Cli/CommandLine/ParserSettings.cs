@@ -20,7 +20,7 @@ namespace Trombetta.Cli.CommandLine
       /// </summary>
       /// <param name="definitions">The collection of options.</param>
       public ParserSettings(params IDefinition[] definitions)
-         : this(definitions, new[] { ':', '=' }, ',',new[] { "-", "--" })
+         : this(definitions, new[] { ':', '=' }, ',', new[] { "-", "--" })
       { }
 
       /// <summary>
@@ -74,7 +74,7 @@ namespace Trombetta.Cli.CommandLine
       {
          get
          {
-            return Definitions.Where(e => e.Type == DefinitionType.Option).Cast<IOptionDefinition>().ToList();
+            return Definitions.Where(e => e is IOptionDefinition).Cast<IOptionDefinition>().ToList();
          }
       }
    }

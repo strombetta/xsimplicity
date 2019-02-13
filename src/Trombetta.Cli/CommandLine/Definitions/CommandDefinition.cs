@@ -73,11 +73,5 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// </summary>
       /// <value>The collection of option definitions.</value>
       public IEnumerable<IOptionDefinition> OptionDefinitions { get; set; }
-
-      /// <summary>
-      /// Gets the type of definition.
-      /// </summary>
-      /// <returns><The type of definition./returns>
-      public DefinitionType Type => DefinitionType.Command;
    }
 }

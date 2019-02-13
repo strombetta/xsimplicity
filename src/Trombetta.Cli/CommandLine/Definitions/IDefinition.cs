@@ -23,11 +23,5 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// </summary>
       /// <returns>The name of the argument.</returns>
       String Name { get; }
-
-      /// <summary>
-      /// Gets the type of definition.
-      /// </summary>
-      /// <returns><The type of definition./returns>
-      DefinitionType Type { get; }
    }
 }

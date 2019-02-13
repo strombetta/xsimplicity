@@ -41,10 +41,7 @@ namespace Trombetta.Cli.Test.CommandLine.Definitions
       [Fact]
       public void ToggleDefinitionAliasesAreCaseSensitive()
       {
-         var option = new OptionDefinition<String>(new[] { "option", "o" }, "An option definition.");
-         Assert.True(option.Aliases.Count() == 2);
-         Assert.True(option.Name == "option");
-         Action action = () => Assert.Contains("O", option.Aliases);
+         Action action = () => Assert.Contains("H", definition.Aliases);
          Assert.Throws<ContainsException>(action);
       }
 

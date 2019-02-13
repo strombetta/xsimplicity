@@ -125,7 +125,7 @@ namespace Trombetta.Cli.CommandLine
          if (!definitions.Any()) throw new ArgumentNullException(nameof(definitions));
          if (token.Type != TokenType.Argument) throw new ArgumentException(nameof(token));
 
-         if (definitions.Where(e => e.Type == DefinitionType.Command && e.Name == token.Value).Any())
+         if (definitions.Where(e => e is CommandDefinition && e.Name == token.Value).Any())
             throw new InvalidOperationException();
          else return new Argument<String>(token.Value);
       }
@@ -136,7 +136,7 @@ namespace Trombetta.Cli.CommandLine
          if (!definitions.Any()) throw new ArgumentNullException(nameof(definitions));
          if (token.Type != TokenType.Command) throw new ArgumentException(nameof(token));
 
-         var definition = definitions.Where(e => e.Type == DefinitionType.Command && e.Name == token.Value)
+         var definition = definitions.Where(e => e is CommandDefinition && e.Name == token.Value)
            .Cast<CommandDefinition>()
            .Single();
          if (definition != null) return definition.CreateCommand();
@@ -149,7 +149,7 @@ namespace Trombetta.Cli.CommandLine
          if (!definitions.Any()) throw new ArgumentNullException(nameof(definitions));
          if (token.Type != TokenType.Option) throw new ArgumentException(nameof(token));
 
-         var definition = definitions.Where(e => e.Type == DefinitionType.Option)
+         var definition = definitions.Where(e => e is IOptionDefinition)
             .Cast<IOptionDefinition>()
             .SingleOrDefault(e => e.Aliases.Any(a => String.Compare(a, token.Value, true) == 0));
 

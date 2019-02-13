@@ -142,9 +142,9 @@ namespace Trombetta.Cli.CommandLine
 
       private IEnumerable<Token> CreateTokens(IDefinition definition)
       {
-         if (definition.Type == DefinitionType.Option)
+         if (definition is IOptionDefinition)
             return ((IOptionDefinition)definition).Aliases.Select(a => new Token(a, TokenType.Option));
-         else if (definition.Type == DefinitionType.Command)
+         else if (definition is ICommandDefinition)
             return new List<Token>() { new Token(definition.Name, TokenType.Command) };
          else return new List<Token>() { new Token(definition.Name, TokenType.Argument) };
       }

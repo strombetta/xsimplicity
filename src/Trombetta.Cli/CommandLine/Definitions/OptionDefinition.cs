@@ -115,11 +115,5 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// </summary>
       /// <returns>The name of the definition.</returns>
       public String Name { get; }
-
-      /// <summary>
-      /// Gets the type of definition.
-      /// </summary>
-      /// <returns><The type of definition./returns>
-      public DefinitionType Type => DefinitionType.Option;
    }
 }
