@@ -14,14 +14,6 @@ namespace Trombetta.Cli.CommandLine.Definitions
    public interface IOptionDefinition : IDefinition
    {
       /// <summary>
-      /// Gets or sets a value indicating whether the argument is required.
-      /// </summary>
-      /// <returns><c>true</c> if the argument is required; otherwise, <c>false</c>.</returns>
-      Boolean IsRequired { get; set; }
-
-      IOption CreateOption();
-
-      /// <summary>
       /// Gets the collection of aliases of the option.
       /// </summary>
       /// <returns>The collection of aliases of the option.</returns>
@@ -31,14 +23,16 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// 
       /// </summary>
       /// <value></value>
-      Object Argument { get; }
-
-      Type ArgumentType { get; }
+      IArgumentDefinition ArgumentDefinition { get; }
 
       /// <summary>
-      /// Gets or sets a value indicating whether the argument is required.
+      /// Gets or sets a value indicating whether the option is required.
       /// </summary>
-      /// <returns><c>true</c> if the argument is required; otherwise, <c>false</c>.</returns>¸
-      Boolean IsArgumentRequired { get; set; }
+      /// <returns><c>true</c> if the argument is option; otherwise, <c>false</c>.</returns>
+      Boolean IsRequired { get; set; }
+
+      IOption CreateOption();
+
+      // Type ArgumentType { get; }
    }
 }

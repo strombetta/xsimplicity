@@ -25,6 +25,10 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// <returns>The default value of the argument.</returns>
       Object DefaultValue { get; }
 
+      /// <summary>
+      /// Gets or sets a value indicating whether the argument is required.
+      /// </summary>
+      /// <returns><c>true</c> if argument is required; otherwise <c>false</c>.</returns>
       Boolean IsRequired { get; set; }
    }
 }

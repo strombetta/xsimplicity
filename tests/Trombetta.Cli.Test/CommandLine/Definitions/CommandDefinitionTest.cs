@@ -29,6 +29,7 @@ namespace Trombetta.Cli.Test.CommandLine.Definitions
          Assert.True(expected.AllowedValues == actual.AllowedValues);
          Assert.True(expected.DefaultValue == (String)actual.DefaultValue);
          Assert.True(expected.HelpMessage == actual.HelpMessage);
+         Assert.True(expected.IsRequired == actual.IsRequired);
          Assert.True(expected.Name == actual.Name);
          Assert.True(expected.Type == actual.Type);
       }

@@ -8,13 +8,20 @@ using Xunit.Sdk;
 
 namespace Trombetta.Cli.Test.CommandLine.Definitions
 {
-   public class OptionDefinitionTest
+   public class OptionDefinitionTest : IDisposable
    {
+      private OptionDefinition<String> definition;
+
+      public OptionDefinitionTest()
+      {
+         definition = new OptionDefinition<String>(new[] { "help", "h", "?" }, "An option definition.");
+      }
+
       [Fact]
       public void OptionDefinitionHasName()
       {
-         var definition = new OptionDefinition<String>(new[] { "option" }, "An option definition.");
-         Assert.True(definition.Name == "option");
+         var expected = "help";
+         Assert.True(expected == definition.Name);
       }
 
       [Fact]
@@ -27,11 +34,8 @@ namespace Trombetta.Cli.Test.CommandLine.Definitions
       [Fact]
       public void OptionDefinitionHasMultipleAliases()
       {
-         var definition = new OptionDefinition<String>(new[] { "help", "h", "?" }, "An option definition.");
-         Assert.True(definition.Aliases.Count() == 3);
-         Assert.True(definition.Name == "help");
-         Assert.Contains("h", definition.Aliases);
-         Assert.Contains("?", definition.Aliases);
+         var expected = new[] { "help", "h", "?" };
+         Assert.Equal(expected, definition.Aliases);
       }
 
       [Fact]
@@ -43,5 +47,8 @@ namespace Trombetta.Cli.Test.CommandLine.Definitions
          Action action = () => Assert.Contains("O", option.Aliases);
          Assert.Throws<ContainsException>(action);
       }
+
+      public void Dispose()
+      { }
    }
 }

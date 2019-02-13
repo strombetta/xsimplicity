@@ -13,7 +13,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
    /// <summary>
    /// Represents an option definition.
    /// </summary>
-   /// <typeparam name="T"></typeparam>
+   /// <typeparam name="T">The type of the argument.</typeparam>
    public class OptionDefinition<T> : IOptionDefinition
    {
       /// <summary>
@@ -56,8 +56,8 @@ namespace Trombetta.Cli.CommandLine.Definitions
          foreach (var alias in aliases)
             _aliases.Add(alias);
 
+         ArgumentDefinition = new ArgumentDefinition<T>("_value_", null, default(T), isArgumentRequired, "");
          HelpMessage = helpMessage;
-         IsArgumentRequired = isArgumentRequired;
          Name = _aliases.OrderBy(a => a.Length).Last();
       }
 
@@ -77,26 +77,26 @@ namespace Trombetta.Cli.CommandLine.Definitions
       public IEnumerable<String> Aliases { get { return _aliases; } }
 
       /// <summary>
-      /// Gets or sets the 
+      /// 
       /// </summary>
       /// <value></value>
-      public object Argument { get; set; }
+      public IArgumentDefinition<T> ArgumentDefinition { get; }
 
-      /// <summary>
-      /// Gets the <see cref="System.Type" /> of the option argument.
-      /// </summary>
-      /// <value></value>
-      public Type ArgumentType
+      IArgumentDefinition IOptionDefinition.ArgumentDefinition
       {
-         get
-         {
-            if (typeof(IEnumerable).IsAssignableFrom(typeof(T)))
-            {
-               return typeof(T).GetGenericArguments()[0];
-            }
-            else return typeof(T);
-         }
+         get { return ArgumentDefinition; }
       }
+
+      // {
+      //    get
+      //    {
+      //       if (typeof(IEnumerable).IsAssignableFrom(typeof(T)))
+      //       {
+      //          return typeof(T).GetGenericArguments()[0];
+      //       }
+      //       else return typeof(T);
+      //    }
+      // }
 
       /// <summary>
       /// Gets the help message of the option.
@@ -105,22 +105,16 @@ namespace Trombetta.Cli.CommandLine.Definitions
       public String HelpMessage { get; set; }
 
       /// <summary>
-      /// Gets a value indicating whether the argument is required.
-      /// </summary>
-      /// <returns><c>true</c> if the argument is required; otherwise, <c>false</c>.</returns>¸
-      public Boolean IsArgumentRequired { get; set; }
-
-      /// <summary>
       /// Gets or sets a value indicating whether the option is required.
       /// </summary>
       /// <returns><c>true</c> if the option is required; otherwise, <c>false</c>.</returns>
-      public bool IsRequired { get; set; }
+      public Boolean IsRequired { get; set; }
 
       /// <summary>
       /// Gets the name of the definition.
       /// </summary>
       /// <returns>The name of the definition.</returns>
-      public string Name { get; }
+      public String Name { get; }
 
       /// <summary>
       /// Gets the type of definition.
