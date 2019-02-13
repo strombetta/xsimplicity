@@ -4,9 +4,6 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using Trombetta.Cli.CommandLine.Definitions;
 
 namespace Trombetta.Cli.CommandLine.Definitions
 {

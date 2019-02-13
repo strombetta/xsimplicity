@@ -51,7 +51,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
       }
 
       /// <summary>
-      /// Gets the collection of argument definitions.
+      /// Gets or sets the collection of argument definitions.
       /// </summary>
       /// <value>The collection of argument definitions.</value>
       public IEnumerable<IArgumentDefinition> ArgumentDefinitions { get; set; }

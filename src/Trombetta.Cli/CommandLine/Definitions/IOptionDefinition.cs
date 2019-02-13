@@ -20,9 +20,9 @@ namespace Trombetta.Cli.CommandLine.Definitions
       IEnumerable<String> Aliases { get; }
 
       /// <summary>
-      /// 
+      /// Gets the argument definition.
       /// </summary>
-      /// <value></value>
+      /// <value>The argument definition.</value>
       IArgumentDefinition ArgumentDefinition { get; }
 
       /// <summary>
@@ -32,7 +32,5 @@ namespace Trombetta.Cli.CommandLine.Definitions
       Boolean IsRequired { get; set; }
 
       IOption CreateOption();
-
-      // Type ArgumentType { get; }
    }
 }

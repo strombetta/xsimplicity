@@ -77,26 +77,19 @@ namespace Trombetta.Cli.CommandLine.Definitions
       public IEnumerable<String> Aliases { get { return _aliases; } }
 
       /// <summary>
-      /// 
+      /// Gets the argument definition.
       /// </summary>
-      /// <value></value>
+      /// <value>The argument definition.</value>
       public IArgumentDefinition<T> ArgumentDefinition { get; }
 
+      /// <summary>
+      /// Gets the argument definition.
+      /// </summary>
+      /// <value>The argument definition.</value>
       IArgumentDefinition IOptionDefinition.ArgumentDefinition
       {
          get { return ArgumentDefinition; }
       }
-
-      // {
-      //    get
-      //    {
-      //       if (typeof(IEnumerable).IsAssignableFrom(typeof(T)))
-      //       {
-      //          return typeof(T).GetGenericArguments()[0];
-      //       }
-      //       else return typeof(T);
-      //    }
-      // }
 
       /// <summary>
       /// Gets the help message of the option.
@@ -111,9 +104,9 @@ namespace Trombetta.Cli.CommandLine.Definitions
       public Boolean IsRequired { get; set; }
 
       /// <summary>
-      /// Gets the name of the definition.
+      /// Gets the name of the option.
       /// </summary>
-      /// <returns>The name of the definition.</returns>
+      /// <returns>The name of the option.</returns>
       public String Name { get; }
    }
 }
