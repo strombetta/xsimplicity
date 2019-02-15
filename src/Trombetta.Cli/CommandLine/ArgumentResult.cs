@@ -12,9 +12,9 @@ namespace Trombetta.Cli.CommandLine
    /// <summary>
    /// 
    /// </summary>
-   public class Argument<T> : IArgument
+   public class ArgumentResult<T> : IArgumentResult
    {
-      internal Argument(T value)
+      internal ArgumentResult(T value)
       {
          Value = value;
       }
@@ -27,7 +27,7 @@ namespace Trombetta.Cli.CommandLine
 
       public T Value { get; }
 
-      object IArgument.Value
+      object IArgumentResult.Value
       {
          get { return (T)Value; }
       }

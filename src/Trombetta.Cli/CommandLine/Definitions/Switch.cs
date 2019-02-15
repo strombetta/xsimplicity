@@ -10,7 +10,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
    /// <summary>
    /// Represents an application option definition accept only a value in a set.
    /// </summary>
-   public sealed class SwitchDefinition<T> : OptionDefinition<T>
+   public sealed class Switch<T> : Option<T>
    {
       /// <summary>
       /// Initializes a new instance of the <see creft="SwitchDefinition"/> class with the
@@ -18,7 +18,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// </summary>
       /// <param name="name">The name of the option.</param>
       /// <param name="helpMessage">The help message of the option.</param>
-      public SwitchDefinition(String name, String helpMessage)
+      public Switch(String name, String helpMessage)
          : base(new[] { name }, helpMessage, true)
       { }
 
@@ -28,7 +28,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// </summary>
       /// <param name="aliases">A collection of aliases.</param>
       /// <param name="helpMessage">The help message of the option.</param>
-      public SwitchDefinition(String[] aliases, String helpMessage)
+      public Switch(String[] aliases, String helpMessage)
          : base(aliases, helpMessage, true)
       { }
    }

@@ -7,13 +7,13 @@ using Xunit;
 
 namespace Trombetta.Cli.Test.CommandLine
 {
-   public class ArgumentDefinitionTest : IDisposable
+   public class ArgumentTest : IDisposable
    {
-      private ArgumentDefinition<Int32> definition;
+      private Argument<Int32> definition;
 
-      public ArgumentDefinitionTest()
+      public ArgumentTest()
       {
-         definition = new ArgumentDefinition<Int32>("input", new Int32[] { 1, 2, 3, 4 }, 1, false, "A string argument definition");
+         definition = new Argument<Int32>("input", new Int32[] { 1, 2, 3, 4 }, 1, false, "A string argument definition");
       }
 
       [Fact]

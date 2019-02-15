@@ -13,7 +13,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
    /// <summary>
    /// Represents a command line argument definition.
    /// </summary>
-   public class ArgumentDefinition<T> : IArgumentDefinition<T>
+   public class Argument<T> : IArgument<T>
    {
       /// <summary>
       /// Initializes a new instance of the <see creft="ArgumentDefinition{T}"/> class with the
@@ -21,34 +21,34 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// </summary>
       /// <param name="name">The name of the argument.</param>
       /// <param name="helpMessage">The help message of the argument.</param>
-      public ArgumentDefinition(String name, String helpMessage)
+      public Argument(String name, String helpMessage)
          : this(name, null, default(T), false, helpMessage)
       { }
 
       /// <summary>
-      /// Initializes a new instance of the <see cref="ArgumentDefinition{T}"/> class with the
+      /// Initializes a new instance of the <see cref="Argument{T}"/> class with the
       /// specified name, help message, and default value.
       /// </summary>
       /// <param name="name">The name of the argument.</param>
       /// <param name="defaultValue">The default value of the argument.</param>
       /// <param name="helpMessage">The help message of the argument.</param>
-      public ArgumentDefinition(String name, T defaultValue, String helpMessage)
+      public Argument(String name, T defaultValue, String helpMessage)
          : this(name, null, defaultValue, false, helpMessage)
       { }
 
       /// <summary>
-      /// Initializes a new instance of the <see cref="ArgumentDefinition{T}"/> class with the
+      /// Initializes a new instance of the <see cref="Argument{T}"/> class with the
       /// specified name, the value indicating whether the argument is required, and  the help message.
       /// </summary>
       /// <param name="name">The name of the argument.</param>
       /// <param name="isRequired">A value indicating whether the argument is required.</param>
       /// <param name="helpMessage">The help message of the argument.</param>
-      public ArgumentDefinition(String name, Boolean isRequired, String helpMessage)
+      public Argument(String name, Boolean isRequired, String helpMessage)
          : this(name, null, default(T), isRequired, helpMessage)
       { }
 
       /// <summary>
-      /// Initializes a new instance of the <see cref="ArgumentDefinition{T}"/> class with the
+      /// Initializes a new instance of the <see cref="Argument{T}"/> class with the
       /// specified name, the collection of allowed values, the default value, a value indicating
       /// whether the argument is required, and the help message.
       /// </summary>
@@ -57,7 +57,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// <param name="defaultValue">The default value of the argument.</param>
       /// <param name="isRequired">A value indicating whether the argument is required.</param>
       /// <param name="helpMessage">The help message of the argument.</param>
-      public ArgumentDefinition(String name, IEnumerable<T> allowedValues, T defaultValue, Boolean isRequired, String helpMessage)
+      public Argument(String name, IEnumerable<T> allowedValues, T defaultValue, Boolean isRequired, String helpMessage)
       {
          if (String.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
          if (allowedValues != null && !allowedValues.Contains(defaultValue)) throw new ArgumentException($"{nameof(allowedValues)} doesn't contains the {nameof(defaultValue)}.");
@@ -79,7 +79,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// Gets the collection of values allowed.
       /// </summary>
       /// <value>The collection of values allowed.</value>
-      IEnumerable IArgumentDefinition.AllowedValues
+      IEnumerable IArgument.AllowedValues
       {
          get { return AllowedValues; }
       }
@@ -94,7 +94,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// Gets the default value of the argument.
       /// </summary>
       /// <returns>The default value of the argument.</returns>
-      Object IArgumentDefinition.DefaultValue
+      Object IArgument.DefaultValue
       {
          get { return DefaultValue; }
       }

@@ -9,11 +9,11 @@ using Trombetta.Cli.CommandLine.Definitions;
 
 namespace Trombetta.Cli.CommandLine
 {
-   public interface IOption : IParsable
+   public interface IOptionResult : IParsable
    {
       Boolean AcceptMoreArguments { get; }
       Object Argument { get; set; }
-      IOptionDefinition Definition { get; }
+      IOption Definition { get; }
       Boolean IsCompleted { get; }
       String Name { get; }
    }

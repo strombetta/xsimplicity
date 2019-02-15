@@ -11,12 +11,12 @@ namespace Trombetta.Cli.CommandLine.Definitions
    /// <summary>
    /// Represents an option definition.
    /// </summary>
-   public interface IOptionDefinition<T> : IOptionDefinition
+   public interface IOption<T> : IOption
    {
       /// <summary>
       /// Gets the argument definition.
       /// </summary>
       /// <value>The argument definition.</value>
-      new IArgumentDefinition<T> ArgumentDefinition { get; }
+      new IArgument<T> ArgumentDefinition { get; }
    }
 }

@@ -11,7 +11,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
    /// <summary>
    /// Represents an option definition.
    /// </summary>
-   public interface IOptionDefinition : IDefinition
+   public interface IOption : IDefinition
    {
       /// <summary>
       /// Gets the collection of aliases of the option.
@@ -23,7 +23,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// Gets the argument definition.
       /// </summary>
       /// <value>The argument definition.</value>
-      IArgumentDefinition ArgumentDefinition { get; }
+      IArgument ArgumentDefinition { get; }
 
       /// <summary>
       /// Gets or sets a value indicating whether the option is required.
@@ -31,6 +31,6 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// <returns><c>true</c> if the argument is option; otherwise, <c>false</c>.</returns>
       Boolean IsRequired { get; set; }
 
-      IOption CreateOption();
+      IOptionResult CreateOption();
    }
 }

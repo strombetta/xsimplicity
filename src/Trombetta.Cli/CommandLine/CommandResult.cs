@@ -11,19 +11,19 @@ using Trombetta.Cli.CommandLine.Definitions;
 
 namespace Trombetta.Cli.CommandLine
 {
-   public class Command : ICommand
+   public class CommandResult : ICommandResult
    {
       /// <summary>
       /// The definition.
       /// </summary>
-      private CommandDefinition _definition;
+      private Command _definition;
 
-      public Command(IDefinition definition)
+      public CommandResult(IDefinition definition)
       {
-         _definition = (CommandDefinition)definition;
+         _definition = (Command)definition;
       }
 
-      public IArgument Argument { get; set; }
+      public IArgumentResult Argument { get; set; }
 
       public String Name
       {

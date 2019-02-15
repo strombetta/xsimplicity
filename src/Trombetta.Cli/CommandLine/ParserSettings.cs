@@ -70,11 +70,11 @@ namespace Trombetta.Cli.CommandLine
       /// <returns>The collection of defined options.</returns>
       public ICollection<IDefinition> Definitions { get; }
 
-      public IEnumerable<IOptionDefinition> OptionDefinitions
+      public IEnumerable<IOption> OptionDefinitions
       {
          get
          {
-            return Definitions.Where(e => e is IOptionDefinition).Cast<IOptionDefinition>().ToList();
+            return Definitions.Where(e => e is IOption).Cast<IOption>().ToList();
          }
       }
    }

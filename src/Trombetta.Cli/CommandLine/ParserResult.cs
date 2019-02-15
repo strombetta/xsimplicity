@@ -29,11 +29,11 @@ namespace Trombetta.Cli.CommandLine
       /// Gets the collection of arguments.
       /// </summary>
       /// <value></value>
-      public IEnumerable<IArgument> Arguments
+      public IEnumerable<IArgumentResult> Arguments
       {
          get
          {
-            return _items.Where(e => e is IArgument).Cast<IArgument>().ToList();
+            return _items.Where(e => e is IArgumentResult).Cast<IArgumentResult>().ToList();
          }
       }
 
@@ -41,20 +41,20 @@ namespace Trombetta.Cli.CommandLine
       /// Gets the command.
       /// </summary>
       /// <value></value>
-      public ICommand Command
+      public ICommandResult Command
       {
-         get { return _items.Where(e => e is ICommand).Cast<ICommand>().SingleOrDefault(); }
+         get { return _items.Where(e => e is ICommandResult).Cast<ICommandResult>().SingleOrDefault(); }
       }
 
       /// <summary>
       /// Gets the collection of options.
       /// </summary>
       /// <value></value>
-      public IEnumerable<IOption> Options
+      public IEnumerable<IOptionResult> Options
       {
          get
          {
-            return _items.Where(e => e is IOption).Cast<IOption>().ToList();
+            return _items.Where(e => e is IOptionResult).Cast<IOptionResult>().ToList();
          }
       }
    }

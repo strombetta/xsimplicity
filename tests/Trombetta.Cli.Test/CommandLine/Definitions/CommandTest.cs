@@ -9,22 +9,22 @@ using Xunit.Sdk;
 
 namespace Trombetta.Cli.Test.CommandLine.Definitions
 {
-   public class CommandDefinitionTest : IDisposable
+   public class CommandTest : IDisposable
    {
-      private CommandDefinition definition;
+      private Command definition;
 
-      public CommandDefinitionTest()
+      public CommandTest()
       {
-         definition = new CommandDefinition("build",
-         new IArgumentDefinition[] { new ArgumentDefinition<String>("input", "The input parameter") },
-         new IOptionDefinition[] { },
+         definition = new Command("build",
+         new IArgument[] { new Argument<String>("input", "The input parameter") },
+         new IOption[] { },
          "A command");
       }
 
       [Fact]
       public void CommandDefinitionHasArgument()
       {
-         var expected = new ArgumentDefinition<String>("input", "The input parameter");
+         var expected = new Argument<String>("input", "The input parameter");
          var actual = definition.ArgumentDefinitions.Single();
          Assert.True(expected.AllowedValues == actual.AllowedValues);
          Assert.True(expected.DefaultValue == (String)actual.DefaultValue);

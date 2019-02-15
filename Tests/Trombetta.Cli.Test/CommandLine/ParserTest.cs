@@ -14,13 +14,13 @@ namespace Trombetta.Cli.Test.CommandLine
       {
          var args = new[] { "input" };
          var options = new[] {
-               new ArgumentDefinition<String>("in", "A string argument."),
-               new ArgumentDefinition<String>("out", "A string argument."),
-               new ArgumentDefinition<String>("error", "A string argument.")
+               new Argument<String>("in", "A string argument."),
+               new Argument<String>("out", "A string argument."),
+               new Argument<String>("error", "A string argument.")
          };
 
          var current = Parser.Default.Parse(options, args).Arguments.Single();
-         Assert.IsType<Argument<String>>(current);
+         Assert.IsType<ArgumentResult<String>>(current);
          ///Assert.True(current.)
       }
 
@@ -29,11 +29,11 @@ namespace Trombetta.Cli.Test.CommandLine
       {
          var args = new[] { "command" };
          var options = new[] {
-               new CommandDefinition("command", "A command.")
+               new Command("command", "A command.")
          };
 
          var current = Parser.Default.Parse(options, args).Command;
-         Assert.IsType<Command>(current);
+         Assert.IsType<CommandResult>(current);
          Assert.True(current.Name == "command");
       }
 
@@ -42,15 +42,15 @@ namespace Trombetta.Cli.Test.CommandLine
       {
          var args = new[] { "install", "formula" };
          var options = new[] {
-               new CommandDefinition(
+               new Command(
                   "install",
-                  new IArgumentDefinition[] { new ArgumentDefinition<String>("formula", "A string argument")},
+                  new IArgument[] { new Argument<String>("formula", "A string argument")},
                   "A command."
                )
          };
 
          var current = Parser.Default.Parse(options, args).Command;
-         Assert.IsType<Command>(current);
+         Assert.IsType<CommandResult>(current);
          Assert.True(current.Name == "install");
          Assert.True((String)current.Argument.Value == "formula");
       }
@@ -60,14 +60,14 @@ namespace Trombetta.Cli.Test.CommandLine
       {
          var args = new[] { "argument1", "arguments2" };
          var options = new[] {
-               new ArgumentDefinition<String>("argument1", "A string argument."),
-               new ArgumentDefinition<String>("argument2", "A string argument."),
-               new ArgumentDefinition<String>("argument3", "A string argument.")
+               new Argument<String>("argument1", "A string argument."),
+               new Argument<String>("argument2", "A string argument."),
+               new Argument<String>("argument3", "A string argument.")
          };
 
          foreach (var current in Parser.Default.Parse(options, args).Arguments)
          {
-            Assert.IsType<Argument<String>>(current);
+            Assert.IsType<ArgumentResult<String>>(current);
          }
       }
 
@@ -88,13 +88,13 @@ namespace Trombetta.Cli.Test.CommandLine
       {
          var args = new[] { "--option1" };
          var options = new[] {
-               new ToggleDefinition(new[] {"option1", "opt1", "o1"}, "A multi alias option."),
-               new ToggleDefinition(new[] {"option2", "opt2", "o2"}, "A multi alias option."),
-               new ToggleDefinition(new[] {"option3", "opt3", "o3"}, "A multi alias option.")
+               new Toggle(new[] {"option1", "opt1", "o1"}, "A multi alias option."),
+               new Toggle(new[] {"option2", "opt2", "o2"}, "A multi alias option."),
+               new Toggle(new[] {"option3", "opt3", "o3"}, "A multi alias option.")
          };
 
          var current = Parser.Default.Parse(options, args).Options.Single();
-         Assert.IsType<Option<Boolean>>(current);
+         Assert.IsType<OptionResult<Boolean>>(current);
          Assert.True(current.Name == "option1");
          Assert.True(current.IsCompleted == true);
          Assert.NotNull(current.Argument);
@@ -105,14 +105,14 @@ namespace Trombetta.Cli.Test.CommandLine
       {
          var args = new[] { "--option1", "--option2" };
          var options = new[] {
-               new ToggleDefinition(new[] {"option1", "opt1", "o1"}, "A multi alias option."),
-               new ToggleDefinition(new[] {"option2", "opt2", "o2"}, "A multi alias option."),
-               new ToggleDefinition(new[] {"option3", "opt3", "o3"}, "A multi alias option.")
+               new Toggle(new[] {"option1", "opt1", "o1"}, "A multi alias option."),
+               new Toggle(new[] {"option2", "opt2", "o2"}, "A multi alias option."),
+               new Toggle(new[] {"option3", "opt3", "o3"}, "A multi alias option.")
          };
 
          foreach (var current in Parser.Default.Parse(options, args).Options)
          {
-            Assert.IsType<Option<Boolean>>(current);
+            Assert.IsType<OptionResult<Boolean>>(current);
             Assert.True(current.IsCompleted == true);
             Assert.NotNull(current.Argument);
          }
@@ -123,10 +123,10 @@ namespace Trombetta.Cli.Test.CommandLine
       {
          var args = new[] { "--optionWithArgument=argument" };
          var options = new[] {
-               new OptionDefinition<String>(new[] {"optionWithArgument"}, "An option that accepts a single string argument.", true)
+               new Option<String>(new[] {"optionWithArgument"}, "An option that accepts a single string argument.", true)
          };
          var current = Parser.Default.Parse(options, args).Options.Single();
-         Assert.IsType<Option<String>>(current);
+         Assert.IsType<OptionResult<String>>(current);
          Assert.True(current.Name == "optionWithArgument");
          Assert.True(current.IsCompleted == true);
          Assert.NotNull(current.Argument);
@@ -138,10 +138,10 @@ namespace Trombetta.Cli.Test.CommandLine
       {
          var args = new[] { "--optionWithListOfArguments=argument1,argument2" };
          var options = new[] {
-               new OptionDefinition<IEnumerable<String>>(new[] {"optionWithListOfArguments"}, "An option that accepts a list of string arguments.", true)
+               new Option<IEnumerable<String>>(new[] {"optionWithListOfArguments"}, "An option that accepts a list of string arguments.", true)
          };
          var current = Parser.Default.Parse(options, args).Options.Single();
-         Assert.IsType<Option<IEnumerable<String>>>(current);
+         Assert.IsType<OptionResult<IEnumerable<String>>>(current);
          Assert.True(current.Name == "optionWithListOfArguments");
          Assert.True(current.IsCompleted == true);
          Assert.NotNull(current.Argument);

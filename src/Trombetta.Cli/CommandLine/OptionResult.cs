@@ -14,7 +14,7 @@ namespace Trombetta.Cli.CommandLine
    /// <summary>
    /// 
    /// </summary>
-   public class Option<T> : IOption
+   public class OptionResult<T> : IOptionResult
    {
       /// <summary>
       /// The argument of the option.
@@ -24,19 +24,19 @@ namespace Trombetta.Cli.CommandLine
       /// <summary>
       /// The definition.
       /// </summary>
-      private IOptionDefinition _definition;
+      private IOption _definition;
 
       /// <summary>
       /// Initializes a new instance of the <see cref="Option"/> class with the specified
       /// <see cref="IOptionDefintion"/> object.
       /// </summary>
       /// <param name="definition">The definition</param>
-      internal Option(IOptionDefinition definition)
+      internal OptionResult(IOption definition)
       {
          _definition = definition ?? throw new ArgumentNullException(nameof(definition));
       }
 
-      internal Option(IOptionDefinition definition, T value)
+      internal OptionResult(IOption definition, T value)
       {
          _definition = definition ?? throw new ArgumentNullException(nameof(definition));
          _argument = value;
@@ -50,7 +50,7 @@ namespace Trombetta.Cli.CommandLine
          }
       }
 
-      Object IOption.Argument
+      Object IOptionResult.Argument
       {
          get { return _argument; }
          set { _argument = (T)value; }
@@ -62,7 +62,7 @@ namespace Trombetta.Cli.CommandLine
          internal set { _argument = value; }
       }
 
-      public IOptionDefinition Definition => _definition;
+      public IOption Definition => _definition;
 
       /// <summary>
       /// Gets the name of the command line option.

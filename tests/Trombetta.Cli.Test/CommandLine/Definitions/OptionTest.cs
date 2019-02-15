@@ -8,13 +8,13 @@ using Xunit.Sdk;
 
 namespace Trombetta.Cli.Test.CommandLine.Definitions
 {
-   public class OptionDefinitionTest : IDisposable
+   public class OptionTest : IDisposable
    {
-      private OptionDefinition<String> definition;
+      private Option<String> definition;
 
-      public OptionDefinitionTest()
+      public OptionTest()
       {
-         definition = new OptionDefinition<String>(new[] { "help", "h", "?" }, "An option definition.");
+         definition = new Option<String>(new[] { "help", "h", "?" }, "An option definition.");
       }
 
       [Fact]
@@ -27,7 +27,7 @@ namespace Trombetta.Cli.Test.CommandLine.Definitions
       [Fact]
       public void OptionDefinitionCannotHaveEmptyAlias()
       {
-         Action action = () => new OptionDefinition<String>(new[] { "" }, "An option definition.");
+         Action action = () => new Option<String>(new[] { "" }, "An option definition.");
          Assert.Throws<ArgumentException>(action);
       }
 

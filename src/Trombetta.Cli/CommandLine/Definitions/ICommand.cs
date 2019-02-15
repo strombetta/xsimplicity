@@ -11,14 +11,14 @@ namespace Trombetta.Cli.CommandLine.Definitions
    /// <summary>
    /// Represents an argument definition.
    /// </summary>
-   public interface ICommandDefinition : IDefinition
+   public interface ICommand : IDefinition
    {
-      ICommand CreateCommand();
+      ICommandResult CreateCommand();
 
       /// <summary>
       /// Gets or sets the collection of argument definitions.
       /// </summary>
       /// <value>The collection of argument definitions.</value>
-      IEnumerable<IArgumentDefinition> ArgumentDefinitions { get; set; }
+      IEnumerable<IArgument> ArgumentDefinitions { get; set; }
    }
 }

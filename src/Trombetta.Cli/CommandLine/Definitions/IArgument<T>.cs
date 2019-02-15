@@ -10,7 +10,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
    /// <summary>
    /// Represents an argument definition.
    /// </summary>
-   public interface IArgumentDefinition<out T> : IArgumentDefinition
+   public interface IArgument<out T> : IArgument
    {
       /// <summary>
       /// Gets the collection of values allowed.

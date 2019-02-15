@@ -11,7 +11,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
    /// <summary>
    /// Represents an argument definition.
    /// </summary>
-   public interface IArgumentDefinition : IDefinition
+   public interface IArgument : IDefinition
    {
       /// <summary>
       /// Gets the collection of values allowed.

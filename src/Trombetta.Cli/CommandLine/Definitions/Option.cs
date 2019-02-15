@@ -14,7 +14,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
    /// Represents an option definition.
    /// </summary>
    /// <typeparam name="T">The type of the argument.</typeparam>
-   public class OptionDefinition<T> : IOptionDefinition
+   public class Option<T> : IOption
    {
       /// <summary>
       /// The collection of aliases.
@@ -27,27 +27,27 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// </summary>
       /// <param name="name">The name of the option.</param>
       /// <param name="helpMessage">The help message of the option.</param>
-      public OptionDefinition(String name, String helpMessage)
+      public Option(String name, String helpMessage)
          : this(new[] { name }, helpMessage, false)
       { }
 
       /// <summary>
-      /// Initializes a new instance of the <see cref="OptionDefinition{T}"/> class with the
+      /// Initializes a new instance of the <see cref="Option{T}"/> class with the
       /// specified collection of aliases, and help message.
       /// </summary>
       /// <param name="aliases">A collection of aliases.</param>
       /// <param name="helpMessage">The help message of the option.</param>
-      public OptionDefinition(String[] aliases, String helpMessage)
+      public Option(String[] aliases, String helpMessage)
          : this(aliases, helpMessage, false)
       { }
 
       /// <summary>
-      /// Initializes a new instance of the <see cref="OptionDefinition{T}"/> class with 
+      /// Initializes a new instance of the <see cref="Option{T}"/> class with 
       /// the specified collection of aliases, the text used as help message.
       /// </summary>
       /// <param name="aliases">A collection of aliases.</param>
       /// <param name="helpMessage">The help message of the option.</param>
-      public OptionDefinition(String[] aliases, String helpMessage, Boolean isArgumentRequired)
+      public Option(String[] aliases, String helpMessage, Boolean isArgumentRequired)
       {
          if (aliases == null) throw new ArgumentNullException(nameof(aliases));
          if (!aliases.Any()) throw new ArgumentNullException(nameof(aliases));
@@ -56,7 +56,7 @@ namespace Trombetta.Cli.CommandLine.Definitions
          foreach (var alias in aliases)
             _aliases.Add(alias);
 
-         ArgumentDefinition = new ArgumentDefinition<T>("_value_", null, default(T), isArgumentRequired, "");
+         ArgumentDefinition = new Argument<T>("_value_", null, default(T), isArgumentRequired, "");
          HelpMessage = helpMessage;
          Name = _aliases.OrderBy(a => a.Length).Last();
       }
@@ -65,9 +65,9 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// Creates an <see cref="Option"/> object based on the current definition.
       /// </summary>
       /// <returns>An <see cref="Option"/> object based on the current definition.</returns>
-      public virtual IOption CreateOption()
+      public virtual IOptionResult CreateOption()
       {
-         return new Option<T>(this);
+         return new OptionResult<T>(this);
       }
 
       /// <summary>
@@ -80,13 +80,13 @@ namespace Trombetta.Cli.CommandLine.Definitions
       /// Gets the argument definition.
       /// </summary>
       /// <value>The argument definition.</value>
-      public IArgumentDefinition<T> ArgumentDefinition { get; }
+      public IArgument<T> ArgumentDefinition { get; }
 
       /// <summary>
       /// Gets the argument definition.
       /// </summary>
       /// <value>The argument definition.</value>
-      IArgumentDefinition IOptionDefinition.ArgumentDefinition
+      IArgument IOption.ArgumentDefinition
       {
          get { return ArgumentDefinition; }
       }

@@ -41,7 +41,7 @@ namespace Trombetta.Cli.CommandLine
       { }
 
       /// <summary>
-      /// Initializes a new instance of the <see cref="Parser"/> class with the spefied collection of <see cref="ToggleDefinition"/> objects.
+      /// Initializes a new instance of the <see cref="Parser"/> class with the spefied collection of <see cref="Toggle"/> objects.
       /// </summary>
       /// <param name="definitions"></param>
       public Parser(params IDefinition[] definitions)
@@ -80,8 +80,8 @@ namespace Trombetta.Cli.CommandLine
          if (!definitions.Any()) throw new ArgumentException(nameof(definitions));
 
          var result = new ParserResult();
-         ICommand command = null;
-         IOption option = null;
+         ICommandResult command = null;
+         IOptionResult option = null;
          Object arguments = null;
 
          var tokens = new Queue<Token>(_tokenizer.Tokenize(args, definitions));
@@ -91,7 +91,7 @@ namespace Trombetta.Cli.CommandLine
             switch (token.Type)
             {
                case TokenType.Argument:
-                  var argument = new Argument<String>(token.Value);
+                  var argument = new ArgumentResult<String>(token.Value);
                   if (command == null) result.Items.Add(argument);
                   else command.Argument = argument;
                   break;
@@ -119,45 +119,45 @@ namespace Trombetta.Cli.CommandLine
          return result;
       }
 
-      private IArgument ParseArgument(Token token, IEnumerable<IDefinition> definitions)
+      private IArgumentResult ParseArgument(Token token, IEnumerable<IDefinition> definitions)
       {
          if (definitions == null) throw new ArgumentNullException(nameof(definitions));
          if (!definitions.Any()) throw new ArgumentNullException(nameof(definitions));
          if (token.Type != TokenType.Argument) throw new ArgumentException(nameof(token));
 
-         if (definitions.Where(e => e is CommandDefinition && e.Name == token.Value).Any())
+         if (definitions.Where(e => e is Command && e.Name == token.Value).Any())
             throw new InvalidOperationException();
-         else return new Argument<String>(token.Value);
+         else return new ArgumentResult<String>(token.Value);
       }
 
-      private ICommand ParseCommand(Token token, IEnumerable<IDefinition> definitions)
+      private ICommandResult ParseCommand(Token token, IEnumerable<IDefinition> definitions)
       {
          if (definitions == null) throw new ArgumentNullException(nameof(definitions));
          if (!definitions.Any()) throw new ArgumentNullException(nameof(definitions));
          if (token.Type != TokenType.Command) throw new ArgumentException(nameof(token));
 
-         var definition = definitions.Where(e => e is CommandDefinition && e.Name == token.Value)
-           .Cast<CommandDefinition>()
+         var definition = definitions.Where(e => e is Command && e.Name == token.Value)
+           .Cast<Command>()
            .Single();
          if (definition != null) return definition.CreateCommand();
          else throw new InvalidOperationException();
       }
 
-      private IOption ParseOption(Token token, IEnumerable<IDefinition> definitions)
+      private IOptionResult ParseOption(Token token, IEnumerable<IDefinition> definitions)
       {
          if (definitions == null) throw new ArgumentNullException(nameof(definitions));
          if (!definitions.Any()) throw new ArgumentNullException(nameof(definitions));
          if (token.Type != TokenType.Option) throw new ArgumentException(nameof(token));
 
-         var definition = definitions.Where(e => e is IOptionDefinition)
-            .Cast<IOptionDefinition>()
+         var definition = definitions.Where(e => e is IOption)
+            .Cast<IOption>()
             .SingleOrDefault(e => e.Aliases.Any(a => String.Compare(a, token.Value, true) == 0));
 
          if (definition != null) return definition.CreateOption();
          else throw new InvalidOperationException();
       }
 
-      private void ParseOptionArgument(Token token, IOption option, IList arguments)
+      private void ParseOptionArgument(Token token, IOptionResult option, IList arguments)
       {
          if (token.Type != TokenType.OptionArgument) throw new ArgumentException(nameof(token));
          if (option == null) throw new ArgumentNullException(nameof(option));
