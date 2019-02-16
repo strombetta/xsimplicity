@@ -5,7 +5,7 @@
 
 using System;
 
-namespace Trombetta.Cli.CommandLine.Definitions
+namespace Trombetta.Cli.CommandLine
 {
    /// <summary>
    /// Represents a command line argument definition.

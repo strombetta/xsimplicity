@@ -5,7 +5,7 @@
 
 using System;
 
-namespace Trombetta.Cli.CommandLine.Definitions
+namespace Trombetta.Cli.CommandLine
 {
    /// <summary>
    /// Represents an application option definition accept only a value in a set.

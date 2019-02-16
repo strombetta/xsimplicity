@@ -8,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Trombetta.Cli.CommandLine.Definitions
+namespace Trombetta.Cli.CommandLine
 {
    /// <summary>
    /// Represents a command line argument definition.

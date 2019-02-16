@@ -5,7 +5,6 @@
 
 using System;
 using System.Collections.Generic;
-using Trombetta.Cli.CommandLine.Definitions;
 
 namespace Trombetta.Cli.CommandLine
 {

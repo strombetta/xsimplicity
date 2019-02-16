@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using Trombetta.Cli.CommandLine;
-using Trombetta.Cli.CommandLine.Definitions;
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.Sdk;

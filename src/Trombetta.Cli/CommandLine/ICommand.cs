@@ -6,7 +6,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Trombetta.Cli.CommandLine.Definitions
+namespace Trombetta.Cli.CommandLine
 {
    /// <summary>
    /// Represents an argument definition.

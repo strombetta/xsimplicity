@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Trombetta.Cli.CommandLine;
-using Trombetta.Cli.CommandLine.Definitions;
 using Xunit;
 
 namespace Trombetta.Cli.Test.CommandLine
