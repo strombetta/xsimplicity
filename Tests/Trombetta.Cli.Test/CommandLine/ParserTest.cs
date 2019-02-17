@@ -122,7 +122,7 @@ namespace Trombetta.Cli.Test.CommandLine
       {
          var args = new[] { "--optionWithArgument=argument" };
          var options = new[] {
-               new Option<String>(new[] {"optionWithArgument"}, "An option that accepts a single string argument.", true)
+               new Option<String>(new[] {"optionWithArgument"}, true, "An option that accepts a single string argument.")
          };
          var current = Parser.Default.Parse(options, args).Options.Single();
          Assert.IsType<OptionResult<String>>(current);
@@ -137,7 +137,7 @@ namespace Trombetta.Cli.Test.CommandLine
       {
          var args = new[] { "--optionWithListOfArguments=argument1,argument2" };
          var options = new[] {
-               new Option<IEnumerable<String>>(new[] {"optionWithListOfArguments"}, "An option that accepts a list of string arguments.", true)
+               new Option<IEnumerable<String>>(new[] {"optionWithListOfArguments"}, true, "An option that accepts a list of string arguments.")
          };
          var current = Parser.Default.Parse(options, args).Options.Single();
          Assert.IsType<OptionResult<IEnumerable<String>>>(current);

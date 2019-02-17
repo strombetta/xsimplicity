@@ -7,7 +7,7 @@ namespace Trombetta.Cli.Sample
    {
       static void Main(string[] args)
       {
-         Parser.Default.Parse<Options>(args);
+         var result = Parser.Default.Parse<Options>(args);
          Console.WriteLine("Hello World!");
       }
    }

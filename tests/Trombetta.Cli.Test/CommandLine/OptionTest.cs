@@ -13,7 +13,10 @@ namespace Trombetta.Cli.Test.CommandLines
 
       public OptionTest()
       {
-         definition = new Option<String>(new[] { "help", "h", "?" }, "An option definition.");
+         definition = new Option<String>(new[] { "help", "h", "?" },
+         new Argument<String>("command", null, "", true, "The help message of the argument"),
+         true,
+          "An option definition.");
       }
 
       [Fact]
@@ -38,10 +41,18 @@ namespace Trombetta.Cli.Test.CommandLines
       }
 
       [Fact]
-      public void ToggleDefinitionAliasesAreCaseSensitive()
+      public void OptionAliasesAreCaseSensitive()
       {
          Action action = () => Assert.Contains("H", definition.Aliases);
          Assert.Throws<ContainsException>(action);
+      }
+
+      [Fact]
+      public void OptionCanBeRequired()
+      {
+         var expected = true;
+         Assert.True(expected == definition.IsRequired);
+
       }
 
       public void Dispose()

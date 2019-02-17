@@ -13,13 +13,13 @@ namespace Trombetta.Cli.CommandLine
    public sealed class Switch<T> : Option<T>
    {
       /// <summary>
-      /// Initializes a new instance of the <see creft="SwitchDefinition"/> class with the
+      /// Initializes a new instance of the <see cref="Switch"/> class with the
       /// specified name, and the specified help message.
       /// </summary>
       /// <param name="name">The name of the option.</param>
       /// <param name="helpMessage">The help message of the option.</param>
       public Switch(String name, String helpMessage)
-         : base(new[] { name }, helpMessage, true)
+         : base(new[] { name }, true, helpMessage)
       { }
 
       /// <summary>
@@ -29,7 +29,7 @@ namespace Trombetta.Cli.CommandLine
       /// <param name="aliases">A collection of aliases.</param>
       /// <param name="helpMessage">The help message of the option.</param>
       public Switch(String[] aliases, String helpMessage)
-         : base(aliases, helpMessage, true)
+         : base(aliases, true, helpMessage)
       { }
    }
 }

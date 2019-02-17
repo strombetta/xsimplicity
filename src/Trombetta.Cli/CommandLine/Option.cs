@@ -22,42 +22,81 @@ namespace Trombetta.Cli.CommandLine
       private readonly HashSet<String> _aliases = new HashSet<String>();
 
       /// <summary>
-      /// Initializes a new instance of the <see creft="OptionDefinition{T}"/> class with the
-      /// specified name, and help message.
+      /// Initializes a new instance of the <see cref="Option{T}"/> class with the specified 
+      /// name, and the help message.
       /// </summary>
       /// <param name="name">The name of the option.</param>
       /// <param name="helpMessage">The help message of the option.</param>
       public Option(String name, String helpMessage)
-         : this(new[] { name }, helpMessage, false)
+         : this(new[] { name }, false, helpMessage)
       { }
 
       /// <summary>
       /// Initializes a new instance of the <see cref="Option{T}"/> class with the
-      /// specified collection of aliases, and help message.
+      /// specified collection of aliases, and the help message.
       /// </summary>
       /// <param name="aliases">A collection of aliases.</param>
       /// <param name="helpMessage">The help message of the option.</param>
       public Option(String[] aliases, String helpMessage)
-         : this(aliases, helpMessage, false)
+         : this(aliases, false, helpMessage)
       { }
 
       /// <summary>
-      /// Initializes a new instance of the <see cref="Option{T}"/> class with 
-      /// the specified collection of aliases, the text used as help message.
+      /// Initializes a new instance of the <see cref="Option{T}"/> class with the name, 
+      /// the value indicating whether the option is required, and the help message.
       /// </summary>
-      /// <param name="aliases">A collection of aliases.</param>
+      /// <param name="name">The name of the option.</param>
+      /// <param name="isRequired">The value indicating whether the option is required.</param>
       /// <param name="helpMessage">The help message of the option.</param>
-      public Option(String[] aliases, String helpMessage, Boolean isArgumentRequired)
+      public Option(String name, Boolean isRequired, String helpMessage)
+         : this(name, new Argument<T>("_value_", null, default(T), true, ""), isRequired, helpMessage)
+      { }
+
+      /// <summary>
+      /// Initializes a new instance of the <see cref="Option{T}"/> class with the specified collection 
+      /// of aliases, the value indicating whether the option is required, and the help message.
+      /// </summary>
+      /// <param name="name">The name of the option.</param>
+      /// <param name="isRequired">The value indicating whether the option is required.</param>
+      /// <param name="helpMessage">The help message of the option.</param>
+      public Option(String[] aliases, Boolean isRequired, String helpMessage)
+         : this(aliases, new Argument<T>("_value_", null, default(T), true, ""), isRequired, helpMessage)
+      { }
+
+      /// <summary>
+      /// Initializes a new instance of the <see cref="Option{T}"/> class with the specified name, the
+      /// argument definition, the value indicating whether the option is required, and the help message.
+      /// </summary>
+      /// <param name="name">The name of the option.</param>
+      /// <param name="argument">The argument definition.</param>
+      /// <param name="isRequired">The value indicating whether the option is required.</param>
+      /// <param name="helpMessage">The help message of the option.</param>
+      public Option(String name, IArgument<T> argument, Boolean isRequired, String helpMessage)
+         : this(new[] { name }, argument, isRequired, helpMessage)
+      { }
+
+      /// <summary>
+      /// Initializes a new instance of the <see cref="Option{T}"/> class with the specified collection
+      /// of aliases, the argument definition, the value indicating whether the option is required, 
+      /// and the help message.
+      /// </summary>
+      /// <param name="aliases">The collection of aliases.</param>
+      /// <param name="argument">The argument definition.</param>
+      /// <param name="isRequired">The value indicating whether the option is required.</param>
+      /// <param name="helpMessage">The help message of the option.</param>
+      public Option(String[] aliases, IArgument<T> argument, Boolean isRequired, String helpMessage)
       {
          if (aliases == null) throw new ArgumentNullException(nameof(aliases));
          if (!aliases.Any()) throw new ArgumentNullException(nameof(aliases));
          if (aliases.Any(String.IsNullOrWhiteSpace)) throw new ArgumentException(nameof(aliases));
+         if (argument == null) throw new ArgumentNullException(nameof(argument));
 
          foreach (var alias in aliases)
             _aliases.Add(alias);
 
-         ArgumentDefinition = new Argument<T>("_value_", null, default(T), isArgumentRequired, "");
+         Argument = argument;
          HelpMessage = helpMessage;
+         IsRequired = isRequired;
          Name = _aliases.OrderBy(a => a.Length).Last();
       }
 
@@ -80,7 +119,7 @@ namespace Trombetta.Cli.CommandLine
       /// Gets the argument definition.
       /// </summary>
       /// <value>The argument definition.</value>
-      public IArgument<T> ArgumentDefinition { get; }
+      public IArgument<T> Argument { get; }
 
       /// <summary>
       /// Gets the argument definition.
@@ -88,7 +127,7 @@ namespace Trombetta.Cli.CommandLine
       /// <value>The argument definition.</value>
       IArgument IOption.Argument
       {
-         get { return ArgumentDefinition; }
+         get { return Argument; }
       }
 
       /// <summary>
