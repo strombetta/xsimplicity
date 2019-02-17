@@ -102,7 +102,7 @@ namespace Trombetta.Cli.CommandLine
                   option.Argument = arguments;
                   break;
                case TokenType.StartListOfOptionArguments:
-                  var innerType = option.Definition.ArgumentDefinition.GetType().GenericTypeArguments[0].GenericTypeArguments[0];
+                  var innerType = option.Definition.Argument.GetType().GenericTypeArguments[0].GenericTypeArguments[0];
                   var type = typeof(List<>).MakeGenericType(innerType);
                   arguments = Activator.CreateInstance(type);
                   break;

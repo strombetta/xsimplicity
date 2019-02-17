@@ -16,7 +16,7 @@ namespace Trombetta.Cli.CommandLine
    public class Argument<T> : IArgument<T>
    {
       /// <summary>
-      /// Initializes a new instance of the <see creft="ArgumentDefinition{T}"/> class with the
+      /// Initializes a new instance of the <see cref="Argument{T}"/> class with the
       /// specified name, and help message.
       /// </summary>
       /// <param name="name">The name of the argument.</param>

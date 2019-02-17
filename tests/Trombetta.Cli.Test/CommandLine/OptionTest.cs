@@ -5,7 +5,7 @@ using Xunit;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
-namespace Trombetta.Cli.Test.CommandLine.Definitions
+namespace Trombetta.Cli.Test.CommandLines
 {
    public class OptionTest : IDisposable
    {
@@ -17,21 +17,21 @@ namespace Trombetta.Cli.Test.CommandLine.Definitions
       }
 
       [Fact]
-      public void OptionDefinitionHasName()
+      public void OptionHasName()
       {
          var expected = "help";
          Assert.True(expected == definition.Name);
       }
 
       [Fact]
-      public void OptionDefinitionCannotHaveEmptyAlias()
+      public void OptionCannotHaveEmptyAlias()
       {
          Action action = () => new Option<String>(new[] { "" }, "An option definition.");
          Assert.Throws<ArgumentException>(action);
       }
 
       [Fact]
-      public void OptionDefinitionHasMultipleAliases()
+      public void OptionHasMultipleAliases()
       {
          var expected = new[] { "help", "h", "?" };
          Assert.Equal(expected, definition.Aliases);

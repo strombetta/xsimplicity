@@ -23,7 +23,7 @@ namespace Trombetta.Cli.CommandLine
       /// Gets the argument definition.
       /// </summary>
       /// <value>The argument definition.</value>
-      IArgument ArgumentDefinition { get; }
+      IArgument Argument { get; }
 
       /// <summary>
       /// Gets or sets a value indicating whether the option is required.

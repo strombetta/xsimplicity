@@ -6,7 +6,7 @@ using Xunit;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
-namespace Trombetta.Cli.Test.CommandLine.Definitions
+namespace Trombetta.Cli.Test.CommandLine
 {
    public class CommandTest : IDisposable
    {
@@ -21,10 +21,10 @@ namespace Trombetta.Cli.Test.CommandLine.Definitions
       }
 
       [Fact]
-      public void CommandDefinitionHasArgument()
+      public void CommandHasArgument()
       {
          var expected = new Argument<String>("input", "The input parameter");
-         var actual = definition.ArgumentDefinitions.Single();
+         var actual = definition.Arguments.Single();
          Assert.True(expected.AllowedValues == actual.AllowedValues);
          Assert.True(expected.DefaultValue == (String)actual.DefaultValue);
          Assert.True(expected.HelpMessage == actual.HelpMessage);
@@ -34,14 +34,14 @@ namespace Trombetta.Cli.Test.CommandLine.Definitions
       }
 
       [Fact]
-      public void CommandDefinitionHasName()
+      public void CommandHasName()
       {
          var expected = "build";
          Assert.True(expected == definition.Name);
       }
 
       [Fact]
-      public void CommandDefinitionHasHelpMessage()
+      public void CommandHasHelpMessage()
       {
          var expected = "A command";
          Assert.True(expected == definition.HelpMessage);

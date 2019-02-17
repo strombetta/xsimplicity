@@ -80,7 +80,7 @@ namespace Trombetta.Cli.CommandLine
       {
          get
          {
-            if (!_definition.ArgumentDefinition.IsRequired || _argument != null) return true;
+            if (!_definition.Argument.IsRequired || _argument != null) return true;
             else return false;
          }
       }

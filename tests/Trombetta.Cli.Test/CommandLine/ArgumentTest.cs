@@ -16,28 +16,28 @@ namespace Trombetta.Cli.Test.CommandLine
       }
 
       [Fact]
-      public void ArgumentDefinitionHasAllowedValues()
+      public void ArgumentHasAllowedValues()
       {
          var expected = new Int32[] { 1, 2, 3, 4 };
          Assert.Equal(expected, definition.AllowedValues);
       }
 
       [Fact]
-      public void ArgumentDefinitionHasDefaultValue()
+      public void ArgumentHasDefaultValue()
       {
          var expected = 1;
          Assert.True(expected == definition.DefaultValue);
       }
 
       [Fact]
-      public void ArgumentDefinitionHasName()
+      public void ArgumentHasName()
       {
          var expected = "input";
          Assert.True(expected == definition.Name);
       }
 
       [Fact]
-      public void ArgumentDefinitionHasHelpMessage()
+      public void ArgumentHasHelpMessage()
       {
          var expected = "A string argument definition";
          Assert.True(expected == definition.HelpMessage);

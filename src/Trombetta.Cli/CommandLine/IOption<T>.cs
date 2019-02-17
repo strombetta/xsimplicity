@@ -17,6 +17,6 @@ namespace Trombetta.Cli.CommandLine
       /// Gets the argument definition.
       /// </summary>
       /// <value>The argument definition.</value>
-      new IArgument<T> ArgumentDefinition { get; }
+      new IArgument<T> Argument { get; }
    }
 }

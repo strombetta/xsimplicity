@@ -5,13 +5,8 @@
 
 namespace Trombetta.Cli.CommandLine
 {
-   /// <summary>
-   /// 
-   /// </summary>
-   internal enum ParsedObjectType
+   class OptionResultBuilder
    {
-      Argument,
-      Command,
-      Option,
+
    }
 }

@@ -35,7 +35,7 @@ namespace Trombetta.Cli.CommandLine
       {
          if (String.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
 
-         ArgumentDefinitions = argumentDefinitions;
+         Arguments = argumentDefinitions;
          HelpMessage = helpMessage;
          Name = name;
          OptionDefinitions = optionDefinitions;
@@ -54,7 +54,7 @@ namespace Trombetta.Cli.CommandLine
       /// Gets or sets the collection of argument definitions.
       /// </summary>
       /// <value>The collection of argument definitions.</value>
-      public IEnumerable<IArgument> ArgumentDefinitions { get; set; }
+      public IEnumerable<IArgument> Arguments { get; set; }
 
       /// <summary>
       /// Gets the help message of the command.
