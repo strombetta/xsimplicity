@@ -14,10 +14,17 @@ namespace Trombetta.Cli.Test.CommandLine
 
       public CommandTest()
       {
-         definition = new Command("build",
+         definition = new Command(new[] { "commit", "c" },
          new IArgument[] { new Argument<String>("input", "The input parameter") },
-         new IOption[] { },
+         new IOption[] { new Option<String>(new[] { "message", "m" }, true, "The option") },
          "A command");
+      }
+
+      [Fact]
+      public void CommandHasAlias()
+      {
+         var expected = new[] { "commit", "c" };
+         Assert.Equal(expected, definition.Aliases);
       }
 
       [Fact]
@@ -35,7 +42,7 @@ namespace Trombetta.Cli.Test.CommandLine
       [Fact]
       public void CommandHasName()
       {
-         var expected = "build";
+         var expected = "commit";
          Assert.True(expected == definition.Name);
       }
 
@@ -44,6 +51,17 @@ namespace Trombetta.Cli.Test.CommandLine
       {
          var expected = "A command";
          Assert.True(expected == definition.HelpMessage);
+      }
+
+      [Fact]
+      public void CommandHasOption()
+      {
+         var expected = new Option<String>(new[] { "message", "m" }, true, "The option");
+         var actual = definition.Options.Single();
+         Assert.Equal(expected.Aliases, actual.Aliases);
+         Assert.True(expected.HelpMessage == actual.HelpMessage);
+         Assert.True(expected.IsRequired == actual.IsRequired);
+         Assert.True(expected.Name == actual.Name);
       }
 
       public void Dispose()

@@ -9,16 +9,28 @@ using System.Collections.Generic;
 namespace Trombetta.Cli.CommandLine
 {
    /// <summary>
-   /// Represents an argument definition.
+   /// Represents an command definition.
    /// </summary>
    public interface ICommand : IDefinition
    {
       ICommandResult CreateCommand();
 
       /// <summary>
-      /// Gets or sets the collection of argument definitions.
+      /// Gets the collection of aliases of the command.
       /// </summary>
-      /// <value>The collection of argument definitions.</value>
+      /// <returns>The collection of aliases of the command.</returns>
+      IEnumerable<String> Aliases { get; }
+
+      /// <summary>
+      /// Gets or sets the collection of arguments.
+      /// </summary>
+      /// <value>The collection of arguments.</value>
       IEnumerable<IArgument> Arguments { get; set; }
+
+      /// <summary>
+      /// Gets the collection of options.
+      /// </summary>
+      /// <value>The collection of options.</value>
+      IEnumerable<IOption> Options { get; set; }
    }
 }

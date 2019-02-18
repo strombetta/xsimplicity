@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Trombetta.Cli.CommandLine
 {
@@ -13,9 +14,11 @@ namespace Trombetta.Cli.CommandLine
    /// </summary>
    public class Command : ICommand
    {
+      private readonly HashSet<String> _aliases = new HashSet<String>();
+
       /// <summary>
-      /// Initializes a new instance of the <see cref="Command"/> class with the
-      /// specified name, and the help message.
+      /// Initializes a new instance of the <see cref="Command"/> class with the specified name,
+      /// and the help message.
       /// </summary>
       /// <param name="name">The name of the command.</param>
       /// <param name="helpMessage">The help message of the command.</param>
@@ -23,22 +26,93 @@ namespace Trombetta.Cli.CommandLine
          : this(name, null, null, helpMessage)
       { }
 
-      public Command(String name, IEnumerable<IArgument> argumentDefinitions, String helpMessage)
-         : this(name, argumentDefinitions, null, helpMessage)
+      /// <summary>
+      /// Initializes a new instance of the <see cref="Command"/> class with the specified collection
+      /// of aliases, and the help message.
+      /// </summary>
+      /// <param name="aliases">The collection of aliases.</param>
+      /// <param name="helpMessage">The help message of the command.</param>
+      public Command(String[] aliases, String helpMessage)
+         : this(aliases, null, null, helpMessage)
       { }
 
-      public Command(String name, IEnumerable<IOption> optionDefinitions, String helpMessage)
-         : this(name, null, optionDefinitions, helpMessage)
+      /// <summary>
+      /// Initializes a new instance of the <see cref="Command"/> class with the specified name,
+      /// the collection of arguments, and the help message.
+      /// </summary>
+      /// <param name="name">The name of the command.</param>
+      /// <param name="arguments">The collection of arguments.</param>
+      /// <param name="helpMessage">The help message of the command.</param>
+      public Command(String name, IEnumerable<IArgument> arguments, String helpMessage)
+         : this(name, arguments, null, helpMessage)
       { }
 
-      public Command(String name, IEnumerable<IArgument> argumentDefinitions, IEnumerable<IOption> optionDefinitions, String helpMessage)
+      /// <summary>
+      /// Initializes a new instance of the <see cref="Command"/> class with the specified collection
+      /// of aliases, the collection of arguments, and the help message.
+      /// </summary>
+      /// <param name="aliases">The collection of aliases.</param>
+      /// <param name="arguments">The collection of arguments.</param>
+      /// <param name="helpMessage">The help message of the command.</param>
+      public Command(String[] aliases, IEnumerable<IArgument> arguments, String helpMessage)
+         : this(aliases, arguments, null, helpMessage)
+      { }
+
+      /// <summary>
+      /// Initializes a new instance of the <see cref="Command"/> class with the specified name,
+      /// the collection of options, and the help message.
+      /// </summary>
+      /// <param name="name">The name of the command.</param>
+      /// <param name="options">The collection of options.</param>
+      /// <param name="helpMessage">The help message of the command.</param>
+      public Command(String name, IEnumerable<IOption> options, String helpMessage)
+         : this(name, null, options, helpMessage)
+      { }
+
+      /// <summary>
+      /// Initializes a new instance of the <see cref="Command"/> class with the specified collection
+      /// of aliases, the collection of options, and the help message.
+      /// </summary>
+      /// <param name="aliases">The collection of aliases.</param>
+      /// <param name="options">The collection of options.</param>
+      /// <param name="helpMessage">The help message of the command.</param>
+      public Command(String[] aliases, IEnumerable<IOption> options, String helpMessage)
+         : this(aliases, null, options, helpMessage)
+      { }
+
+      /// <summary>
+      /// Initializes a new instance of the <see cref="Command"/> class with the specified name,
+      /// the collection of arguments, the collection of options, and the help message.
+      /// </summary>
+      /// <param name="name">The name of the command.</param>
+      /// <param name="arguments">The collection of arguments.</param>
+      /// <param name="options">The collection of options.</param>
+      /// <param name="helpMessage">The help message of the command.</param>
+      public Command(String name, IEnumerable<IArgument> arguments, IEnumerable<IOption> options, String helpMessage)
+         : this(new[] { name }, arguments, options, helpMessage)
+      { }
+
+      /// <summary>
+      /// Initializes a new instance of the <see cref="Command"/> class with the specified collection
+      /// of aliases, the collection of arguments, the collection of options, and the help message.
+      /// </summary>
+      /// <param name="aliases">The collection of aliases.</param>
+      /// <param name="arguments">The collection of arguments.</param>
+      /// <param name="options">The collection of options.</param>
+      /// <param name="helpMessage">The help message of the command.</param>
+      public Command(String[] aliases, IEnumerable<IArgument> arguments, IEnumerable<IOption> options, String helpMessage)
       {
-         if (String.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
+         if (aliases == null) throw new ArgumentNullException(nameof(aliases));
+         if (!aliases.Any()) throw new ArgumentNullException(nameof(aliases));
+         if (aliases.Any(String.IsNullOrWhiteSpace)) throw new ArgumentException(nameof(aliases));
 
-         Arguments = argumentDefinitions;
+         foreach (var alias in aliases)
+            _aliases.Add(alias);
+
+         Arguments = arguments;
          HelpMessage = helpMessage;
-         Name = name;
-         OptionDefinitions = optionDefinitions;
+         Options = options;
+         Name = _aliases.OrderBy(a => a.Length).Last();
       }
 
       /// <summary>
@@ -49,6 +123,12 @@ namespace Trombetta.Cli.CommandLine
       {
          return new CommandResult(this);
       }
+
+      /// <summary>
+      /// Gets the collection of aliases of the command.
+      /// </summary>
+      /// <returns>The collection of aliases of the command.</returns>
+      public IEnumerable<String> Aliases { get { return _aliases; } }
 
       /// <summary>
       /// Gets or sets the collection of argument definitions.
@@ -72,6 +152,6 @@ namespace Trombetta.Cli.CommandLine
       /// Gets the collection of option definitions.
       /// </summary>
       /// <value>The collection of option definitions.</value>
-      public IEnumerable<IOption> OptionDefinitions { get; set; }
+      public IEnumerable<IOption> Options { get; set; }
    }
 }
